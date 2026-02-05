@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Input Component Demo</title>
+  <script type="module" src="/dist/address-input.js"></script>
+  <link rel="stylesheet" href="/dist/styles.css">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f5f5f5;
+    }
+    
+    .demo-section {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+    
+    h2 {
+      color: #374151;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 2rem;
+    }
+    
+    .output {
+      background: #1f2937;
+      color: #10b981;
+      padding: 1rem;
+      border-radius: 0.375rem;
+      font-family: monospace;
+      font-size: 0.875rem;
+      margin-top: 1rem;
+      white-space: pre-wrap;
+    }
+    
+    .validation-status {
+      padding: 0.5rem 1rem;
+      border-radius: 0.375rem;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+    
+    .validation-status.valid {
+      background: #d1fae5;
+      color: #065f46;
+    }
+    
+    .validation-status.invalid {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+    
+  </style>
+</head>
+<body>
+  <h1>🏠 Address Input Component</h1>
+  <p class="subtitle">International address form with dynamic field visibility</p>
+
+  <div class="demo-section">
+    <h2>Live Demo</h2>
+
+    <address-input id="address-input" country="US"></address-input>
+    
+    <div id="validation-status" class="validation-status" style="display: none;"></div>
+    <pre id="output" class="output">// Address data will appear here...</pre>
+  </div>
+
+  <div class="demo-section">
+    <h2>Usage Example</h2>
+    <pre class="output">&lt;!-- Basic usage --&gt;
+&lt;address-input country="US"&gt;&lt;/address-input&gt;
+
+&lt;!-- With initial value --&gt;
+&lt;address-input 
+  country="CA"
+  value='{
+    "addressLine1": "100 Queen St", 
+    "city": "Ottawa", 
+    "administrativeArea": "ON", 
+    "postalCode": "K1P 1J9"
+  }'&gt;
+&lt;/address-input&gt;
+
+&lt;!-- Show organization field --&gt;
+&lt;address-input country="US" show-organization&gt;&lt;/address-input&gt;</pre>
+  </div>
+
+  <div class="demo-section">
+    <h2>Features</h2>
+    <ul>
+      <li>✅ <strong>250+ countries supported</strong> - Based on Google's libaddressinput</li>
+      <li>✅ <strong>Dynamic field visibility</strong> - Only shows fields required for each country</li>
+      <li>✅ <strong>State/Province dropdowns</strong> - Where applicable (US, CA, AU, JP, etc.)</li>
+      <li>✅ <strong>Postal code validation</strong> - Pattern matching per country</li>
+      <li>✅ <strong>No postal code countries</strong> - Hong Kong, Ireland, Jamaica, etc.</li>
+      <li>✅ <strong>Proper terminology</strong> - State/Province/Prefecture/County based on country</li>
+      <li>✅ <strong>Real-time validation</strong> - Events on change with validation status</li>
+    </ul>
+  </div>
+
+  <script type="module">
+    const addressInput = document.getElementById('address-input');
+    const output = document.getElementById('output');
+    const validationStatus = document.getElementById('validation-status');
+
+    // Listen for changes
+    addressInput.addEventListener('change', (e) => {
+      output.textContent = JSON.stringify(e.detail, null, 2);
+    });
+
+    // Listen for validation
+    addressInput.addEventListener('valid', (e) => {
+      const { valid, errors } = e.detail;
+      validationStatus.style.display = 'block';
+      
+      if (valid) {
+        validationStatus.className = 'validation-status valid';
+        validationStatus.textContent = '✓ Valid address';
+      } else {
+        validationStatus.className = 'validation-status invalid';
+        validationStatus.textContent = '✗ ' + errors.join(', ');
+      }
+    });
+  </script>
+</body>
+</html>

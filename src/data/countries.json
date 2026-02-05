@@ -1,0 +1,1496 @@
+[
+  {
+    "code": "AC",
+    "name": "ASCENSION ISLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AD",
+    "name": "ANDORRA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "AE",
+    "name": "UNITED ARAB EMIRATES",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "AF",
+    "name": "AFGHANISTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AG",
+    "name": "ANTIGUA AND BARBUDA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AI",
+    "name": "ANGUILLA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AL",
+    "name": "ALBANIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AM",
+    "name": "ARMENIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "AO",
+    "name": "ANGOLA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AR",
+    "name": "ARGENTINA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "AS",
+    "name": "AMERICAN SAMOA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AT",
+    "name": "AUSTRIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AU",
+    "name": "AUSTRALIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "AW",
+    "name": "ARUBA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AX",
+    "name": "FINLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "AZ",
+    "name": "AZERBAIJAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BA",
+    "name": "BOSNIA AND HERZEGOVINA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BB",
+    "name": "BARBADOS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BD",
+    "name": "BANGLADESH",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BE",
+    "name": "BELGIUM",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BF",
+    "name": "BURKINA FASO",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BG",
+    "name": "BULGARIA (REP.)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BH",
+    "name": "BAHRAIN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BI",
+    "name": "BURUNDI",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BJ",
+    "name": "BENIN",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BL",
+    "name": "SAINT BARTHELEMY",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BM",
+    "name": "BERMUDA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BN",
+    "name": "BRUNEI DARUSSALAM",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BO",
+    "name": "BOLIVIA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BQ",
+    "name": "BONAIRE, SINT EUSTATIUS, AND SABA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BR",
+    "name": "BRAZIL",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "BS",
+    "name": "BAHAMAS",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "BT",
+    "name": "BHUTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BW",
+    "name": "BOTSWANA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BY",
+    "name": "BELARUS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "BZ",
+    "name": "BELIZE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CA",
+    "name": "CANADA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "CC",
+    "name": "COCOS (KEELING) ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CD",
+    "name": "CONGO (DEM. REP.)",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CF",
+    "name": "CENTRAL AFRICAN REPUBLIC",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CG",
+    "name": "CONGO (REP.)",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CH",
+    "name": "SWITZERLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CI",
+    "name": "COTE D'IVOIRE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CK",
+    "name": "COOK ISLANDS",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CL",
+    "name": "CHILE",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "CM",
+    "name": "CAMEROON",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CN",
+    "name": "CHINA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "CO",
+    "name": "COLOMBIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "CR",
+    "name": "COSTA RICA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CU",
+    "name": "CUBA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "CV",
+    "name": "CAPE VERDE",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "CW",
+    "name": "CURACAO",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CX",
+    "name": "CHRISTMAS ISLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CY",
+    "name": "CYPRUS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "CZ",
+    "name": "CZECH REP.",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "DE",
+    "name": "GERMANY",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "DJ",
+    "name": "DJIBOUTI",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "DK",
+    "name": "DENMARK",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "DM",
+    "name": "DOMINICA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "DO",
+    "name": "DOMINICAN REP.",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "DZ",
+    "name": "ALGERIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "EC",
+    "name": "ECUADOR",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "EE",
+    "name": "ESTONIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "EG",
+    "name": "EGYPT",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "EH",
+    "name": "WESTERN SAHARA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ER",
+    "name": "ERITREA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ES",
+    "name": "SPAIN",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "ET",
+    "name": "ETHIOPIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "FI",
+    "name": "FINLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "FJ",
+    "name": "FIJI",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "FK",
+    "name": "FALKLAND ISLANDS (MALVINAS)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "FM",
+    "name": "MICRONESIA (Federated State of)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "FO",
+    "name": "FAROE ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "FR",
+    "name": "FRANCE",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GA",
+    "name": "GABON",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GB",
+    "name": "UNITED KINGDOM",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GD",
+    "name": "GRENADA (WEST INDIES)",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GE",
+    "name": "GEORGIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GF",
+    "name": "FRENCH GUIANA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GG",
+    "name": "CHANNEL ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GH",
+    "name": "GHANA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GI",
+    "name": "GIBRALTAR",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GL",
+    "name": "GREENLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GM",
+    "name": "GAMBIA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GN",
+    "name": "GUINEA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GP",
+    "name": "GUADELOUPE",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GQ",
+    "name": "EQUATORIAL GUINEA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GR",
+    "name": "GREECE",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GS",
+    "name": "SOUTH GEORGIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GT",
+    "name": "GUATEMALA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GU",
+    "name": "GUAM",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GW",
+    "name": "GUINEA-BISSAU",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "GY",
+    "name": "GUYANA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "HK",
+    "name": "HONG KONG",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "HN",
+    "name": "HONDURAS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "HR",
+    "name": "CROATIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "HT",
+    "name": "HAITI",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "HU",
+    "name": "HUNGARY (Rep.)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "IC",
+    "name": "IC",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ID",
+    "name": "INDONESIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "IE",
+    "name": "IRELAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "IL",
+    "name": "ISRAEL",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "IM",
+    "name": "ISLE OF MAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "IN",
+    "name": "INDIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "IO",
+    "name": "BRITISH INDIAN OCEAN TERRITORY",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "IQ",
+    "name": "IRAQ",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "IR",
+    "name": "IRAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "IS",
+    "name": "ICELAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "IT",
+    "name": "ITALY",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "JE",
+    "name": "CHANNEL ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "JM",
+    "name": "JAMAICA",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "JO",
+    "name": "JORDAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "JP",
+    "name": "JAPAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "KE",
+    "name": "KENYA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "KG",
+    "name": "KYRGYZSTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "KH",
+    "name": "CAMBODIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "KI",
+    "name": "KIRIBATI",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "KM",
+    "name": "COMOROS",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "KN",
+    "name": "SAINT KITTS AND NEVIS",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "KP",
+    "name": "NORTH KOREA",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "KR",
+    "name": "SOUTH KOREA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "KW",
+    "name": "KUWAIT",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "KY",
+    "name": "CAYMAN ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "KZ",
+    "name": "KAZAKHSTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LA",
+    "name": "LAO (PEOPLE'S DEM. REP.)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LB",
+    "name": "LEBANON",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LC",
+    "name": "SAINT LUCIA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LI",
+    "name": "LIECHTENSTEIN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LK",
+    "name": "SRI LANKA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LR",
+    "name": "LIBERIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LS",
+    "name": "LESOTHO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LT",
+    "name": "LITHUANIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LU",
+    "name": "LUXEMBOURG",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LV",
+    "name": "LATVIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "LY",
+    "name": "LIBYA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MA",
+    "name": "MOROCCO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MC",
+    "name": "MONACO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MD",
+    "name": "Rep. MOLDOVA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ME",
+    "name": "MONTENEGRO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MF",
+    "name": "SAINT MARTIN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MG",
+    "name": "MADAGASCAR",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MH",
+    "name": "MARSHALL ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MK",
+    "name": "MACEDONIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ML",
+    "name": "MALI",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MM",
+    "name": "MYANMAR",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MN",
+    "name": "MONGOLIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MO",
+    "name": "MACAO",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MP",
+    "name": "NORTHERN MARIANA ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MQ",
+    "name": "MARTINIQUE",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MR",
+    "name": "MAURITANIA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MS",
+    "name": "MONTSERRAT",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MT",
+    "name": "MALTA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MU",
+    "name": "MAURITIUS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MV",
+    "name": "MALDIVES",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MW",
+    "name": "MALAWI",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "MX",
+    "name": "MEXICO",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "MY",
+    "name": "MALAYSIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "MZ",
+    "name": "MOZAMBIQUE",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "NA",
+    "name": "NAMIBIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NC",
+    "name": "NEW CALEDONIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NE",
+    "name": "NIGER",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NF",
+    "name": "NORFOLK ISLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NG",
+    "name": "NIGERIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "NI",
+    "name": "NICARAGUA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "NL",
+    "name": "NETHERLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NO",
+    "name": "NORWAY",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NP",
+    "name": "NEPAL",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NR",
+    "name": "NAURU CENTRAL PACIFIC",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "NU",
+    "name": "NIUE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "NZ",
+    "name": "NEW ZEALAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "OM",
+    "name": "OMAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PA",
+    "name": "PANAMA (REP.)",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PE",
+    "name": "PERU",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "PF",
+    "name": "FRENCH POLYNESIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PG",
+    "name": "PAPUA NEW GUINEA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PH",
+    "name": "PHILIPPINES",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "PK",
+    "name": "PAKISTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PL",
+    "name": "POLAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PM",
+    "name": "ST. PIERRE AND MIQUELON",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PN",
+    "name": "PITCAIRN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PR",
+    "name": "PUERTO RICO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PS",
+    "name": "PALESTINIAN TERRITORY",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PT",
+    "name": "PORTUGAL",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PW",
+    "name": "PALAU",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "PY",
+    "name": "PARAGUAY",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "QA",
+    "name": "QATAR",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "RE",
+    "name": "REUNION",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "RO",
+    "name": "ROMANIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "RS",
+    "name": "REPUBLIC OF SERBIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "RU",
+    "name": "RUSSIAN FEDERATION",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "RW",
+    "name": "RWANDA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SA",
+    "name": "SAUDI ARABIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SB",
+    "name": "SOLOMON ISLANDS",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SC",
+    "name": "SEYCHELLES",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SD",
+    "name": "SUDAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SE",
+    "name": "SWEDEN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SG",
+    "name": "REP. OF SINGAPORE",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SH",
+    "name": "SAINT HELENA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SI",
+    "name": "SLOVENIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SJ",
+    "name": "SVALBARD AND JAN MAYEN ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SK",
+    "name": "SLOVAKIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SL",
+    "name": "SIERRA LEONE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SM",
+    "name": "SAN MARINO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SN",
+    "name": "SENEGAL",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SO",
+    "name": "SOMALIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "SR",
+    "name": "SURINAME",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "SS",
+    "name": "SOUTH SUDAN",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ST",
+    "name": "SAO TOME AND PRINCIPE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SV",
+    "name": "EL SALVADOR",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "SX",
+    "name": "SINT MAARTEN",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SY",
+    "name": "SYRIA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "SZ",
+    "name": "SWAZILAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TA",
+    "name": "TRISTAN DA CUNHA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TC",
+    "name": "TURKS AND CAICOS ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TD",
+    "name": "CHAD",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TF",
+    "name": "FRENCH SOUTHERN TERRITORIES",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TG",
+    "name": "TOGO",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TH",
+    "name": "THAILAND",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "TJ",
+    "name": "TAJIKISTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TK",
+    "name": "TOKELAU",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TL",
+    "name": "TIMOR-LESTE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TM",
+    "name": "TURKMENISTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TN",
+    "name": "TUNISIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TO",
+    "name": "TONGA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TR",
+    "name": "TURKEY",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "TT",
+    "name": "TRINIDAD AND TOBAGO",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "TV",
+    "name": "TUVALU",
+    "hasPostalCode": false,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "TW",
+    "name": "TAIWAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "TZ",
+    "name": "TANZANIA (UNITED REP.)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "UA",
+    "name": "UKRAINE",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "UG",
+    "name": "UGANDA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "US",
+    "name": "UNITED STATES",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "UY",
+    "name": "URUGUAY",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "UZ",
+    "name": "UZBEKISTAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "VA",
+    "name": "VATICAN",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "VC",
+    "name": "SAINT VINCENT AND THE GRENADINES (ANTILLES)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "VE",
+    "name": "VENEZUELA",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "VG",
+    "name": "VIRGIN ISLANDS (BRITISH)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "VI",
+    "name": "VIRGIN ISLANDS (U.S.)",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "VN",
+    "name": "VIET NAM",
+    "hasPostalCode": true,
+    "hasSubdivisions": true
+  },
+  {
+    "code": "VU",
+    "name": "VANUATU",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "WF",
+    "name": "WALLIS AND FUTUNA ISLANDS",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "WS",
+    "name": "SAMOA",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "XK",
+    "name": "KOSOVO",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "YE",
+    "name": "YEMEN",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "YT",
+    "name": "MAYOTTE",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ZA",
+    "name": "SOUTH AFRICA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ZM",
+    "name": "ZAMBIA",
+    "hasPostalCode": true,
+    "hasSubdivisions": false
+  },
+  {
+    "code": "ZW",
+    "name": "ZIMBABWE",
+    "hasPostalCode": false,
+    "hasSubdivisions": false
+  }
+]
