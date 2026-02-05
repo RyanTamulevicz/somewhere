@@ -9,7 +9,7 @@
     "build": "tsc && npm run build:css && npm run build:demo && npm run build:cdn",
     "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --minify",
     "build:demo": "vite build",
-    "build:cdn": "vite build --config vite.cdn.config.js",
+    "build:cdn": "vite build --config vite.cdn.config.js && cp public/_headers dist-cdn/",
     "dev": "concurrently \"tsc --watch\" \"npm run dev:css\" \"vite\"",
     "dev:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
     "fetch-data": "node scripts/fetch-address-data.js",
