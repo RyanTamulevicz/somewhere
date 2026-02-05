@@ -1,9 +1,0 @@
-{
-  "name": "address-input-cdn",
-  "compatibility_date": "2026-02-05",
-  "main": "worker.js",
-  "assets": {
-    "directory": "./dist-cdn",
-    "binding": "ASSETS"
-  }
-}

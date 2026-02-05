@@ -1,7 +1,0 @@
-# Cloudflare Pages/Headers Configuration
-# Place this in your build output directory
-
-/*
-  Access-Control-Allow-Origin: *
-  Access-Control-Allow-Methods: GET, HEAD, OPTIONS
-  Access-Control-Allow-Headers: Content-Type

@@ -21,23 +21,3 @@ export default defineConfig({
   },
   publicDir: '../dist',
 });
-
-// CDN bundle config - build this separately with: vite build --config vite.cdn.config.js
-export const cdnConfig = defineConfig({
-  build: {
-    lib: {
-      entry: path.resolve(__dirname, 'src/address-input.ts'),
-      name: 'AddressInput',
-      fileName: 'address-input-cdn',
-      formats: ['es']
-    },
-    outDir: 'dist-cdn',
-    emptyOutDir: true,
-    rollupOptions: {
-      external: [],
-      output: {
-        inlineDynamicImports: true
-      }
-    }
-  }
-});

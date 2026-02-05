@@ -16,17 +16,38 @@ A modern, internationalized address input web component built with Lit and based
 
 ## Installation
 
+### NPM
+
 ```bash
-npm install address-input
+npm install @ryantamulevicz/address-input
+```
+
+### CDN (No Build Required)
+
+Via **jsdelivr** (recommended):
+```html
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/RyanTamulevicz/address-input/dist/address-input.js';
+</script>
+<address-input country="US"></address-input>
+```
+
+Or pin to a specific version:
+```html
+<script type="module">
+  import 'https://cdn.jsdelivr.net/gh/RyanTamulevicz/address-input@1.0.0/dist/address-input.js';
+</script>
 ```
 
 ## Usage
 
-### Basic Usage
+### Basic Usage (ES Modules)
+
+```javascript
+import '@ryantamulevicz/address-input';
+```
 
 ```html
-<script type="module" src="./dist/address-input.js"></script>
-
 <address-input country="US"></address-input>
 ```
 

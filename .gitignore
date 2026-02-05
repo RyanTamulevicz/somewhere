@@ -5,9 +5,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Build outputs
-dist/
+# Build outputs (only dist/ is published to npm)
 dist-demo/
+dist-cdn/
 build/
 *.tsbuildinfo
 

@@ -12,7 +12,7 @@ export default defineConfig({
       fileName: 'address-input',
       formats: ['es']
     },
-    outDir: 'dist-cdn',
+    outDir: 'dist',
     emptyOutDir: true,
     rollupOptions: {
       // Bundle everything - no external deps
