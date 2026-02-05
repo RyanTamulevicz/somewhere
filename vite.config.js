@@ -5,13 +5,19 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-  root: '.',
+  root: 'demo',
   server: {
     port: 3000,
-    open: '/demo/'
+    open: true
   },
   build: {
-    outDir: 'dist-demo',
-    emptyOutDir: true
-  }
+    outDir: '../dist-demo',
+    emptyOutDir: true,
+    rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, 'demo/index.html'),
+      },
+    },
+  },
+  publicDir: '../dist',
 });
