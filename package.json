@@ -6,15 +6,17 @@
   "main": "dist/address-input.js",
   "types": "dist/address-input.d.ts",
   "scripts": {
-    "build": "tsc && npm run build:css && npm run build:demo",
+    "build": "tsc && npm run build:css && npm run build:demo && npm run build:cdn",
     "build:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --minify",
     "build:demo": "vite build",
+    "build:cdn": "vite build --config vite.cdn.config.js",
     "dev": "concurrently \"tsc --watch\" \"npm run dev:css\" \"vite\"",
     "dev:css": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
     "fetch-data": "node scripts/fetch-address-data.js",
     "prepare": "npm run fetch-data && npm run build",
     "deploy": "wrangler deploy",
-    "deploy:staging": "wrangler deploy --env staging"
+    "deploy:staging": "wrangler deploy --env staging",
+    "deploy:cdn": "wrangler deploy --config wrangler.cdn.jsonc"
   },
   "dependencies": {
     "lit": "^3.1.0"

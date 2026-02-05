@@ -1,0 +1,3205 @@
+const Z = globalThis, U = Z.ShadowRoot && (Z.ShadyCSS === void 0 || Z.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype, K = /* @__PURE__ */ Symbol(), q = /* @__PURE__ */ new WeakMap();
+let sa = class {
+  constructor(a, e, n) {
+    if (this._$cssResult$ = !0, n !== K) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
+    this.cssText = a, this.t = e;
+  }
+  get styleSheet() {
+    let a = this.o;
+    const e = this.t;
+    if (U && a === void 0) {
+      const n = e !== void 0 && e.length === 1;
+      n && (a = q.get(e)), a === void 0 && ((this.o = a = new CSSStyleSheet()).replaceSync(this.cssText), n && q.set(e, a));
+    }
+    return a;
+  }
+  toString() {
+    return this.cssText;
+  }
+};
+const la = (t) => new sa(typeof t == "string" ? t : t + "", void 0, K), Aa = (t, ...a) => {
+  const e = t.length === 1 ? t[0] : a.reduce((n, i, s) => n + ((r) => {
+    if (r._$cssResult$ === !0) return r.cssText;
+    if (typeof r == "number") return r;
+    throw Error("Value passed to 'css' function must be a 'css' function result: " + r + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
+  })(i) + t[s + 1], t[0]);
+  return new sa(e, t, K);
+}, ha = (t, a) => {
+  if (U) t.adoptedStyleSheets = a.map((e) => e instanceof CSSStyleSheet ? e : e.styleSheet);
+  else for (const e of a) {
+    const n = document.createElement("style"), i = Z.litNonce;
+    i !== void 0 && n.setAttribute("nonce", i), n.textContent = e.cssText, t.appendChild(n);
+  }
+}, Y = U ? (t) => t : (t) => t instanceof CSSStyleSheet ? ((a) => {
+  let e = "";
+  for (const n of a.cssRules) e += n.cssText;
+  return la(e);
+})(t) : t;
+const { is: ma, defineProperty: ca, getOwnPropertyDescriptor: Ca, getOwnPropertyNames: Sa, getOwnPropertySymbols: Na, getPrototypeOf: ga } = Object, k = globalThis, W = k.trustedTypes, ya = W ? W.emptyScript : "", fa = k.reactiveElementPolyfillSupport, M = (t, a) => t, w = { toAttribute(t, a) {
+  switch (a) {
+    case Boolean:
+      t = t ? ya : null;
+      break;
+    case Object:
+    case Array:
+      t = t == null ? t : JSON.stringify(t);
+  }
+  return t;
+}, fromAttribute(t, a) {
+  let e = t;
+  switch (a) {
+    case Boolean:
+      e = t !== null;
+      break;
+    case Number:
+      e = t === null ? null : Number(t);
+      break;
+    case Object:
+    case Array:
+      try {
+        e = JSON.parse(t);
+      } catch {
+        e = null;
+      }
+  }
+  return e;
+} }, H = (t, a) => !ma(t, a), J = { attribute: !0, type: String, converter: w, reflect: !1, useDefault: !1, hasChanged: H };
+Symbol.metadata ??= /* @__PURE__ */ Symbol("metadata"), k.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+let b = class extends HTMLElement {
+  static addInitializer(a) {
+    this._$Ei(), (this.l ??= []).push(a);
+  }
+  static get observedAttributes() {
+    return this.finalize(), this._$Eh && [...this._$Eh.keys()];
+  }
+  static createProperty(a, e = J) {
+    if (e.state && (e.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(a) && ((e = Object.create(e)).wrapped = !0), this.elementProperties.set(a, e), !e.noAccessor) {
+      const n = /* @__PURE__ */ Symbol(), i = this.getPropertyDescriptor(a, n, e);
+      i !== void 0 && ca(this.prototype, a, i);
+    }
+  }
+  static getPropertyDescriptor(a, e, n) {
+    const { get: i, set: s } = Ca(this.prototype, a) ?? { get() {
+      return this[e];
+    }, set(r) {
+      this[e] = r;
+    } };
+    return { get: i, set(r) {
+      const u = i?.call(this);
+      s?.call(this, r), this.requestUpdate(a, u, n);
+    }, configurable: !0, enumerable: !0 };
+  }
+  static getPropertyOptions(a) {
+    return this.elementProperties.get(a) ?? J;
+  }
+  static _$Ei() {
+    if (this.hasOwnProperty(M("elementProperties"))) return;
+    const a = ga(this);
+    a.finalize(), a.l !== void 0 && (this.l = [...a.l]), this.elementProperties = new Map(a.elementProperties);
+  }
+  static finalize() {
+    if (this.hasOwnProperty(M("finalized"))) return;
+    if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(M("properties"))) {
+      const e = this.properties, n = [...Sa(e), ...Na(e)];
+      for (const i of n) this.createProperty(i, e[i]);
+    }
+    const a = this[Symbol.metadata];
+    if (a !== null) {
+      const e = litPropertyMetadata.get(a);
+      if (e !== void 0) for (const [n, i] of e) this.elementProperties.set(n, i);
+    }
+    this._$Eh = /* @__PURE__ */ new Map();
+    for (const [e, n] of this.elementProperties) {
+      const i = this._$Eu(e, n);
+      i !== void 0 && this._$Eh.set(i, e);
+    }
+    this.elementStyles = this.finalizeStyles(this.styles);
+  }
+  static finalizeStyles(a) {
+    const e = [];
+    if (Array.isArray(a)) {
+      const n = new Set(a.flat(1 / 0).reverse());
+      for (const i of n) e.unshift(Y(i));
+    } else a !== void 0 && e.push(Y(a));
+    return e;
+  }
+  static _$Eu(a, e) {
+    const n = e.attribute;
+    return n === !1 ? void 0 : typeof n == "string" ? n : typeof a == "string" ? a.toLowerCase() : void 0;
+  }
+  constructor() {
+    super(), this._$Ep = void 0, this.isUpdatePending = !1, this.hasUpdated = !1, this._$Em = null, this._$Ev();
+  }
+  _$Ev() {
+    this._$ES = new Promise((a) => this.enableUpdating = a), this._$AL = /* @__PURE__ */ new Map(), this._$E_(), this.requestUpdate(), this.constructor.l?.forEach((a) => a(this));
+  }
+  addController(a) {
+    (this._$EO ??= /* @__PURE__ */ new Set()).add(a), this.renderRoot !== void 0 && this.isConnected && a.hostConnected?.();
+  }
+  removeController(a) {
+    this._$EO?.delete(a);
+  }
+  _$E_() {
+    const a = /* @__PURE__ */ new Map(), e = this.constructor.elementProperties;
+    for (const n of e.keys()) this.hasOwnProperty(n) && (a.set(n, this[n]), delete this[n]);
+    a.size > 0 && (this._$Ep = a);
+  }
+  createRenderRoot() {
+    const a = this.shadowRoot ?? this.attachShadow(this.constructor.shadowRootOptions);
+    return ha(a, this.constructor.elementStyles), a;
+  }
+  connectedCallback() {
+    this.renderRoot ??= this.createRenderRoot(), this.enableUpdating(!0), this._$EO?.forEach((a) => a.hostConnected?.());
+  }
+  enableUpdating(a) {
+  }
+  disconnectedCallback() {
+    this._$EO?.forEach((a) => a.hostDisconnected?.());
+  }
+  attributeChangedCallback(a, e, n) {
+    this._$AK(a, n);
+  }
+  _$ET(a, e) {
+    const n = this.constructor.elementProperties.get(a), i = this.constructor._$Eu(a, n);
+    if (i !== void 0 && n.reflect === !0) {
+      const s = (n.converter?.toAttribute !== void 0 ? n.converter : w).toAttribute(e, n.type);
+      this._$Em = a, s == null ? this.removeAttribute(i) : this.setAttribute(i, s), this._$Em = null;
+    }
+  }
+  _$AK(a, e) {
+    const n = this.constructor, i = n._$Eh.get(a);
+    if (i !== void 0 && this._$Em !== i) {
+      const s = n.getPropertyOptions(i), r = typeof s.converter == "function" ? { fromAttribute: s.converter } : s.converter?.fromAttribute !== void 0 ? s.converter : w;
+      this._$Em = i;
+      const u = r.fromAttribute(e, s.type);
+      this[i] = u ?? this._$Ej?.get(i) ?? u, this._$Em = null;
+    }
+  }
+  requestUpdate(a, e, n, i = !1, s) {
+    if (a !== void 0) {
+      const r = this.constructor;
+      if (i === !1 && (s = this[a]), n ??= r.getPropertyOptions(a), !((n.hasChanged ?? H)(s, e) || n.useDefault && n.reflect && s === this._$Ej?.get(a) && !this.hasAttribute(r._$Eu(a, n)))) return;
+      this.C(a, e, n);
+    }
+    this.isUpdatePending === !1 && (this._$ES = this._$EP());
+  }
+  C(a, e, { useDefault: n, reflect: i, wrapped: s }, r) {
+    n && !(this._$Ej ??= /* @__PURE__ */ new Map()).has(a) && (this._$Ej.set(a, r ?? e ?? this[a]), s !== !0 || r !== void 0) || (this._$AL.has(a) || (this.hasUpdated || n || (e = void 0), this._$AL.set(a, e)), i === !0 && this._$Em !== a && (this._$Eq ??= /* @__PURE__ */ new Set()).add(a));
+  }
+  async _$EP() {
+    this.isUpdatePending = !0;
+    try {
+      await this._$ES;
+    } catch (e) {
+      Promise.reject(e);
+    }
+    const a = this.scheduleUpdate();
+    return a != null && await a, !this.isUpdatePending;
+  }
+  scheduleUpdate() {
+    return this.performUpdate();
+  }
+  performUpdate() {
+    if (!this.isUpdatePending) return;
+    if (!this.hasUpdated) {
+      if (this.renderRoot ??= this.createRenderRoot(), this._$Ep) {
+        for (const [i, s] of this._$Ep) this[i] = s;
+        this._$Ep = void 0;
+      }
+      const n = this.constructor.elementProperties;
+      if (n.size > 0) for (const [i, s] of n) {
+        const { wrapped: r } = s, u = this[i];
+        r !== !0 || this._$AL.has(i) || u === void 0 || this.C(i, void 0, s, u);
+      }
+    }
+    let a = !1;
+    const e = this._$AL;
+    try {
+      a = this.shouldUpdate(e), a ? (this.willUpdate(e), this._$EO?.forEach((n) => n.hostUpdate?.()), this.update(e)) : this._$EM();
+    } catch (n) {
+      throw a = !1, this._$EM(), n;
+    }
+    a && this._$AE(e);
+  }
+  willUpdate(a) {
+  }
+  _$AE(a) {
+    this._$EO?.forEach((e) => e.hostUpdated?.()), this.hasUpdated || (this.hasUpdated = !0, this.firstUpdated(a)), this.updated(a);
+  }
+  _$EM() {
+    this._$AL = /* @__PURE__ */ new Map(), this.isUpdatePending = !1;
+  }
+  get updateComplete() {
+    return this.getUpdateComplete();
+  }
+  getUpdateComplete() {
+    return this._$ES;
+  }
+  shouldUpdate(a) {
+    return !0;
+  }
+  update(a) {
+    this._$Eq &&= this._$Eq.forEach((e) => this._$ET(e, this[e])), this._$EM();
+  }
+  updated(a) {
+  }
+  firstUpdated(a) {
+  }
+};
+b.elementStyles = [], b.shadowRootOptions = { mode: "open" }, b[M("elementProperties")] = /* @__PURE__ */ new Map(), b[M("finalized")] = /* @__PURE__ */ new Map(), fa?.({ ReactiveElement: b }), (k.reactiveElementVersions ??= []).push("2.1.2");
+const $ = globalThis, j = (t) => t, B = $.trustedTypes, X = B ? B.createPolicy("lit-html", { createHTML: (t) => t }) : void 0, ra = "$lit$", N = `lit$${Math.random().toFixed(9).slice(2)}$`, oa = "?" + N, Oa = `<${oa}>`, O = document, R = () => O.createComment(""), I = (t) => t === null || typeof t != "object" && typeof t != "function", V = Array.isArray, ba = (t) => V(t) || typeof t?.[Symbol.iterator] == "function", G = `[ 	
+\f\r]`, T = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Q = /-->/g, aa = />/g, y = RegExp(`>|${G}(?:([^\\s"'>=/]+)(${G}*=${G}*(?:[^ 	
+\f\r"'\`<>=]|("|')|))|$)`, "g"), ea = /'/g, ta = /"/g, ua = /^(?:script|style|textarea|title)$/i, za = (t) => (a, ...e) => ({ _$litType$: t, strings: a, values: e }), C = za(1), z = /* @__PURE__ */ Symbol.for("lit-noChange"), A = /* @__PURE__ */ Symbol.for("lit-nothing"), na = /* @__PURE__ */ new WeakMap(), f = O.createTreeWalker(O, 129);
+function da(t, a) {
+  if (!V(t) || !t.hasOwnProperty("raw")) throw Error("invalid template strings array");
+  return X !== void 0 ? X.createHTML(a) : a;
+}
+const _a = (t, a) => {
+  const e = t.length - 1, n = [];
+  let i, s = a === 2 ? "<svg>" : a === 3 ? "<math>" : "", r = T;
+  for (let u = 0; u < e; u++) {
+    const o = t[u];
+    let d, l, p = -1, h = 0;
+    for (; h < o.length && (r.lastIndex = h, l = r.exec(o), l !== null); ) h = r.lastIndex, r === T ? l[1] === "!--" ? r = Q : l[1] !== void 0 ? r = aa : l[2] !== void 0 ? (ua.test(l[2]) && (i = RegExp("</" + l[2], "g")), r = y) : l[3] !== void 0 && (r = y) : r === y ? l[0] === ">" ? (r = i ?? T, p = -1) : l[1] === void 0 ? p = -2 : (p = r.lastIndex - l[2].length, d = l[1], r = l[3] === void 0 ? y : l[3] === '"' ? ta : ea) : r === ta || r === ea ? r = y : r === Q || r === aa ? r = T : (r = y, i = void 0);
+    const c = r === y && t[u + 1].startsWith("/>") ? " " : "";
+    s += r === T ? o + Oa : p >= 0 ? (n.push(d), o.slice(0, p) + ra + o.slice(p) + N + c) : o + N + (p === -2 ? u : c);
+  }
+  return [da(t, s + (t[e] || "<?>") + (a === 2 ? "</svg>" : a === 3 ? "</math>" : "")), n];
+};
+class v {
+  constructor({ strings: a, _$litType$: e }, n) {
+    let i;
+    this.parts = [];
+    let s = 0, r = 0;
+    const u = a.length - 1, o = this.parts, [d, l] = _a(a, e);
+    if (this.el = v.createElement(d, n), f.currentNode = this.el.content, e === 2 || e === 3) {
+      const p = this.el.content.firstChild;
+      p.replaceWith(...p.childNodes);
+    }
+    for (; (i = f.nextNode()) !== null && o.length < u; ) {
+      if (i.nodeType === 1) {
+        if (i.hasAttributes()) for (const p of i.getAttributeNames()) if (p.endsWith(ra)) {
+          const h = l[r++], c = i.getAttribute(p).split(N), m = /([.?@])?(.*)/.exec(h);
+          o.push({ type: 1, index: s, name: m[2], strings: c, ctor: m[1] === "." ? Ta : m[1] === "?" ? Ma : m[1] === "@" ? Ea : D }), i.removeAttribute(p);
+        } else p.startsWith(N) && (o.push({ type: 6, index: s }), i.removeAttribute(p));
+        if (ua.test(i.tagName)) {
+          const p = i.textContent.split(N), h = p.length - 1;
+          if (h > 0) {
+            i.textContent = B ? B.emptyScript : "";
+            for (let c = 0; c < h; c++) i.append(p[c], R()), f.nextNode(), o.push({ type: 2, index: ++s });
+            i.append(p[h], R());
+          }
+        }
+      } else if (i.nodeType === 8) if (i.data === oa) o.push({ type: 2, index: s });
+      else {
+        let p = -1;
+        for (; (p = i.data.indexOf(N, p + 1)) !== -1; ) o.push({ type: 7, index: s }), p += N.length - 1;
+      }
+      s++;
+    }
+  }
+  static createElement(a, e) {
+    const n = O.createElement("template");
+    return n.innerHTML = a, n;
+  }
+}
+function _(t, a, e = t, n) {
+  if (a === z) return a;
+  let i = n !== void 0 ? e._$Co?.[n] : e._$Cl;
+  const s = I(a) ? void 0 : a._$litDirective$;
+  return i?.constructor !== s && (i?._$AO?.(!1), s === void 0 ? i = void 0 : (i = new s(t), i._$AT(t, e, n)), n !== void 0 ? (e._$Co ??= [])[n] = i : e._$Cl = i), i !== void 0 && (a = _(t, i._$AS(t, a.values), i, n)), a;
+}
+class Pa {
+  constructor(a, e) {
+    this._$AV = [], this._$AN = void 0, this._$AD = a, this._$AM = e;
+  }
+  get parentNode() {
+    return this._$AM.parentNode;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  u(a) {
+    const { el: { content: e }, parts: n } = this._$AD, i = (a?.creationScope ?? O).importNode(e, !0);
+    f.currentNode = i;
+    let s = f.nextNode(), r = 0, u = 0, o = n[0];
+    for (; o !== void 0; ) {
+      if (r === o.index) {
+        let d;
+        o.type === 2 ? d = new L(s, s.nextSibling, this, a) : o.type === 1 ? d = new o.ctor(s, o.name, o.strings, this, a) : o.type === 6 && (d = new Ra(s, this, a)), this._$AV.push(d), o = n[++u];
+      }
+      r !== o?.index && (s = f.nextNode(), r++);
+    }
+    return f.currentNode = O, i;
+  }
+  p(a) {
+    let e = 0;
+    for (const n of this._$AV) n !== void 0 && (n.strings !== void 0 ? (n._$AI(a, n, e), e += n.strings.length - 2) : n._$AI(a[e])), e++;
+  }
+}
+class L {
+  get _$AU() {
+    return this._$AM?._$AU ?? this._$Cv;
+  }
+  constructor(a, e, n, i) {
+    this.type = 2, this._$AH = A, this._$AN = void 0, this._$AA = a, this._$AB = e, this._$AM = n, this.options = i, this._$Cv = i?.isConnected ?? !0;
+  }
+  get parentNode() {
+    let a = this._$AA.parentNode;
+    const e = this._$AM;
+    return e !== void 0 && a?.nodeType === 11 && (a = e.parentNode), a;
+  }
+  get startNode() {
+    return this._$AA;
+  }
+  get endNode() {
+    return this._$AB;
+  }
+  _$AI(a, e = this) {
+    a = _(this, a, e), I(a) ? a === A || a == null || a === "" ? (this._$AH !== A && this._$AR(), this._$AH = A) : a !== this._$AH && a !== z && this._(a) : a._$litType$ !== void 0 ? this.$(a) : a.nodeType !== void 0 ? this.T(a) : ba(a) ? this.k(a) : this._(a);
+  }
+  O(a) {
+    return this._$AA.parentNode.insertBefore(a, this._$AB);
+  }
+  T(a) {
+    this._$AH !== a && (this._$AR(), this._$AH = this.O(a));
+  }
+  _(a) {
+    this._$AH !== A && I(this._$AH) ? this._$AA.nextSibling.data = a : this.T(O.createTextNode(a)), this._$AH = a;
+  }
+  $(a) {
+    const { values: e, _$litType$: n } = a, i = typeof n == "number" ? this._$AC(a) : (n.el === void 0 && (n.el = v.createElement(da(n.h, n.h[0]), this.options)), n);
+    if (this._$AH?._$AD === i) this._$AH.p(e);
+    else {
+      const s = new Pa(i, this), r = s.u(this.options);
+      s.p(e), this.T(r), this._$AH = s;
+    }
+  }
+  _$AC(a) {
+    let e = na.get(a.strings);
+    return e === void 0 && na.set(a.strings, e = new v(a)), e;
+  }
+  k(a) {
+    V(this._$AH) || (this._$AH = [], this._$AR());
+    const e = this._$AH;
+    let n, i = 0;
+    for (const s of a) i === e.length ? e.push(n = new L(this.O(R()), this.O(R()), this, this.options)) : n = e[i], n._$AI(s), i++;
+    i < e.length && (this._$AR(n && n._$AB.nextSibling, i), e.length = i);
+  }
+  _$AR(a = this._$AA.nextSibling, e) {
+    for (this._$AP?.(!1, !0, e); a !== this._$AB; ) {
+      const n = j(a).nextSibling;
+      j(a).remove(), a = n;
+    }
+  }
+  setConnected(a) {
+    this._$AM === void 0 && (this._$Cv = a, this._$AP?.(a));
+  }
+}
+class D {
+  get tagName() {
+    return this.element.tagName;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  constructor(a, e, n, i, s) {
+    this.type = 1, this._$AH = A, this._$AN = void 0, this.element = a, this.name = e, this._$AM = i, this.options = s, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(new String()), this.strings = n) : this._$AH = A;
+  }
+  _$AI(a, e = this, n, i) {
+    const s = this.strings;
+    let r = !1;
+    if (s === void 0) a = _(this, a, e, 0), r = !I(a) || a !== this._$AH && a !== z, r && (this._$AH = a);
+    else {
+      const u = a;
+      let o, d;
+      for (a = s[0], o = 0; o < s.length - 1; o++) d = _(this, u[n + o], e, o), d === z && (d = this._$AH[o]), r ||= !I(d) || d !== this._$AH[o], d === A ? a = A : a !== A && (a += (d ?? "") + s[o + 1]), this._$AH[o] = d;
+    }
+    r && !i && this.j(a);
+  }
+  j(a) {
+    a === A ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, a ?? "");
+  }
+}
+class Ta extends D {
+  constructor() {
+    super(...arguments), this.type = 3;
+  }
+  j(a) {
+    this.element[this.name] = a === A ? void 0 : a;
+  }
+}
+class Ma extends D {
+  constructor() {
+    super(...arguments), this.type = 4;
+  }
+  j(a) {
+    this.element.toggleAttribute(this.name, !!a && a !== A);
+  }
+}
+class Ea extends D {
+  constructor(a, e, n, i, s) {
+    super(a, e, n, i, s), this.type = 5;
+  }
+  _$AI(a, e = this) {
+    if ((a = _(this, a, e, 0) ?? A) === z) return;
+    const n = this._$AH, i = a === A && n !== A || a.capture !== n.capture || a.once !== n.once || a.passive !== n.passive, s = a !== A && (n === A || i);
+    i && this.element.removeEventListener(this.name, this, n), s && this.element.addEventListener(this.name, this, a), this._$AH = a;
+  }
+  handleEvent(a) {
+    typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, a) : this._$AH.handleEvent(a);
+  }
+}
+class Ra {
+  constructor(a, e, n) {
+    this.element = a, this.type = 6, this._$AN = void 0, this._$AM = e, this.options = n;
+  }
+  get _$AU() {
+    return this._$AM._$AU;
+  }
+  _$AI(a) {
+    _(this, a);
+  }
+}
+const Ia = $.litHtmlPolyfillSupport;
+Ia?.(v, L), ($.litHtmlVersions ??= []).push("3.3.2");
+const va = (t, a, e) => {
+  const n = e?.renderBefore ?? a;
+  let i = n._$litPart$;
+  if (i === void 0) {
+    const s = e?.renderBefore ?? null;
+    n._$litPart$ = i = new L(a.insertBefore(R(), s), s, void 0, e ?? {});
+  }
+  return i._$AI(t), i;
+};
+const F = globalThis;
+class E extends b {
+  constructor() {
+    super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
+  }
+  createRenderRoot() {
+    const a = super.createRenderRoot();
+    return this.renderOptions.renderBefore ??= a.firstChild, a;
+  }
+  update(a) {
+    const e = this.render();
+    this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(a), this._$Do = va(e, this.renderRoot, this.renderOptions);
+  }
+  connectedCallback() {
+    super.connectedCallback(), this._$Do?.setConnected(!0);
+  }
+  disconnectedCallback() {
+    super.disconnectedCallback(), this._$Do?.setConnected(!1);
+  }
+  render() {
+    return z;
+  }
+}
+E._$litElement$ = !0, E.finalized = !0, F.litElementHydrateSupport?.({ LitElement: E });
+const La = F.litElementPolyfillSupport;
+La?.({ LitElement: E });
+(F.litElementVersions ??= []).push("4.2.2");
+const Za = (t) => (a, e) => {
+  e !== void 0 ? e.addInitializer(() => {
+    customElements.define(t, a);
+  }) : customElements.define(t, a);
+};
+const wa = { attribute: !0, type: String, converter: w, reflect: !1, hasChanged: H }, Ba = (t = wa, a, e) => {
+  const { kind: n, metadata: i } = e;
+  let s = globalThis.litPropertyMetadata.get(i);
+  if (s === void 0 && globalThis.litPropertyMetadata.set(i, s = /* @__PURE__ */ new Map()), n === "setter" && ((t = Object.create(t)).wrapped = !0), s.set(e.name, t), n === "accessor") {
+    const { name: r } = e;
+    return { set(u) {
+      const o = a.get.call(this);
+      a.set.call(this, u), this.requestUpdate(r, o, t, !0, u);
+    }, init(u) {
+      return u !== void 0 && this.C(r, void 0, t, u), u;
+    } };
+  }
+  if (n === "setter") {
+    const { name: r } = e;
+    return function(u) {
+      const o = this[r];
+      a.call(this, u), this.requestUpdate(r, o, t, !0, u);
+    };
+  }
+  throw Error("Unsupported decorator location: " + n);
+};
+function P(t) {
+  return (a, e) => typeof e == "object" ? Ba(t, a, e) : ((n, i, s) => {
+    const r = i.hasOwnProperty(s);
+    return i.constructor.createProperty(s, n), r ? Object.getOwnPropertyDescriptor(i, s) : void 0;
+  })(t, a, e);
+}
+function pa(t) {
+  return P({ ...t, state: !0, attribute: !1 });
+}
+function ka(t) {
+  const a = [], e = /%([NOACSZXD])/g;
+  let n;
+  for (; (n = e.exec(t)) !== null; ) {
+    const i = n[1];
+    a.includes(i) || a.push(i);
+  }
+  return a;
+}
+function Da(t) {
+  switch (t) {
+    case "A":
+      return "full";
+    case "C":
+      return "half";
+    case "S":
+      return "quarter";
+    case "Z":
+      return "quarter";
+    case "N":
+    // Name
+    case "O":
+      return "full";
+    case "D":
+      return "half";
+    case "X":
+      return "quarter";
+    default:
+      return "full";
+  }
+}
+function Ga(t, a, e = !1) {
+  switch (t) {
+    case "N":
+      return e ? "Full Name" : "Name";
+    case "O":
+      return "Organization";
+    case "A":
+      return "Street Address";
+    case "C":
+      return "City";
+    case "S":
+      return xa(a);
+    case "Z":
+      return Ka(a);
+    case "D":
+      return Ua(a);
+    case "X":
+      return "Sorting Code";
+    default:
+      return t;
+  }
+}
+function xa(t) {
+  const a = t.state_name_type?.toLowerCase() || "province";
+  return {
+    state: "State",
+    province: "Province",
+    county: "County",
+    island: "Island",
+    prefecture: "Prefecture",
+    region: "Region",
+    department: "Department",
+    district: "District",
+    do_si: "Do/Si",
+    emirate: "Emirate",
+    oblast: "Oblast",
+    parish: "Parish",
+    governorate: "Governorate",
+    area: "Area",
+    territory: "Territory"
+  }[a] || "State/Province";
+}
+function Ua(t) {
+  const a = t.sublocality_name_type?.toLowerCase(), e = t.id?.replace("data/", ""), n = {
+    IR: "District"
+    // Iran - "neighborhood" in data, but "District" is more accurate in English
+  };
+  return e && n[e] ? n[e] : a && {
+    neighborhood: "Neighborhood",
+    district: "District",
+    suburb: "Suburb",
+    village_township: "Village/Township",
+    ward: "Ward"
+  }[a] || "District";
+}
+function Ka(t) {
+  const a = t.zip_name_type?.toLowerCase();
+  if (a === "pin") return "PIN Code";
+  if (a === "postal") return "Postal Code";
+  if (a === "zip") return "ZIP Code";
+  if (a === "eircode") return "Eircode";
+  const e = t.id?.toUpperCase();
+  return e === "US" ? "ZIP Code" : e === "IE" ? "Eircode" : e === "IN" ? "PIN Code" : "Postal Code";
+}
+function Ha(t) {
+  if (!t.sub_keys || !t.sub_names)
+    return;
+  const a = t.sub_keys.split("~"), e = t.sub_lnames, n = e?.split("~") || t.sub_names.split("~");
+  return a.map((i, s) => ({
+    // For non-Latin scripts, use the English name as the value too
+    // For Latin scripts, use the key (abbreviation) as the value
+    value: e && n[s] || i,
+    label: n[s] || i
+  }));
+}
+function $a(t, a = {}) {
+  const e = [], n = (t.require || "").split(""), i = t.fmt || "%N%n%O%n%A%n%C %Z", s = ka(i), r = [], u = t.id?.replace("data/", ""), o = ["JP", "CN", "TW", "KR", "VN", "ID", "TH", "PH", "MY", "SG"].includes(u || "");
+  for (const d of s) {
+    if (d === "A") {
+      const c = o ? ["addressLine1", "addressLine2", "addressLine3"] : ["addressLine1", "addressLine2"];
+      for (const m of c)
+        r.includes(m) || (e.push({
+          key: m,
+          label: m === "addressLine1" ? "Street Address" : "Apartment, suite, etc.",
+          required: m === "addressLine1" && n.includes("A"),
+          visible: !0,
+          type: "text",
+          width: "full",
+          placeholder: m === "addressLine1" ? "123 Main St" : "Apt 4B"
+        }), r.push(m));
+      continue;
+    }
+    if (d === "N" && !a.showName || d === "O" && !a.showOrganization) continue;
+    const l = Va(d);
+    if (!l) continue;
+    const p = n.includes(d), h = d === "S" ? Ha(t) : void 0;
+    e.push({
+      key: l,
+      label: Ga(d, t, a.showName),
+      required: p,
+      visible: !0,
+      type: h ? "select" : "text",
+      options: h,
+      pattern: d === "Z" ? t.zip : void 0,
+      width: Da(d)
+    });
+  }
+  return e;
+}
+function Va(t) {
+  return {
+    N: "name",
+    O: "organization",
+    A: void 0,
+    // Handled separately for multiple lines
+    C: "city",
+    S: "administrativeArea",
+    Z: "postalCode",
+    X: "sortingCode",
+    D: "dependentLocality"
+  }[t];
+}
+function Fa(t, a) {
+  if (!a) return !0;
+  if (!t) return !1;
+  const e = a.replace(/\\d/g, "\\d").replace(/\\s/g, "\\s");
+  try {
+    return new RegExp(`^${e}$`, "i").test(t);
+  } catch {
+    return t.length > 0;
+  }
+}
+function qa(t, a) {
+  const e = [];
+  for (const n of a) {
+    if (!n.visible) continue;
+    const i = t[n.key];
+    if (n.required && (!i || typeof i == "string" && i.trim() === "")) {
+      e.push(`${n.label} is required`);
+      continue;
+    }
+    n.key === "postalCode" && n.pattern && i && (Fa(String(i), n.pattern) || e.push(`Invalid ${n.label.toLowerCase()} format`));
+  }
+  return {
+    valid: e.length === 0,
+    errors: e
+  };
+}
+const x = {
+  AC: {
+    id: "data/AC",
+    name: "ASCENSION ISLAND",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "ASCN 1ZZ",
+    zipex: "ASCN 1ZZ"
+  },
+  AD: {
+    id: "data/AD",
+    name: "ANDORRA",
+    lang: "ca",
+    languages: "ca",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "AD[1-7]0\\d",
+    zipex: "AD100,AD501,AD700",
+    posturl: "http://www.correos.es/comun/CodigosPostales/1010_s-CodPostal.asp?Provincia=",
+    sub_keys: "Parròquia d'Andorra la Vella~Canillo~Encamp~Escaldes-Engordany~La Massana~Ordino~Sant Julià de Lòria",
+    sub_names: "Andorra la Vella~Canillo~Encamp~Escaldes-Engordany~La Massana~Ordino~Sant Julià de Lòria",
+    sub_zips: "AD50[01]~AD10[01]~AD20[01]~AD70[01]~AD40[01]~AD30[01]~AD60[01]",
+    sub_zipexs: "AD500~AD100~AD200~AD700~AD400~AD300~AD600",
+    sub_isoids: "07~02~03~08~04~05~06"
+  },
+  AE: {
+    id: "data/AE",
+    name: "UNITED ARAB EMIRATES",
+    lang: "ar",
+    languages: "ar",
+    fmt: "%N%n%O%n%A%n%S",
+    lfmt: "%N%n%O%n%A%n%S",
+    require: "AS",
+    state_name_type: "emirate",
+    sub_keys: "أبو ظبي~إمارة الشارقةّ~الفجيرة~ام القيوين~إمارة دبيّ~إمارة رأس الخيمة~عجمان",
+    sub_names: "أبو ظبي~الشارقة~الفجيرة~ام القيوين~دبي~رأس الخيمة~عجمان",
+    sub_lnames: "Abu Dhabi~Sharjah~Fujairah~Umm Al Quwain~Dubai~Ras al Khaimah~Ajman",
+    sub_isoids: "AZ~SH~FU~UQ~DU~RK~AJ"
+  },
+  AF: {
+    id: "data/AF",
+    name: "AFGHANISTAN",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "\\d{4}",
+    zipex: "1001,2601,3801"
+  },
+  AG: {
+    id: "data/AG",
+    name: "ANTIGUA AND BARBUDA",
+    require: "A"
+  },
+  AI: {
+    id: "data/AI",
+    name: "ANGUILLA",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "(?:AI-)?2640",
+    zipex: "2640"
+  },
+  AL: {
+    id: "data/AL",
+    name: "ALBANIA",
+    fmt: "%N%n%O%n%A%n%Z%n%C",
+    zip: "\\d{4}",
+    zipex: "1001,1017,3501"
+  },
+  AM: {
+    id: "data/AM",
+    name: "ARMENIA",
+    lang: "hy",
+    languages: "hy",
+    fmt: "%N%n%O%n%A%n%Z%n%C%n%S",
+    lfmt: "%N%n%O%n%A%n%Z%n%C%n%S",
+    zip: "(?:37)?\\d{4}",
+    zipex: "375010,0002,0010",
+    sub_keys: "Արագածոտն~Արարատ~Արմավիր~Գեղարքունիք~Երևան~Լոռի~Կոտայք~Շիրակ~Սյունիք~Վայոց ձոր~Տավուշ",
+    sub_lnames: "Aragatsotn~Ararat~Armavir~Gegharkunik~Yerevan~Lori~Kotayk~Shirak~Syunik~Vayots Dzor~Tavush",
+    sub_zips: "0[2-5]~0[6-8]~09|1[01]~1[2-6]~00~1[7-9]|2[01]~2[2-5]~2[6-9]|3[01]~3[2-5]~3[6-8]~39|4[0-2]",
+    sub_zipexs: "0201,0514~0601,0823~0901,1149~1201,1626~0000,0099~1701,2117~2201,2506~2601,3126~3201,3519~3601,3810~3901,4216",
+    sub_isoids: "AG~AR~AV~GR~ER~LO~KT~SH~SU~VD~TV"
+  },
+  AO: {
+    id: "data/AO",
+    name: "ANGOLA"
+  },
+  AR: {
+    id: "data/AR",
+    name: "ARGENTINA",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%Z %C%n%S",
+    upper: "ACZ",
+    zip: "((?:[A-HJ-NP-Z])?\\d{4})([A-Z]{3})?",
+    zipex: "C1070AAM,C1000WAM,B1000TBU,X5187XAB",
+    posturl: "http://www.correoargentino.com.ar/formularios/cpa",
+    sub_keys: "Buenos Aires~Catamarca~Chaco~Chubut~Ciudad Autónoma de Buenos Aires~Córdoba~Corrientes~Entre Ríos~Formosa~Jujuy~La Pampa~La Rioja~Mendoza~Misiones~Neuquén~Río Negro~Salta~San Juan~San Luis~Santa Cruz~Santa Fe~Santiago del Estero~Tierra del Fuego~Tucumán",
+    sub_names: "Buenos Aires~Catamarca~Chaco~Chubut~Ciudad Autónoma de Buenos Aires~Córdoba~Corrientes~Entre Ríos~Formosa~Jujuy~La Pampa~La Rioja~Mendoza~Misiones~Neuquén~Río Negro~Salta~San Juan~San Luis~Santa Cruz~Santa Fe~Santiago del Estero~Tierra del Fuego~Tucumán",
+    sub_zips: "B?[1-36-8]~K?[45]~H?3~U?[89]~C?1~X?[235-8]~W?3~E?[1-3]~P?[37]~Y?4~L?[3568]~F?5~M?[56]~N?3~Q?[38]~R?[89]~A?[34]~J?5~D?[4-6]~Z?[89]~S?[2368]~G?[2-5]~V?9~T?[45]",
+    sub_isoids: "B~K~H~U~C~X~W~E~P~Y~L~F~M~N~Q~R~A~J~D~Z~S~G~V~T"
+  },
+  AS: {
+    id: "data/AS",
+    name: "AMERICAN SAMOA",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOS",
+    zip: "(96799)(?:[ \\-](\\d{4}))?",
+    zipex: "96799",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    state_name_type: "state"
+  },
+  AT: {
+    id: "data/AT",
+    name: "AUSTRIA",
+    fmt: "%O%n%N%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "1010,3741",
+    posturl: "http://www.post.at/post_subsite_postleitzahlfinder.php"
+  },
+  AU: {
+    id: "data/AU",
+    name: "AUSTRALIA",
+    lang: "en",
+    languages: "en",
+    fmt: "%O%n%N%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "CS",
+    zip: "\\d{4}",
+    zipex: "2060,3171,6430,4000,4006,3001",
+    posturl: "http://www1.auspost.com.au/postcodes/",
+    state_name_type: "state",
+    locality_name_type: "suburb",
+    sub_keys: "ACT~JBT~NSW~NT~QLD~SA~TAS~VIC~WA",
+    sub_names: "Australian Capital Territory~Jervis Bay Territory~New South Wales~Northern Territory~Queensland~South Australia~Tasmania~Victoria~Western Australia",
+    sub_zips: "29|2540|260|261[0-8]|02|2620~2540~1|2[0-57-8]|26[2-9]|261[189]|3500|358[56]|3644|3707~0[89]~[49]~5|0872~7~[38]~6|0872",
+    sub_zipexs: "0200,2540,2618,2999~2540~1000,2888,3585,3707~0800,0999~4000,9999~5000~7000,7999~3000,8000~6000,0872",
+    sub_isoids: "ACT~~NSW~NT~QLD~SA~TAS~VIC~WA"
+  },
+  AW: {
+    id: "data/AW",
+    name: "ARUBA"
+  },
+  AX: {
+    id: "data/AX",
+    name: "FINLAND",
+    fmt: "%O%n%N%n%A%nAX-%Z %C%nÅLAND",
+    require: "ACZ",
+    zip: "22\\d{3}",
+    zipex: "22150,22550,22240,22710,22270,22730,22430",
+    posturl: "https://www.alandpost.ax/privat/skicka-brev/postnummer-pa-aland/postnummersokning",
+    postprefix: "AX-"
+  },
+  AZ: {
+    id: "data/AZ",
+    name: "AZERBAIJAN",
+    fmt: "%N%n%O%n%A%nAZ %Z %C",
+    zip: "\\d{4}",
+    zipex: "1000",
+    postprefix: "AZ "
+  },
+  BA: {
+    id: "data/BA",
+    name: "BOSNIA AND HERZEGOVINA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "71000"
+  },
+  BB: {
+    id: "data/BB",
+    name: "BARBADOS",
+    fmt: "%N%n%O%n%A%n%C, %S %Z",
+    zip: "BB\\d{5}",
+    zipex: "BB23026,BB22025",
+    state_name_type: "parish"
+  },
+  BD: {
+    id: "data/BD",
+    name: "BANGLADESH",
+    fmt: "%N%n%O%n%A%n%C - %Z",
+    zip: "\\d{4}",
+    zipex: "1340,1000",
+    posturl: "https://bdpost.portal.gov.bd/site/page/f41a42bd-2540-4afa-8568-af56443c3df8/-"
+  },
+  BE: {
+    id: "data/BE",
+    name: "BELGIUM",
+    fmt: "%O%n%N%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "4000,1000",
+    posturl: "http://www.post.be/site/nl/residential/customerservice/search/postal_codes.html"
+  },
+  BF: {
+    id: "data/BF",
+    name: "BURKINA FASO",
+    fmt: "%N%n%O%n%A%n%C %X"
+  },
+  BG: {
+    id: "data/BG",
+    name: "BULGARIA (REP.)",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1000,1700",
+    posturl: "http://www.bgpost.bg/?cid=5"
+  },
+  BH: {
+    id: "data/BH",
+    name: "BAHRAIN",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "(?:^|\\b)(?:1[0-2]|[1-9])\\d{2}(?:$|\\b)",
+    zipex: "317"
+  },
+  BI: {
+    id: "data/BI",
+    name: "BURUNDI"
+  },
+  BJ: {
+    id: "data/BJ",
+    name: "BENIN",
+    upper: "AC"
+  },
+  BL: {
+    id: "data/BL",
+    name: "SAINT BARTHELEMY",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78][01]\\d{2}",
+    zipex: "97100",
+    posturl: "http://www.laposte.fr/Particulier/Utiliser-nos-outils-pratiques/Outils-et-documents/Trouvez-un-code-postal"
+  },
+  BM: {
+    id: "data/BM",
+    name: "BERMUDA",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "[A-Z]{2} ?[A-Z0-9]{2}",
+    zipex: "FL 07,HM GX,HM 12",
+    posturl: "http://www.landvaluation.bm/"
+  },
+  BN: {
+    id: "data/BN",
+    name: "BRUNEI DARUSSALAM",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "[A-Z]{2} ?\\d{4}",
+    zipex: "BT2328,KA1131,BA1511",
+    posturl: "http://www.post.gov.bn/SitePages/postcodes.aspx"
+  },
+  BO: {
+    id: "data/BO",
+    name: "BOLIVIA",
+    upper: "AC"
+  },
+  BQ: {
+    id: "data/BQ",
+    name: "BONAIRE, SINT EUSTATIUS, AND SABA"
+  },
+  BR: {
+    id: "data/BR",
+    name: "BRAZIL",
+    lang: "pt",
+    languages: "pt",
+    fmt: "%O%n%N%n%A%n%D%n%C-%S%n%Z",
+    require: "ASCZ",
+    upper: "CS",
+    zip: "\\d{5}-?\\d{3}",
+    zipex: "40301-110,70002-900",
+    posturl: "http://www.buscacep.correios.com.br/",
+    state_name_type: "state",
+    sublocality_name_type: "neighborhood",
+    sub_keys: "AC~AL~AP~AM~BA~CE~DF~ES~GO~MA~MT~MS~MG~PA~PB~PR~PE~PI~RJ~RN~RS~RO~RR~SC~SP~SE~TO",
+    sub_names: "Acre~Alagoas~Amapá~Amazonas~Bahia~Ceará~Distrito Federal~Espírito Santo~Goiás~Maranhão~Mato Grosso~Mato Grosso do Sul~Minas Gerais~Pará~Paraíba~Paraná~Pernambuco~Piauí~Rio de Janeiro~Rio Grande do Norte~Rio Grande do Sul~Rondônia~Roraima~Santa Catarina~São Paulo~Sergipe~Tocantins",
+    sub_zips: "699~57~689~69[0-24-8]~4[0-8]~6[0-3]~7[0-1]|72[0-7]|73[0-6]~29~72[89]|73[7-9]|7[4-6]~65~78[0-8]~79~3~6[6-7]|68[0-8]~58~8[0-7]~5[0-6]~64~2[0-8]~59~9~76[89]|789~693~8[89]~[01][1-9]~49~77",
+    sub_zipexs: "69900-000,69999-999~57000-000,57999-999~68900-000,68999-999~69000-000,69400-123~40000-000,48999-999~60000-000,63999-999~70000-000,73500-123~29000-000,29999-999~72800-000,73700-123~65000-000,65999-999~78000-000,78899-999~79000-000,79999-999~30000-000,39999-999~66000-000,68899-999~58000-000,58999-999~80000-000,87999-999~50000-000,56999-999~64000-000,64999-999~20000-000,28999-999~59000-000,59999-999~90000-000,99999-999~76800-000,78900-000,78999-999~69300-000,69399-999~88000-000,89999-999~01000-000,13000-123~49000-000,49999-999~77000-000,77999-999",
+    sub_isoids: "AC~AL~AP~AM~BA~CE~DF~ES~GO~MA~MT~MS~MG~PA~PB~PR~PE~PI~RJ~RN~RS~RO~RR~SC~SP~SE~TO",
+    sub_mores: "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true"
+  },
+  BS: {
+    id: "data/BS",
+    name: "BAHAMAS",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%C, %S",
+    state_name_type: "island",
+    sub_keys: "Abaco~Acklins~Andros~Berry Islands~Bimini~Cat Island~Crooked Island~Eleuthera~Exuma~Grand Bahama~Harbour Island~Inagua~Long Island~Mayaguana~N.P.~Ragged Island~Rum Cay~San Salvador~Spanish Wells",
+    sub_names: "Abaco Islands~Acklins~Andros Island~Berry Islands~Bimini~Cat Island~Crooked Island~Eleuthera~Exuma and Cays~Grand Bahama~Harbour Island~Inagua~Long Island~Mayaguana~New Providence~Ragged Island~Rum Cay~San Salvador~Spanish Wells",
+    sub_isoids: "~AK~~BY~BI~CI~~~EX~~HI~IN~LI~MG~~RI~RC~SS~SW"
+  },
+  BT: {
+    id: "data/BT",
+    name: "BHUTAN",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5}",
+    zipex: "11001,31101,35003",
+    posturl: "http://www.bhutanpost.bt/postcodes/"
+  },
+  BW: {
+    id: "data/BW",
+    name: "BOTSWANA"
+  },
+  BY: {
+    id: "data/BY",
+    name: "BELARUS",
+    fmt: "%O%n%N%n%A%n%Z, %C%n%S",
+    zip: "\\d{6}",
+    zipex: "223016,225860,220050",
+    posturl: "http://ex.belpost.by/addressbook/"
+  },
+  BZ: {
+    id: "data/BZ",
+    name: "BELIZE"
+  },
+  CA: {
+    id: "data/CA",
+    name: "CANADA",
+    lang: "en",
+    languages: "en~fr",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOSZ",
+    zip: "[ABCEGHJKLMNPRSTVXY]\\d[ABCEGHJ-NPRSTV-Z] ?\\d[ABCEGHJ-NPRSTV-Z]\\d",
+    zipex: "H3Z 2Y7,V8X 3X4,T0L 1K0,T0H 1A0,K1A 0B1",
+    posturl: "https://www.canadapost.ca/cpo/mc/personal/postalcode/fpc.jsf",
+    sub_keys: "AB~BC~MB~NB~NL~NT~NS~NU~ON~PE~QC~SK~YT",
+    sub_names: "Alberta~British Columbia~Manitoba~New Brunswick~Newfoundland and Labrador~Northwest Territories~Nova Scotia~Nunavut~Ontario~Prince Edward Island~Quebec~Saskatchewan~Yukon",
+    sub_zips: "T~V~R~E~A~X0E|X0G|X1A~B~X0A|X0B|X0C~K|L|M|N|P~C~G|H|J|K1A~S|R8A~Y",
+    sub_isoids: "AB~BC~MB~NB~NL~NT~NS~NU~ON~PE~QC~SK~YT"
+  },
+  CC: {
+    id: "data/CC",
+    name: "COCOS (KEELING) ISLANDS",
+    fmt: "%O%n%N%n%A%n%C %S %Z",
+    upper: "CS",
+    zip: "6799",
+    zipex: "6799"
+  },
+  CD: {
+    id: "data/CD",
+    name: "CONGO (DEM. REP.)"
+  },
+  CF: {
+    id: "data/CF",
+    name: "CENTRAL AFRICAN REPUBLIC"
+  },
+  CG: {
+    id: "data/CG",
+    name: "CONGO (REP.)"
+  },
+  CH: {
+    id: "data/CH",
+    name: "SWITZERLAND",
+    fmt: "%O%n%N%n%A%nCH-%Z %C",
+    require: "ACZ",
+    upper: "",
+    zip: "\\d{4}",
+    zipex: "2544,1211,1556,3030",
+    posturl: "http://www.post.ch/db/owa/pv_plz_pack/pr_main",
+    postprefix: "CH-"
+  },
+  CI: {
+    id: "data/CI",
+    name: "COTE D'IVOIRE",
+    fmt: "%N%n%O%n%X %A %C %X"
+  },
+  CK: {
+    id: "data/CK",
+    name: "COOK ISLANDS"
+  },
+  CL: {
+    id: "data/CL",
+    name: "CHILE",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%Z %C%n%S",
+    zip: "\\d{7}",
+    zipex: "8340457,8720019,1230000,8329100",
+    posturl: "https://www.correos.cl/web/guest/codigo-postal",
+    sub_keys: "Antofagasta~Araucanía~Arica y Parinacota~Atacama~Aysén~Biobío~Coquimbo~O'Higgins~Los Lagos~Los Ríos~Magallanes~Maule~Región Metropolitana~Ñuble~Tarapacá~Valparaíso",
+    sub_names: "Antofagasta~Araucanía~Arica y Parinacota~Atacama~Aysén del General Carlos Ibáñez del Campo~Biobío~Coquimbo~Libertador General Bernardo O'Higgins~Los Lagos~Los Ríos~Magallanes y de la Antártica Chilena~Maule~Metropolitana de Santiago~Ñuble~Tarapacá~Valparaíso",
+    sub_isoids: "AN~AR~AP~AT~AI~BI~CO~LI~LL~LR~MA~ML~RM~NB~TA~VS",
+    sub_mores: "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true"
+  },
+  CM: {
+    id: "data/CM",
+    name: "CAMEROON"
+  },
+  CN: {
+    id: "data/CN",
+    name: "CHINA",
+    lang: "zh",
+    languages: "zh",
+    fmt: "%Z%n%S%C%D%n%A%n%O%n%N",
+    lfmt: "%N%n%O%n%A%n%D%n%C%n%S, %Z",
+    require: "ACSZ",
+    upper: "S",
+    zip: "\\d{6}",
+    zipex: "266033,317204,100096,100808",
+    posturl: "http://www.ems.com.cn/serviceguide/you_bian_cha_xun.html",
+    sublocality_name_type: "district",
+    sub_keys: "安徽省~澳门~北京市~重庆市~福建省~甘肃省~广东省~广西壮族自治区~贵州省~海南省~河北省~河南省~黑龙江省~湖北省~湖南省~吉林省~江苏省~江西省~辽宁省~内蒙古自治区~宁夏回族自治区~青海省~山东省~山西省~陕西省~上海市~四川省~台湾~天津市~西藏自治区~香港~新疆维吾尔自治区~云南省~浙江省",
+    sub_names: "安徽省~澳门~北京市~重庆市~福建省~甘肃省~广东省~广西~贵州省~海南省~河北省~河南省~黑龙江省~湖北省~湖南省~吉林省~江苏省~江西省~辽宁省~内蒙古~宁夏~青海省~山东省~山西省~陕西省~上海市~四川省~台湾~天津市~西藏~香港~新疆~云南省~浙江省",
+    sub_lnames: "Anhui Sheng~Macau~Beijing Shi~Chongqing Shi~Fujian Sheng~Gansu Sheng~Guangdong Sheng~Guangxi Zhuangzuzizhiqu~Guizhou Sheng~Hainan Sheng~Hebei Sheng~Henan Sheng~Heilongjiang Sheng~Hubei Sheng~Hunan Sheng~Jilin Sheng~Jiangsu Sheng~Jiangxi Sheng~Liaoning Sheng~Neimenggu Zizhiqu~Ningxia Huizuzizhiqu~Qinghai Sheng~Shandong Sheng~Shanxi Sheng~Shaanxi Sheng~Shanghai Shi~Sichuan Sheng~Taiwan~Tianjin Shi~Xizang Zizhiqu~Hong Kong~Xinjiang Weiwuerzizhiqu~Yunnan Sheng~Zhejiang Sheng",
+    sub_isoids: "34~92~11~50~35~62~44~45~52~46~13~41~23~42~43~22~32~36~21~15~64~63~37~14~61~31~51~71~12~54~91~65~53~33",
+    sub_mores: "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true",
+    sub_xzips: "~999078~~~~~~~~~~~~~~~~~~~~~~~~~~\\d{3}(\\d{2,3})?~~~999077~~~",
+    sub_xrequires: "~A~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ACS~~~"
+  },
+  CO: {
+    id: "data/CO",
+    name: "COLOMBIA",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%D%n%C, %S, %Z",
+    require: "AS",
+    zip: "\\d{6}",
+    zipex: "111221,130001,760011",
+    posturl: "http://www.codigopostal.gov.co/",
+    state_name_type: "department",
+    sub_keys: "Amazonas~Antioquia~Arauca~Atlántico~Bogotá~Bolívar~Boyacá~Caldas~Caquetá~Casanare~Cauca~Cesar~Chocó~Córdoba~Cundinamarca~Guainía~Guaviare~Huila~La Guajira~Magdalena~Meta~Nariño~Norte de Santander~Putumayo~Quindío~Risaralda~San Andrés y Providencia~Santander~Sucre~Tolima~Valle del Cauca~Vaupés~Vichada",
+    sub_isoids: "AMA~ANT~ARA~ATL~DC~BOL~BOY~CAL~CAQ~CAS~CAU~CES~CHO~COR~CUN~GUA~GUV~HUI~LAG~MAG~MET~NAR~NSA~PUT~QUI~RIS~SAP~SAN~SUC~TOL~VAC~VAU~VID"
+  },
+  CR: {
+    id: "data/CR",
+    name: "COSTA RICA",
+    fmt: "%N%n%O%n%A%n%S, %C%n%Z",
+    require: "ACS",
+    zip: "\\d{4,5}|\\d{3}-\\d{4}",
+    zipex: "1000,2010,1001",
+    posturl: "https://correos.go.cr/codigo-postal/"
+  },
+  CU: {
+    id: "data/CU",
+    name: "CUBA",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%C %S%n%Z",
+    zip: "\\d{5}",
+    zipex: "10700",
+    sub_keys: "Artemisa~Camagüey~Ciego de Ávila~Cienfuegos~Granma~Guantánamo~Holguín~Isla de la Juventud~La Habana~Las Tunas~Matanzas~Mayabeque~Pinar del Río~Sancti Spíritus~Santiago de Cuba~Villa Clara",
+    sub_isoids: "15~09~08~06~12~14~11~99~03~10~04~16~01~07~13~05"
+  },
+  CV: {
+    id: "data/CV",
+    name: "CAPE VERDE",
+    lang: "pt",
+    languages: "pt",
+    fmt: "%N%n%O%n%A%n%Z %C%n%S",
+    zip: "\\d{4}",
+    zipex: "7600",
+    state_name_type: "island",
+    sub_keys: "Boa Vista~Brava~Fogo~Maio~Sal~Santiago~Santo Antão~São Nicolau~São Vicente",
+    sub_isoids: "BV~BR~~MA~SL~~~~SV"
+  },
+  CW: {
+    id: "data/CW",
+    name: "CURACAO"
+  },
+  CX: {
+    id: "data/CX",
+    name: "CHRISTMAS ISLAND",
+    fmt: "%O%n%N%n%A%n%C %S %Z",
+    upper: "CS",
+    zip: "6798",
+    zipex: "6798"
+  },
+  CY: {
+    id: "data/CY",
+    name: "CYPRUS",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "2008,3304,1900"
+  },
+  CZ: {
+    id: "data/CZ",
+    name: "CZECH REP.",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{3} ?\\d{2}",
+    zipex: "100 00,251 66,530 87,110 00,225 99",
+    posturl: "http://psc.ceskaposta.cz/CleanForm.action"
+  },
+  DE: {
+    id: "data/DE",
+    name: "GERMANY",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{5}",
+    zipex: "26133,53225",
+    posturl: "http://www.postdirekt.de/plzserver/"
+  },
+  DJ: {
+    id: "data/DJ",
+    name: "DJIBOUTI"
+  },
+  DK: {
+    id: "data/DK",
+    name: "DENMARK",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "8660,1566",
+    posturl: "http://www.postdanmark.dk/da/Privat/Kundeservice/postnummerkort/Sider/Find-postnummer.aspx"
+  },
+  DM: {
+    id: "data/DM",
+    name: "DOMINICA"
+  },
+  DO: {
+    id: "data/DO",
+    name: "DOMINICAN REP.",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "11903,10101",
+    posturl: "http://inposdom.gob.do/"
+  },
+  DZ: {
+    id: "data/DZ",
+    name: "ALGERIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "40304,16027"
+  },
+  EC: {
+    id: "data/EC",
+    name: "ECUADOR",
+    fmt: "%N%n%O%n%A%n%Z%n%C",
+    upper: "CZ",
+    zip: "\\d{6}",
+    zipex: "090105,092301",
+    posturl: "http://www.codigopostal.gob.ec/"
+  },
+  EE: {
+    id: "data/EE",
+    name: "ESTONIA",
+    fmt: "%N%n%O%n%A%n%Z %C %S",
+    require: "ACZ",
+    zip: "\\d{5}",
+    zipex: "69501,11212",
+    posturl: "https://www.omniva.ee/era/sihtnumbrite_otsing"
+  },
+  EG: {
+    id: "data/EG",
+    name: "EGYPT",
+    lang: "ar",
+    languages: "ar",
+    fmt: "%N%n%O%n%A%n%C%n%S%n%Z",
+    lfmt: "%N%n%O%n%A%n%C%n%S%n%Z",
+    zip: "\\d{5}",
+    zipex: "12411,11599",
+    sub_keys: "أسوان~أسيوط~الإسكندرية~الإسماعيلية~الأقصر~البحر الأحمر~البحيرة~الجيزة~الدقهلية~السويس~الشرقية~الغربية~الفيوم~القاهرة~القليوبية~المنوفية~المنيا~الوادي الجديد~بني سويف~بورسعيد~جنوب سيناء~دمياط~سوهاج~شمال سيناء~قنا~كفر الشيخ~مطروح",
+    sub_lnames: "Aswan Governorate~Asyut Governorate~Alexandria Governorate~Ismailia Governorate~Luxor Governorate~Red Sea Governorate~El Beheira Governorate~Giza Governorate~Dakahlia Governorate~Suez Governorate~Ash Sharqia Governorate~Gharbia Governorate~Faiyum Governorate~Cairo Governorate~Qalyubia Governorate~Menofia Governorate~Menia Governorate~New Valley Governorate~Beni Suef Governorate~Port Said Governorate~South Sinai Governorate~Damietta Governorate~Sohag Governorate~North Sinai Governorate~Qena Governorate~Kafr El Sheikh Governorate~Matrouh Governorate",
+    sub_zips: "81~71~2[13]~41~85~84~22~12~35~43~44~31~63~11~13~32~61~72~62~42~46~34~82~45~83~33~51",
+    sub_zipexs: "81000~71000~21000,23000~41000~85000~84000~22000~12000~35000~43000~44000~31000~63000~11000~13000~32000~61000~72000~62000~42000~46000~34000~82000~45000~83000~33000~51000",
+    sub_isoids: "ASN~AST~ALX~IS~LX~BA~BH~GZ~DK~SUZ~SHR~GH~FYM~C~KB~MNF~MN~WAD~BNS~PTS~JS~DT~SHG~SIN~KN~KFS~MT"
+  },
+  EH: {
+    id: "data/EH",
+    name: "WESTERN SAHARA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "70000,72000"
+  },
+  ER: {
+    id: "data/ER",
+    name: "ERITREA"
+  },
+  ES: {
+    id: "data/ES",
+    name: "SPAIN",
+    lang: "es",
+    languages: "es~ca~gl~eu",
+    fmt: "%N%n%O%n%A%n%Z %C %S",
+    require: "ACSZ",
+    upper: "CS",
+    zip: "\\d{5}",
+    zipex: "28039,28300,28070",
+    posturl: "http://www.correos.es/contenido/13-MenuRec2/04-MenuRec24/1010_s-CodPostal.asp",
+    sub_names: "Álava~Albacete~Alicante~Almería~Asturias~Ávila~Badajoz~Barcelona~Burgos~Cáceres~Cádiz~Cantabria~Castellón~Ceuta~Ciudad Real~Córdoba~Cuenca~Girona~Granada~Guadalajara~Guipúzcoa~Huelva~Huesca~Islas Baleares~Jaén~La Coruña~La Rioja~Las Palmas~León~Lérida~Lugo~Madrid~Málaga~Melilla~Murcia~Navarra~Ourense~Palencia~Pontevedra~Salamanca~Santa Cruz de Tenerife~Segovia~Sevilla~Soria~Tarragona~Teruel~Toledo~Valencia~Valladolid~Vizcaya~Zamora~Zaragoza",
+    sub_zips: "01~02~03~04~33~05~06~08~09~10~11~39~12~51~13~14~16~17~18~19~20~21~22~07~23~15~26~35~24~25~27~28~29~52~30~31~32~34~36~37~38~40~41~26127|42~43~44~45~46~47~48~49~50",
+    sub_keys: "VI~AB~A~AL~O~AV~BA~B~BU~CC~CA~S~CS~CE~CR~CO~CU~GI~GR~GU~SS~H~HU~PM~J~C~LO~GC~LE~L~LU~M~MA~ML~MU~NA~OR~P~PO~SA~TF~SG~SE~SO~T~TE~TO~V~VA~BI~ZA~Z"
+  },
+  ET: {
+    id: "data/ET",
+    name: "ETHIOPIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1000"
+  },
+  FI: {
+    id: "data/FI",
+    name: "FINLAND",
+    fmt: "%O%n%N%n%A%nFI-%Z %C",
+    require: "ACZ",
+    zip: "\\d{5}",
+    zipex: "00550,00011",
+    posturl: "https://support.posti.fi/fi/tyokalut/postinumerohaku.html",
+    postprefix: "FI-"
+  },
+  FJ: {
+    id: "data/FJ",
+    name: "FIJI"
+  },
+  FK: {
+    id: "data/FK",
+    name: "FALKLAND ISLANDS (MALVINAS)",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "FIQQ 1ZZ",
+    zipex: "FIQQ 1ZZ"
+  },
+  FM: {
+    id: "data/FM",
+    name: "MICRONESIA (Federated State of)",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOS",
+    zip: "(9694[1-4])(?:[ \\-](\\d{4}))?",
+    zipex: "96941,96944",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    state_name_type: "state"
+  },
+  FO: {
+    id: "data/FO",
+    name: "FAROE ISLANDS",
+    fmt: "%N%n%O%n%A%nFO%Z %C",
+    zip: "\\d{3}",
+    zipex: "100",
+    posturl: "https://www.posta.fo/fo/forsida/finn-postnr-stad/",
+    postprefix: "FO"
+  },
+  FR: {
+    id: "data/FR",
+    name: "FRANCE",
+    fmt: "%O%n%N%n%A%n%Z %C",
+    require: "ACZ",
+    upper: "CX",
+    zip: "\\d{2} ?\\d{3}",
+    zipex: "33380,34092,33506",
+    posturl: "http://www.laposte.fr/Particulier/Utiliser-nos-outils-pratiques/Outils-et-documents/Trouvez-un-code-postal"
+  },
+  GA: {
+    id: "data/GA",
+    name: "GABON"
+  },
+  GB: {
+    id: "data/GB",
+    name: "UNITED KINGDOM",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "GIR ?0AA|(?:(?:AB|AL|B|BA|BB|BD|BF|BH|BL|BN|BR|BS|BT|BX|CA|CB|CF|CH|CM|CO|CR|CT|CV|CW|DA|DD|DE|DG|DH|DL|DN|DT|DY|E|EC|EH|EN|EX|FK|FY|G|GL|GY|GU|HA|HD|HG|HP|HR|HS|HU|HX|IG|IM|IP|IV|JE|KA|KT|KW|KY|L|LA|LD|LE|LL|LN|LS|LU|M|ME|MK|ML|N|NE|NG|NN|NP|NR|NW|OL|OX|PA|PE|PH|PL|PO|PR|RG|RH|RM|S|SA|SE|SG|SK|SL|SM|SN|SO|SP|SR|SS|ST|SW|SY|TA|TD|TF|TN|TQ|TR|TS|TW|UB|W|WA|WC|WD|WF|WN|WR|WS|WV|YO|ZE)(?:\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}))|BFPO ?\\d{1,4}",
+    zipex: "EC1Y 8SY,GIR 0AA,M2 5BQ,M34 4AB,CR0 2YR,DN16 9AA,W1A 4ZZ,EC1A 1HQ,OX14 4PG,BS18 8HF,NR25 7HG,RH6 0NP,BH23 6AA,B6 5BA,SO23 9AP,PO1 3AX,BFPO 61",
+    posturl: "http://www.royalmail.com/postcode-finder",
+    locality_name_type: "post_town"
+  },
+  GD: {
+    id: "data/GD",
+    name: "GRENADA (WEST INDIES)"
+  },
+  GE: {
+    id: "data/GE",
+    name: "GEORGIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "0101",
+    posturl: "http://www.georgianpost.ge/index.php?page=10"
+  },
+  GF: {
+    id: "data/GF",
+    name: "FRENCH GUIANA",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78]3\\d{2}",
+    zipex: "97300",
+    posturl: "http://www.laposte.fr/Particulier/Utiliser-nos-outils-pratiques/Outils-et-documents/Trouvez-un-code-postal"
+  },
+  GG: {
+    id: "data/GG",
+    name: "CHANNEL ISLANDS",
+    fmt: "%N%n%O%n%A%n%C%nGUERNSEY%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "GY\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}",
+    zipex: "GY1 1AA,GY2 2BT",
+    posturl: "http://www.guernseypost.com/postcode_finder/"
+  },
+  GH: {
+    id: "data/GH",
+    name: "GHANA"
+  },
+  GI: {
+    id: "data/GI",
+    name: "GIBRALTAR",
+    fmt: "%N%n%O%n%A%nGIBRALTAR%n%Z",
+    require: "A",
+    zip: "GX11 1AA",
+    zipex: "GX11 1AA"
+  },
+  GL: {
+    id: "data/GL",
+    name: "GREENLAND",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "39\\d{2}",
+    zipex: "3900,3950,3911"
+  },
+  GM: {
+    id: "data/GM",
+    name: "GAMBIA"
+  },
+  GN: {
+    id: "data/GN",
+    name: "GUINEA",
+    fmt: "%N%n%O%n%Z %A %C",
+    zip: "\\d{3}",
+    zipex: "001,200,100"
+  },
+  GP: {
+    id: "data/GP",
+    name: "GUADELOUPE",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78][01]\\d{2}",
+    zipex: "97100",
+    posturl: "http://www.laposte.fr/Particulier/Utiliser-nos-outils-pratiques/Outils-et-documents/Trouvez-un-code-postal"
+  },
+  GQ: {
+    id: "data/GQ",
+    name: "EQUATORIAL GUINEA"
+  },
+  GR: {
+    id: "data/GR",
+    name: "GREECE",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{3} ?\\d{2}",
+    zipex: "151 24,151 10,101 88",
+    posturl: "http://www.elta.gr/findapostcode.aspx"
+  },
+  GS: {
+    id: "data/GS",
+    name: "SOUTH GEORGIA",
+    fmt: "%N%n%O%n%A%n%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "SIQQ 1ZZ",
+    zipex: "SIQQ 1ZZ"
+  },
+  GT: {
+    id: "data/GT",
+    name: "GUATEMALA",
+    fmt: "%N%n%O%n%A%n%Z- %C",
+    zip: "\\d{5}",
+    zipex: "09001,01501"
+  },
+  GU: {
+    id: "data/GU",
+    name: "GUAM",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    require: "ACZ",
+    upper: "ACNO",
+    zip: "(969(?:[12]\\d|3[12]))(?:[ \\-](\\d{4}))?",
+    zipex: "96910,96931",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip"
+  },
+  GW: {
+    id: "data/GW",
+    name: "GUINEA-BISSAU",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1000,1011"
+  },
+  GY: {
+    id: "data/GY",
+    name: "GUYANA"
+  },
+  HK: {
+    id: "data/HK",
+    name: "HONG KONG",
+    lang: "zh-Hant",
+    languages: "zh-Hant~en",
+    fmt: "%S%n%C%n%A%n%O%n%N",
+    lfmt: "%N%n%O%n%A%n%C%n%S",
+    require: "AS",
+    upper: "S",
+    state_name_type: "area",
+    locality_name_type: "district",
+    sub_names: "九龍~香港島~新界",
+    sub_keys: "Kowloon~Hong Kong Island~New Territories",
+    sub_mores: "true~true~true"
+  },
+  HN: {
+    id: "data/HN",
+    name: "HONDURAS",
+    fmt: "%N%n%O%n%A%n%C, %S%n%Z",
+    require: "ACS",
+    zip: "\\d{5}",
+    zipex: "31301",
+    state_name_type: "department"
+  },
+  HR: {
+    id: "data/HR",
+    name: "CROATIA",
+    fmt: "%N%n%O%n%A%nHR-%Z %C",
+    zip: "\\d{5}",
+    zipex: "10000,21001,10002",
+    posturl: "http://www.posta.hr/default.aspx?pretpum",
+    postprefix: "HR-"
+  },
+  HT: {
+    id: "data/HT",
+    name: "HAITI",
+    fmt: "%N%n%O%n%A%nHT%Z %C",
+    zip: "\\d{4}",
+    zipex: "6120,5310,6110,8510",
+    postprefix: "HT"
+  },
+  HU: {
+    id: "data/HU",
+    name: "HUNGARY (Rep.)",
+    fmt: "%N%n%O%n%C%n%A%n%Z",
+    require: "ACZ",
+    upper: "ACNO",
+    zip: "\\d{4}",
+    zipex: "1037,2380,1540",
+    posturl: "http://posta.hu/ugyfelszolgalat/iranyitoszam_kereso"
+  },
+  IC: {},
+  ID: {
+    id: "data/ID",
+    name: "INDONESIA",
+    lang: "id",
+    languages: "id",
+    fmt: "%N%n%O%n%A%n%C%n%S %Z",
+    require: "AS",
+    zip: "\\d{5}",
+    zipex: "40115",
+    sub_keys: "Aceh~Bali~Banten~Bengkulu~Daerah Istimewa Yogyakarta~DKI Jakarta~Gorontalo~Jambi~Jawa Barat~Jawa Tengah~Jawa Timur~Kalimantan Barat~Kalimantan Selatan~Kalimantan Tengah~Kalimantan Timur~Kalimantan Utara~Kepulauan Bangka Belitung~Kepulauan Riau~Lampung~Maluku~Maluku Utara~Nusa Tenggara Barat~Nusa Tenggara Timur~Papua~Papua Barat~Riau~Sulawesi Barat~Sulawesi Selatan~Sulawesi Tengah~Sulawesi Tenggara~Sulawesi Utara~Sumatera Barat~Sumatera Selatan~Sumatera Utara",
+    sub_lnames: "Aceh~Bali~Banten~Bengkulu~Special Region of Yogyakarta~Jakarta~Gorontalo~Jambi~West Java~Central Java~East Java~West Kalimantan~South Kalimantan~Central Kalimantan~East Kalimantan~North Kalimantan~Bangka Belitung Islands~Riau Islands~Lampung~Maluku~North Maluku~West Nusa Tenggara~East Nusa Tenggara~Papua~West Papua~Riau~West Sulawesi~South Sulawesi~Central Sulawesi~South East Sulawesi~North Sulawesi~West Sumatra~South Sumatra~North Sumatra",
+    sub_isoids: "AC~BA~BT~BE~YO~JK~GO~JA~JB~JT~JI~KB~KS~KT~KI~KU~BB~KR~LA~MA~MU~NB~NT~PA~PB~RI~SR~SN~ST~SG~SA~SB~SS~SU"
+  },
+  IE: {
+    id: "data/IE",
+    name: "IRELAND",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%D%n%C%n%S%n%Z",
+    zip: "[\\dA-Z]{3} ?[\\dA-Z]{4}",
+    zipex: "A65 F4E2",
+    posturl: "https://finder.eircode.ie",
+    zip_name_type: "eircode",
+    state_name_type: "county",
+    sublocality_name_type: "townland",
+    sub_keys: "Co. Carlow~Co. Cavan~Co. Clare~Co. Cork~Co. Donegal~Co. Dublin~Co. Galway~Co. Kerry~Co. Kildare~Co. Kilkenny~Co. Laois~Co. Leitrim~Co. Limerick~Co. Longford~Co. Louth~Co. Mayo~Co. Meath~Co. Monaghan~Co. Offaly~Co. Roscommon~Co. Sligo~Co. Tipperary~Co. Waterford~Co. Westmeath~Co. Wexford~Co. Wicklow",
+    sub_isoids: "CW~CN~CE~CO~DL~D~G~KY~KE~KK~LS~LM~LK~LD~LH~MO~MH~MN~OY~RN~SO~TA~WD~WH~WX~WW"
+  },
+  IL: {
+    id: "data/IL",
+    name: "ISRAEL",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5}(?:\\d{2})?",
+    zipex: "9614303",
+    posturl: "http://www.israelpost.co.il/zipcode.nsf/demozip?openform"
+  },
+  IM: {
+    id: "data/IM",
+    name: "ISLE OF MAN",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "IM\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}",
+    zipex: "IM2 1AA,IM99 1PS",
+    posturl: "https://www.iompost.com/tools-forms/postcode-finder/"
+  },
+  IN: {
+    id: "data/IN",
+    name: "INDIA",
+    lang: "en",
+    languages: "en~hi",
+    fmt: "%N%n%O%n%A%n%C %Z%n%S",
+    require: "ACSZ",
+    zip: "\\d{6}",
+    zipex: "110034,110001",
+    posturl: "https://www.indiapost.gov.in/vas/pages/FindPinCode.aspx",
+    zip_name_type: "pin",
+    state_name_type: "state",
+    sub_keys: "Andaman and Nicobar Islands~Andhra Pradesh~Arunachal Pradesh~Assam~Bihar~Chandigarh~Chhattisgarh~Dadra and Nagar Haveli and Daman and Diu~Delhi~Goa~Gujarat~Haryana~Himachal Pradesh~Jammu and Kashmir~Jharkhand~Karnataka~Kerala~Ladakh~Lakshadweep~Madhya Pradesh~Maharashtra~Manipur~Meghalaya~Mizoram~Nagaland~Odisha~Puducherry~Punjab~Rajasthan~Sikkim~Tamil Nadu~Telangana~Tripura~Uttar Pradesh~Uttarakhand~West Bengal",
+    sub_names: "Andaman & Nicobar~Andhra Pradesh~Arunachal Pradesh~Assam~Bihar~Chandigarh~Chhattisgarh~Dadra & Nagar Haveli & Daman & Diu~Delhi~Goa~Gujarat~Haryana~Himachal Pradesh~Jammu & Kashmir~Jharkhand~Karnataka~Kerala~Ladakh~Lakshadweep~Madhya Pradesh~Maharashtra~Manipur~Meghalaya~Mizoram~Nagaland~Odisha~Puducherry~Punjab~Rajasthan~Sikkim~Tamil Nadu~Telangana~Tripura~Uttar Pradesh~Uttarakhand~West Bengal",
+    sub_zips: "744~5[0-3]~79[0-2]~78~8[0-5]~16|1440[3-9]~49~396|362~11~403~3[6-9]~1[23]~17~1[89]~81[4-9]|82|83[0-5]~5[4-9]|53[7-9]~6[7-9]|6010|607008|777~194~682~4[5-8]|490~4[0-4]~79[56]~79[34]~796~79[78]~7[5-7]~60[579]~1[456]~3[0-4]~737|750~6[0-6]|536~5[0-3]~799~2[0-35-8]|24[0-7]|26[12]~24[46-9]|254|26[23]~7[0-4]",
+    sub_isoids: "AN~AP~AR~AS~BR~CH~CT~DH~DL~GA~GJ~HR~HP~JK~JH~KA~KL~LA~LD~MP~MH~MN~ML~MZ~NL~OR~PY~PB~RJ~SK~TN~TG~TR~UP~UT~WB"
+  },
+  IO: {
+    id: "data/IO",
+    name: "BRITISH INDIAN OCEAN TERRITORY",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "BBND 1ZZ",
+    zipex: "BBND 1ZZ"
+  },
+  IQ: {
+    id: "data/IQ",
+    name: "IRAQ",
+    fmt: "%O%n%N%n%A%n%C, %S%n%Z",
+    require: "ACS",
+    upper: "CS",
+    zip: "\\d{5}",
+    zipex: "31001"
+  },
+  IR: {
+    id: "data/IR",
+    name: "IRAN",
+    lang: "fa",
+    languages: "fa",
+    fmt: "%O%n%N%n%S%n%C, %D%n%A%n%Z",
+    zip: "\\d{5}-?\\d{5}",
+    zipex: "11936-12345",
+    sublocality_name_type: "neighborhood",
+    sub_keys: "استان آذربایجان شرقی~استان آذربایجان غربی~استان اردبیل~استان اصفهان~استان البرز~استان ایلام~استان بوشهر~استان تهران~استان چهارمحال و بختیاری~استان خراسان جنوبی~استان خراسان رضوی~استان خراسان شمالی~استان خوزستان~استان زنجان~استان سمنان~استان سیستان و بلوچستان~استان فارس~استان قزوین~استان قم~استان کردستان~استان کرمان~استان کرمانشاه~استان کهگیلویه و بویراحمد~استان گلستان~استان گیلان~استان لرستان~استان مازندران~استان مرکزی~استان هرمزگان~استان همدان~استان یزد",
+    sub_lnames: "East Azerbaijan Province~West Azerbaijan Province~Ardabil Province~Isfahan Province~Alborz Province~Ilam Province~Bushehr Province~Tehran Province~Chaharmahal and Bakhtiari Province~South Khorasan Province~Razavi Khorasan Province~North Khorasan Province~Khuzestan Province~Zanjan Province~Semnan Province~Sistan and Baluchestan Province~Fars Province~Qazvin Province~Qom Province~Kurdistan Province~Kerman Province~Kermanshah Province~Kohgiluyeh and Boyer-Ahmad Province~Golestan Province~Gilan Province~Lorestan Province~Mazandaran Province~Markazi Province~Hormozgan Province~Hamadan Province~Yazd Province",
+    sub_isoids: "03~04~24~10~30~16~18~23~14~29~09~28~06~19~20~11~07~26~25~12~08~05~17~27~01~15~02~00~22~13~21"
+  },
+  IS: {
+    id: "data/IS",
+    name: "ICELAND",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{3}",
+    zipex: "320,121,220,110",
+    posturl: "https://posturinn.is/"
+  },
+  IT: {
+    id: "data/IT",
+    name: "ITALY",
+    lang: "it",
+    languages: "it",
+    fmt: "%N%n%O%n%A%n%Z %C %S",
+    require: "ACSZ",
+    upper: "CS",
+    zip: "\\d{5}",
+    zipex: "00144,47037,39049",
+    posturl: "http://www.poste.it/online/cercacap/",
+    sub_keys: "AG~AL~AN~AO~AR~AP~AT~AV~BA~BT~BL~BN~BG~BI~BO~BZ~BS~BR~CA~CL~CB~CE~CT~CZ~CH~CO~CS~CR~KR~CN~EN~FM~FE~FI~FG~FC~FR~GE~GO~GR~IM~IS~AQ~SP~LT~LE~LC~LI~LO~LU~MC~MN~MS~MT~ME~MI~MO~MB~NA~NO~NU~OR~PD~PA~PR~PV~PG~PU~PE~PC~PI~PT~PN~PZ~PO~RG~RA~RC~RE~RI~RN~RM~RO~SA~SS~SV~SI~SR~SO~SU~TA~TE~TR~TO~TP~TN~TV~TS~UD~VA~VE~VB~VC~VR~VV~VI~VT",
+    sub_names: "Agrigento~Alessandria~Ancona~Aosta~Arezzo~Ascoli Piceno~Asti~Avellino~Bari~Barletta-Andria-Trani~Belluno~Benevento~Bergamo~Biella~Bologna~Bolzano~Brescia~Brindisi~Cagliari~Caltanissetta~Campobasso~Caserta~Catania~Catanzaro~Chieti~Como~Cosenza~Cremona~Crotone~Cuneo~Enna~Fermo~Ferrara~Firenze~Foggia~Forlì-Cesena~Frosinone~Genova~Gorizia~Grosseto~Imperia~Isernia~L'Aquila~La Spezia~Latina~Lecce~Lecco~Livorno~Lodi~Lucca~Macerata~Mantova~Massa-Carrara~Matera~Messina~Milano~Modena~Monza e Brianza~Napoli~Novara~Nuoro~Oristano~Padova~Palermo~Parma~Pavia~Perugia~Pesaro e Urbino~Pescara~Piacenza~Pisa~Pistoia~Pordenone~Potenza~Prato~Ragusa~Ravenna~Reggio Calabria~Reggio Emilia~Rieti~Rimini~Roma~Rovigo~Salerno~Sassari~Savona~Siena~Siracusa~Sondrio~Sud Sardegna~Taranto~Teramo~Terni~Torino~Trapani~Trento~Treviso~Trieste~Udine~Varese~Venezia~Verbano-Cusio-Ossola~Vercelli~Verona~Vibo Valentia~Vicenza~Viterbo",
+    sub_zips: "92~15~60~11~52~63~14~83~70~76[01]~32~82~24~13[89]~40~39~25~72~0912[1-9]|0913[0-4]|0901[0289]|0902[03468]|0903[0234]|0904|0803[035]|08043~93~860[1-4]|86100~81~95~88[01]~66~22~87~26[01]~88[89]~12|18025~94~638|63900~44~50~71~47[015]~03~16~34[01]7~58~18~860[7-9]|86170~67~19~04~73~23[89]~57~26[89]~55~62~46~54~75~98~20~41~208|20900~80~28[01]~080[1-4]|08100~090[7-9]|09170|0801[039]|0803[04]~35~90~43~27~06~61~65~29~56~51~330[7-9]|33170~85~59~97~48~89[01]~42~02~47[89]~00~45~84~07[01]|08020~17|12071~53~96~23[01]~090[1-5][0-9]|0906[0-6]|080[1-4]~74~64~05~10~91~38~31~3401|341[0-689]|34062~330[1-5]|33100~21~30~28[89]~13[01]~37~89[89]~36~01",
+    sub_isoids: "AG~AL~AN~AO~AR~AP~AT~AV~BA~BT~BL~BN~BG~BI~BO~BZ~BS~BR~CA~CL~CB~CE~CT~CZ~CH~CO~CS~CR~KR~CN~EN~FM~FE~FI~FG~FC~FR~GE~GO~GR~IM~IS~AQ~SP~LT~LE~LC~LI~LO~LU~MC~MN~MS~MT~ME~MI~MO~MB~NA~NO~NU~OR~PD~PA~PR~PV~PG~PU~PE~PC~PI~PT~PN~PZ~PO~RG~RA~RC~RE~RI~RN~RM~RO~SA~SS~SV~SI~SR~SO~SU~TA~TE~TR~TO~TP~TN~TV~TS~UD~VA~VE~VB~VC~VR~VV~VI~VT"
+  },
+  JE: {
+    id: "data/JE",
+    name: "CHANNEL ISLANDS",
+    fmt: "%N%n%O%n%A%n%C%nJERSEY%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "JE\\d[\\dA-Z]? ?\\d[ABD-HJLN-UW-Z]{2}",
+    zipex: "JE1 1AA,JE2 2BT",
+    posturl: "http://www.jerseypost.com/tools/postcode-address-finder/"
+  },
+  JM: {
+    id: "data/JM",
+    name: "JAMAICA",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%C%n%S %X",
+    require: "ACS",
+    state_name_type: "parish",
+    sub_keys: "Clarendon~Hanover~Kingston~Manchester~Portland~St. Andrew~St. Ann~St. Catherine~St. Elizabeth~St. James~St. Mary~St. Thomas~Trelawny~Westmoreland",
+    sub_isoids: "13~09~01~12~04~02~06~14~11~08~05~03~07~10"
+  },
+  JO: {
+    id: "data/JO",
+    name: "JORDAN",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5}",
+    zipex: "11937,11190"
+  },
+  JP: {
+    id: "data/JP",
+    name: "JAPAN",
+    lang: "ja",
+    languages: "ja",
+    fmt: "〒%Z%n%S%n%A%n%O%n%N",
+    lfmt: "%N%n%O%n%A, %S%n%Z",
+    require: "ASZ",
+    upper: "S",
+    zip: "\\d{3}-?\\d{4}",
+    zipex: "154-0023,350-1106,951-8073,112-0001,208-0032,231-0012",
+    posturl: "http://www.post.japanpost.jp/zipcode/",
+    state_name_type: "prefecture",
+    sub_keys: "北海道~青森県~岩手県~宮城県~秋田県~山形県~福島県~茨城県~栃木県~群馬県~埼玉県~千葉県~東京都~神奈川県~新潟県~富山県~石川県~福井県~山梨県~長野県~岐阜県~静岡県~愛知県~三重県~滋賀県~京都府~大阪府~兵庫県~奈良県~和歌山県~鳥取県~島根県~岡山県~広島県~山口県~徳島県~香川県~愛媛県~高知県~福岡県~佐賀県~長崎県~熊本県~大分県~宮崎県~鹿児島県~沖縄県",
+    sub_lnames: "Hokkaido~Aomori~Iwate~Miyagi~Akita~Yamagata~Fukushima~Ibaraki~Tochigi~Gunma~Saitama~Chiba~Tokyo~Kanagawa~Niigata~Toyama~Ishikawa~Fukui~Yamanashi~Nagano~Gifu~Shizuoka~Aichi~Mie~Shiga~Kyoto~Osaka~Hyogo~Nara~Wakayama~Tottori~Shimane~Okayama~Hiroshima~Yamaguchi~Tokushima~Kagawa~Ehime~Kochi~Fukuoka~Saga~Nagasaki~Kumamoto~Oita~Miyazaki~Kagoshima~Okinawa",
+    sub_zips: "0[4-9]|00[1-7]~03|018~02~98~01~99~9[67]~3[01]~32|311|349~37|38[49]~3[3-6]~2[6-9]~1[0-8]|19[0-8]|20~2[1-5]|199~9[45]|389~93~92|939~91|922~40~3[89]|949~50~4[1-9]~4[4-9]|431~51|498|647~52~6[0-2]|520~5[3-9]|618|630~6[5-7]|563~63|64[78]~64|519~68~69|68[45]~7[01]~7[23]~7[45]~77~76~79~78~8[0-3]|871~84~85|81[17]|848~86~87|839~88~89~90",
+    sub_isoids: "01~02~03~04~05~06~07~08~09~10~11~12~13~14~15~16~17~18~19~20~21~22~23~24~25~26~27~28~29~30~31~32~33~34~35~36~37~38~39~40~41~42~43~44~45~46~47"
+  },
+  KE: {
+    id: "data/KE",
+    name: "KENYA",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "\\d{5}",
+    zipex: "20100,00100"
+  },
+  KG: {
+    id: "data/KG",
+    name: "KYRGYZSTAN",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{6}",
+    zipex: "720001"
+  },
+  KH: {
+    id: "data/KH",
+    name: "CAMBODIA",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5,6}",
+    zipex: "120101,120108",
+    posturl: "https://www.cambodiapost.post/page/postal-codes"
+  },
+  KI: {
+    id: "data/KI",
+    name: "KIRIBATI",
+    fmt: "%N%n%O%n%A%n%S%n%C",
+    upper: "ACNOS",
+    state_name_type: "island"
+  },
+  KM: {
+    id: "data/KM",
+    name: "COMOROS",
+    upper: "AC"
+  },
+  KN: {
+    id: "data/KN",
+    name: "SAINT KITTS AND NEVIS",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%C, %S",
+    require: "ACS",
+    state_name_type: "island",
+    sub_keys: "Nevis~St. Kitts",
+    sub_isoids: "N~K"
+  },
+  KP: {
+    id: "data/KP",
+    name: "NORTH KOREA",
+    lang: "ko",
+    languages: "ko",
+    fmt: "%Z%n%S%n%C%n%A%n%O%n%N",
+    lfmt: "%N%n%O%n%A%n%C%n%S, %Z",
+    sub_keys: "강원도~라선 특별시~량강도~자강도~평안 남도~평안 북도~평양 직할시~함경 남도~함경 북도~황해남도~황해북도",
+    sub_lnames: "Kangwon~Rason~Ryanggang~Chagang~South Pyongan~North Pyongan~Pyongyang~South Hamgyong~North Hamgyong~South Hwanghae~North Hwanghae",
+    sub_isoids: "07~13~10~04~02~03~01~08~09~05~06"
+  },
+  KR: {
+    id: "data/KR",
+    name: "SOUTH KOREA",
+    lang: "ko",
+    languages: "ko",
+    fmt: "%S %C%D%n%A%n%O%n%N%n%Z",
+    lfmt: "%N%n%O%n%A%n%D%n%C%n%S%n%Z",
+    require: "ACSZ",
+    upper: "Z",
+    zip: "\\d{5}",
+    zipex: "03051",
+    posturl: "http://www.epost.go.kr/search/zipcode/search5.jsp",
+    state_name_type: "do_si",
+    sublocality_name_type: "district",
+    sub_keys: "강원도~경기도~경상남도~경상북도~광주광역시~대구광역시~대전광역시~부산광역시~서울특별시~세종특별자치시~울산광역시~인천광역시~전라남도~전라북도~제주특별자치도~충청남도~충청북도",
+    sub_names: "강원~경기~경남~경북~광주~대구~대전~부산~서울~세종~울산~인천~전남~전북~제주~충남~충북",
+    sub_lnames: "Gangwon-do~Gyeonggi-do~Gyeongsangnam-do~Gyeongsangbuk-do~Gwangju~Daegu~Daejeon~Busan~Seoul~Sejong~Ulsan~Incheon~Jeollanam-do~Jeollabuk-do~Jeju-do~Chungcheongnam-do~Chungcheongbuk-do",
+    sub_zips: "2[456]\\d{2}~1[0-8]\\d{2}~5[0-3]\\d{2}~(?:3[6-9]|40)\\d{2}~6[12]\\d{2}~4[123]\\d{2}~3[45]\\d{2}~4[6-9]\\d{2}~0[1-8]\\d{2}~30[01]\\d~4[45]\\d{2}~2[1-3]\\d{2}~5[7-9]\\d{2}~5[4-6]\\d{2}~63[0-356]\\d~3[1-3]\\d{2}~2[789]\\d{2}",
+    sub_zipexs: "25627~12410~53286~38540~62394~42456~34316~46706~06321~30065~44782~23024~59222~56445~63563~32832~28006",
+    sub_isoids: "42~41~48~47~29~27~30~26~11~50~31~28~46~45~49~44~43",
+    sub_mores: "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true"
+  },
+  KW: {
+    id: "data/KW",
+    name: "KUWAIT",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "54541,54551,54404,13009"
+  },
+  KY: {
+    id: "data/KY",
+    name: "CAYMAN ISLANDS",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%S %Z",
+    require: "AS",
+    zip: "KY\\d-\\d{4}",
+    zipex: "KY1-1100,KY1-1702,KY2-2101",
+    posturl: "http://www.caymanpost.gov.ky/",
+    state_name_type: "island",
+    sub_keys: "Cayman Brac~Grand Cayman~Little Cayman"
+  },
+  KZ: {
+    id: "data/KZ",
+    name: "KAZAKHSTAN",
+    fmt: "%Z%n%S%n%C%n%A%n%O%n%N",
+    zip: "\\d{6}",
+    zipex: "040900,050012"
+  },
+  LA: {
+    id: "data/LA",
+    name: "LAO (PEOPLE'S DEM. REP.)",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "01160,01000"
+  },
+  LB: {
+    id: "data/LB",
+    name: "LEBANON",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "(?:\\d{4})(?: ?(?:\\d{4}))?",
+    zipex: "2038 3054,1107 2810,1000"
+  },
+  LC: {
+    id: "data/LC",
+    name: "SAINT LUCIA"
+  },
+  LI: {
+    id: "data/LI",
+    name: "LIECHTENSTEIN",
+    fmt: "%O%n%N%n%A%nFL-%Z %C",
+    require: "ACZ",
+    zip: "948[5-9]|949[0-8]",
+    zipex: "9496,9491,9490,9485",
+    posturl: "http://www.post.ch/db/owa/pv_plz_pack/pr_main",
+    postprefix: "FL-"
+  },
+  LK: {
+    id: "data/LK",
+    name: "SRI LANKA",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "\\d{5}",
+    zipex: "20000,00100",
+    posturl: "http://www.slpost.gov.lk/"
+  },
+  LR: {
+    id: "data/LR",
+    name: "LIBERIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1000"
+  },
+  LS: {
+    id: "data/LS",
+    name: "LESOTHO",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{3}",
+    zipex: "100"
+  },
+  LT: {
+    id: "data/LT",
+    name: "LITHUANIA",
+    fmt: "%O%n%N%n%A%nLT-%Z %C %S",
+    require: "ACZ",
+    zip: "\\d{5}",
+    zipex: "04340,03500",
+    posturl: "http://www.post.lt/lt/?id=316",
+    postprefix: "LT-"
+  },
+  LU: {
+    id: "data/LU",
+    name: "LUXEMBOURG",
+    fmt: "%O%n%N%n%A%nL-%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "4750,2998",
+    posturl: "https://www.post.lu/fr/grandes-entreprises/solutions-postales/rechercher-un-code-postal",
+    postprefix: "L-"
+  },
+  LV: {
+    id: "data/LV",
+    name: "LATVIA",
+    fmt: "%N%n%O%n%A%n%S%n%C, %Z",
+    require: "ACZ",
+    zip: "LV-\\d{4}",
+    zipex: "LV-1073,LV-1000",
+    posturl: "http://www.pasts.lv/lv/uzzinas/nodalas/"
+  },
+  LY: {
+    id: "data/LY",
+    name: "LIBYA"
+  },
+  MA: {
+    id: "data/MA",
+    name: "MOROCCO",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "53000,10000,20050,16052"
+  },
+  MC: {
+    id: "data/MC",
+    name: "MONACO",
+    fmt: "%N%n%O%n%A%nMC-%Z %C %X",
+    zip: "980\\d{2}",
+    zipex: "98000,98020,98011,98001",
+    postprefix: "MC-"
+  },
+  MD: {
+    id: "data/MD",
+    name: "Rep. MOLDOVA",
+    fmt: "%N%n%O%n%A%nMD-%Z %C",
+    zip: "\\d{4}",
+    zipex: "2012,2019",
+    postprefix: "MD-"
+  },
+  ME: {
+    id: "data/ME",
+    name: "MONTENEGRO",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "8\\d{4}",
+    zipex: "81257,81258,81217,84314,85366"
+  },
+  MF: {
+    id: "data/MF",
+    name: "SAINT MARTIN",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78][01]\\d{2}",
+    zipex: "97100",
+    posturl: "https://www.laposte.fr/particulier/outils/trouver-un-code-postal"
+  },
+  MG: {
+    id: "data/MG",
+    name: "MADAGASCAR",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{3}",
+    zipex: "501,101"
+  },
+  MH: {
+    id: "data/MH",
+    name: "MARSHALL ISLANDS",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOS",
+    zip: "(969[67]\\d)(?:[ \\-](\\d{4}))?",
+    zipex: "96960,96970",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    state_name_type: "state"
+  },
+  MK: {
+    id: "data/MK",
+    name: "MACEDONIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1314,1321,1443,1062"
+  },
+  ML: {
+    id: "data/ML",
+    name: "MALI"
+  },
+  MM: {
+    id: "data/MM",
+    name: "MYANMAR",
+    fmt: "%N%n%O%n%A%n%C, %Z",
+    zip: "\\d{5}",
+    zipex: "11181"
+  },
+  MN: {
+    id: "data/MN",
+    name: "MONGOLIA",
+    fmt: "%N%n%O%n%A%n%C%n%S %Z",
+    zip: "\\d{5}",
+    zipex: "65030,65270",
+    posturl: "http://www.zipcode.mn/"
+  },
+  MO: {
+    id: "data/MO",
+    name: "MACAO",
+    fmt: "%A%n%O%n%N",
+    lfmt: "%N%n%O%n%A",
+    require: "A"
+  },
+  MP: {
+    id: "data/MP",
+    name: "NORTHERN MARIANA ISLANDS",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOS",
+    zip: "(9695[012])(?:[ \\-](\\d{4}))?",
+    zipex: "96950,96951,96952",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    state_name_type: "state"
+  },
+  MQ: {
+    id: "data/MQ",
+    name: "MARTINIQUE",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78]2\\d{2}",
+    zipex: "97220",
+    posturl: "http://www.laposte.fr/Particulier/Utiliser-nos-outils-pratiques/Outils-et-documents/Trouvez-un-code-postal"
+  },
+  MR: {
+    id: "data/MR",
+    name: "MAURITANIA",
+    upper: "AC"
+  },
+  MS: {
+    id: "data/MS",
+    name: "MONTSERRAT"
+  },
+  MT: {
+    id: "data/MT",
+    name: "MALTA",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    upper: "CZ",
+    zip: "[A-Z]{3} ?\\d{2,4}",
+    zipex: "NXR 01,ZTN 05,GPO 01,BZN 1130,SPB 6031,VCT 1753",
+    posturl: "https://www.maltapost.com/PostCode/"
+  },
+  MU: {
+    id: "data/MU",
+    name: "MAURITIUS",
+    fmt: "%N%n%O%n%A%n%Z%n%C",
+    upper: "CZ",
+    zip: "\\d{3}(?:\\d{2}|[A-Z]{2}\\d{3})",
+    zipex: "42602"
+  },
+  MV: {
+    id: "data/MV",
+    name: "MALDIVES",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5}",
+    zipex: "20026",
+    posturl: "http://www.maldivespost.com/?lid=10"
+  },
+  MW: {
+    id: "data/MW",
+    name: "MALAWI",
+    fmt: "%N%n%O%n%A%n%C %X"
+  },
+  MX: {
+    id: "data/MX",
+    name: "MEXICO",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%D%n%Z %C, %S",
+    require: "ACSZ",
+    upper: "CSZ",
+    zip: "\\d{5}",
+    zipex: "02860,77520,06082",
+    posturl: "https://www.correosdemexico.gob.mx/SSLServicios/ConsultaCP/Descarga.aspx",
+    state_name_type: "state",
+    sublocality_name_type: "neighborhood",
+    sub_keys: "Ags.~B.C.~B.C.S.~Camp.~Chis.~Chih.~CDMX~Coah.~Col.~Dgo.~Méx.~Gto.~Gro.~Hgo.~Jal.~Mich.~Mor.~Nay.~N.L.~Oax.~Pue.~Qro.~Q.R.~S.L.P.~Sin.~Son.~Tab.~Tamps.~Tlax.~Ver.~Yuc.~Zac.",
+    sub_names: "Aguascalientes~Baja California~Baja California Sur~Campeche~Chiapas~Chihuahua~Ciudad de México~Coahuila de Zaragoza~Colima~Durango~Estado de México~Guanajuato~Guerrero~Hidalgo~Jalisco~Michoacán~Morelos~Nayarit~Nuevo León~Oaxaca~Puebla~Querétaro~Quintana Roo~San Luis Potosí~Sinaloa~Sonora~Tabasco~Tamaulipas~Tlaxcala~Veracruz~Yucatán~Zacatecas",
+    sub_zips: "20~2[12]~23~24~29|30~3[1-3]~0|1[0-6]~2[5-7]~28~3[45]~5[0-7]~3[6-8]~39|4[01]~4[23]~4[4-9]~5[89]|6[01]~62~63~6[4-7]~6[89]|7[01]~7[2-5]~76~77~7[89]~8[0-2]~8[3-5]~86~8[7-9]~90~9[1-6]~97~9[89]",
+    sub_zipexs: "20000,20999~21000,22999~23000,23999~24000,24999~29000,30999~31000,33999~00000,16999~25000,27999~28000,28999~34000,35999~50000,57999~36000,38999~39000,41999~42000,43999~44000,49999~58000,61999~62000,62999~63000,63999~64000,67999~68000,71999~72000,75999~76000,76999~77000,77999~78000,79999~80000,82999~83000,85999~86000,86999~87000,89999~90000,90999~91000,96999~97000,97999~98000,99999",
+    sub_isoids: "AGU~BCN~BCS~CAM~CHP~CHH~CMX~COA~COL~DUR~MEX~GUA~GRO~HID~JAL~MIC~MOR~NAY~NLE~OAX~PUE~QUE~ROO~SLP~SIN~SON~TAB~TAM~TLA~VER~YUC~ZAC"
+  },
+  MY: {
+    id: "data/MY",
+    name: "MALAYSIA",
+    lang: "ms",
+    languages: "ms",
+    fmt: "%N%n%O%n%A%n%D%n%Z %C%n%S",
+    require: "ACZ",
+    upper: "CS",
+    zip: "\\d{5}",
+    zipex: "43000,50754,88990,50670",
+    posturl: "http://www.pos.com.my",
+    state_name_type: "state",
+    sublocality_name_type: "village_township",
+    sub_keys: "Johor~Kedah~Kelantan~Kuala Lumpur~Labuan~Melaka~Negeri Sembilan~Pahang~Perak~Perlis~Pulau Pinang~Putrajaya~Sabah~Sarawak~Selangor~Terengganu",
+    sub_zips: "79|8[0-6]~0[5-9]|34950~1[5-9]~5|60~87~7[5-8]~7[0-4]~2[5-8]|[346]9~3[0-6]|39000~0[12]~1[0-4]~62~8[89]|9[01]~9[3-8]~4[0-8]|6[3-8]~2[0-4]",
+    sub_zipexs: "79000,86999~05000,09999,34950~15000,18599~50000,60000~87000,87999~75000,78399~70000,73599~25000,28999,39000,49000,69000~30000,36899,39000~01000,02799~10000,14999~62000,62999~88000,91999~93000,98999~40000,48999,63000,68199~20000,24999",
+    sub_isoids: "01~02~03~14~15~04~05~06~08~09~07~16~12~13~10~11"
+  },
+  MZ: {
+    id: "data/MZ",
+    name: "MOZAMBIQUE",
+    lang: "pt",
+    languages: "pt",
+    fmt: "%N%n%O%n%A%n%Z %C%S",
+    zip: "\\d{4}",
+    zipex: "1102,1119,3212",
+    sub_keys: "Cabo Delgado~Cidade de Maputo~Gaza~Inhambane~Manica~Maputo~Nampula~Niassa~Sofala~Tete~Zambezia",
+    sub_isoids: "P~MPM~G~I~B~L~N~A~S~T~Q"
+  },
+  NA: {
+    id: "data/NA",
+    name: "NAMIBIA",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "\\d{5}",
+    zipex: "10001,10017"
+  },
+  NC: {
+    id: "data/NC",
+    name: "NEW CALEDONIA",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "988\\d{2}",
+    zipex: "98814,98800,98810",
+    posturl: "https://www.opt.nc/particuliers/courrier-et-colis/les-codes-postaux-de-nouvelle-caledonie"
+  },
+  NE: {
+    id: "data/NE",
+    name: "NIGER",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "8001"
+  },
+  NF: {
+    id: "data/NF",
+    name: "NORFOLK ISLAND",
+    fmt: "%O%n%N%n%A%n%C %S %Z",
+    upper: "CS",
+    zip: "2899",
+    zipex: "2899"
+  },
+  NG: {
+    id: "data/NG",
+    name: "NIGERIA",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%D%n%C %Z%n%S",
+    upper: "CS",
+    zip: "\\d{6}",
+    zipex: "930283,300001,931104",
+    posturl: "http://www.nigeriapostcodes.com/",
+    state_name_type: "state",
+    sub_keys: "Abia~Adamawa~Akwa Ibom~Anambra~Bauchi~Bayelsa~Benue~Borno~Cross River~Delta~Ebonyi~Edo~Ekiti~Enugu~Federal Capital Territory~Gombe~Imo~Jigawa~Kaduna~Kano~Katsina~Kebbi~Kogi~Kwara~Lagos~Nasarawa~Niger~Ogun State~Ondo~Osun~Oyo~Plateau~Rivers~Sokoto~Taraba~Yobe~Zamfara",
+    sub_isoids: "AB~AD~AK~AN~BA~BY~BE~BO~CR~DE~EB~ED~EK~EN~FC~GO~IM~JI~KD~KN~KT~KE~KO~KW~LA~NA~NI~OG~ON~OS~OY~PL~RI~SO~TA~YO~ZA"
+  },
+  NI: {
+    id: "data/NI",
+    name: "NICARAGUA",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%Z%n%C, %S",
+    upper: "CS",
+    zip: "\\d{5}",
+    zipex: "52000",
+    posturl: "http://www.correos.gob.ni/codigo-postal/",
+    state_name_type: "department",
+    sub_keys: "Boaco~Carazo~Chinandega~Chontales~Estelí~Granada~Jinotega~León~Madriz~Managua~Masaya~Matagalpa~Nueva Segovia~Región Autónoma de la Costa Caribe Norte~Región Autónoma de la Costa Caribe Sur~Río San Juan~Rivas",
+    sub_zips: "5[12]~4[56]~2[5-7]~5[56]~3[12]~4[34]~6[56]~2[12]~3[45]~1[0-6]~4[12]~6[1-3]~3[7-9]~7[12]~8[1-3]~9[12]~4[78]",
+    sub_isoids: "BO~CA~CI~CO~ES~GR~JI~LE~MD~MN~MS~MT~NS~AN~AS~SJ~RI"
+  },
+  NL: {
+    id: "data/NL",
+    name: "NETHERLANDS",
+    fmt: "%O%n%N%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "[1-9]\\d{3} ?(?:[A-RT-Z][A-Z]|S[BCE-RT-Z])",
+    zipex: "1234 AB,2490 AA",
+    posturl: "http://www.postnl.nl/voorthuis/"
+  },
+  NO: {
+    id: "data/NO",
+    name: "NORWAY",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "0025,0107,6631",
+    posturl: "http://adressesok.posten.no/nb/postal_codes/search",
+    locality_name_type: "post_town"
+  },
+  NP: {
+    id: "data/NP",
+    name: "NEPAL",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5}",
+    zipex: "44601",
+    posturl: "http://www.gpo.gov.np/Home/Postalcode"
+  },
+  NR: {
+    id: "data/NR",
+    name: "NAURU CENTRAL PACIFIC",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%S",
+    require: "AS",
+    state_name_type: "district",
+    sub_keys: "Aiwo District~Anabar District~Anetan District~Anibare District~Baiti District~Boe District~Buada District~Denigomodu District~Ewa District~Ijuw District~Meneng District~Nibok District~Uaboe District~Yaren District",
+    sub_isoids: "01~02~03~04~05~06~07~08~09~10~11~12~13~14"
+  },
+  NU: {
+    id: "data/NU",
+    name: "NIUE"
+  },
+  NZ: {
+    id: "data/NZ",
+    name: "NEW ZEALAND",
+    fmt: "%N%n%O%n%A%n%D%n%C %Z",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "6001,6015,6332,8252,1030",
+    posturl: "http://www.nzpost.co.nz/Cultures/en-NZ/OnlineTools/PostCodeFinder/"
+  },
+  OM: {
+    id: "data/OM",
+    name: "OMAN",
+    fmt: "%N%n%O%n%A%n%Z%n%C",
+    zip: "(?:PC )?\\d{3}",
+    zipex: "133,112,111"
+  },
+  PA: {
+    id: "data/PA",
+    name: "PANAMA (REP.)",
+    fmt: "%N%n%O%n%A%n%C%n%S",
+    upper: "CS"
+  },
+  PE: {
+    id: "data/PE",
+    name: "PERU",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%C %Z%n%S",
+    zip: "(?:LIMA \\d{1,2}|CALLAO 0?\\d)|[0-2]\\d{4}",
+    zipex: "LIMA 23,LIMA 42,CALLAO 2,02001",
+    posturl: "http://www.codigopostal.gob.pe/pages/invitado/consulta.jsf",
+    locality_name_type: "district",
+    sub_keys: "Amazonas~Áncash~Apurímac~Arequipa~Ayacucho~Cajamarca~Callao~Cuzco~Gobierno Regional de Lima~Huancavelica~Huánuco~Ica~Junín~La Libertad~Lambayeque~Loreto~Madre de Dios~Moquegua~Municipalidad Metropolitana de Lima~Pasco~Piura~Puno~San Martín~Tacna~Tumbes~Ucayali",
+    sub_isoids: "AMA~ANC~APU~ARE~AYA~CAJ~CAL~CUS~LIM~HUV~HUC~ICA~JUN~LAL~LAM~LOR~MDD~MOQ~LMA~PAS~PIU~PUN~SAM~TAC~TUM~UCA"
+  },
+  PF: {
+    id: "data/PF",
+    name: "FRENCH POLYNESIA",
+    fmt: "%N%n%O%n%A%n%Z %C %S",
+    require: "ACSZ",
+    upper: "CS",
+    zip: "987\\d{2}",
+    zipex: "98709",
+    state_name_type: "island"
+  },
+  PG: {
+    id: "data/PG",
+    name: "PAPUA NEW GUINEA",
+    fmt: "%N%n%O%n%A%n%C %Z %S",
+    require: "ACS",
+    zip: "\\d{3}",
+    zipex: "111"
+  },
+  PH: {
+    id: "data/PH",
+    name: "PHILIPPINES",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%D, %C%n%Z %S",
+    zip: "\\d{4}",
+    zipex: "1008,1050,1135,1207,2000,1000",
+    posturl: "http://www.philpost.gov.ph/",
+    sub_keys: "Abra~Agusan del Norte~Agusan del Sur~Aklan~Albay~Antique~Apayao~Aurora~Basilan~Bataan~Batanes~Batangas~Benguet~Biliran~Bohol~Bukidnon~Bulacan~Cagayan~Camarines Norte~Camarines Sur~Camiguin~Capiz~Catanduanes~Cavite~Cebu~Compostela Valley~Cotabato~Davao del Norte~Davao del Sur~Davao Occidental~Davao Oriental~Dinagat Islands~Eastern Samar~Guimaras~Ifugao~Ilocos Norte~Ilocos Sur~Iloilo~Isabela~Kalinga~La Union~Laguna~Lanao del Norte~Lanao del Sur~Leyte~Maguindanao~Marinduque~Masbate~Metro Manila~Mindoro Occidental~Mindoro Oriental~Misamis Occidental~Misamis Oriental~Mountain Province~Negros Occidental~Negros Oriental~Northern Samar~Nueva Ecija~Nueva Vizcaya~Palawan~Pampanga~Pangasinan~Quezon Province~Quirino~Rizal~Romblon~Samar~Sarangani~Siquijor~Sorsogon~South Cotabato~Southern Leyte~Sultan Kudarat~Sulu~Surigao del Norte~Surigao del Sur~Tarlac~Tawi-Tawi~Zambales~Zamboanga del Norte~Zamboanga del Sur~Zamboanga Sibuguey",
+    sub_zips: "28[0-2]~86[01]~85[01]~56[01]~45[01]~57[01]~380[0-68]~320~730~21[01]~390~42[0-3]~26(0|1[0-5])~65(4[3-9]|5)~63[0-3]~87[0-2]~30[0-2]~35[0-2]~46[01]~44[0-3]~910~58[01]~48[01]~41[0-2]~60[0-5]~88[01]~94[01]~81[0-2]~80[01]~801[1-5]~82[01]~84[12]~68[0-2]~504[4-6]~36[01]~29[0-2]~27[0-3]~50([0-3]|4[0-3])~33[0-3]~38(0[79]|1[0-4])~25[0-2]~40[0-3]~92[0-2]~9(3[0-2]|7[01])~65([0-3]|4[0-2])~96[01]~490~54[0-2]~~51[01]~52[01]~72[01]~90[0-2]~26(1[6-9]|2[0-5])~61[0-3]~62[0-2]~64[0-2]~31[0-3]~37[01]~53[0-2]~20[0-2]~24[0-4]~43[0-4]~340~1[89]~55[01]~67[0-2]~8015~62(2[5-9]|30)~47[01]~95[01]~66[10]~98[01]~74[01]~84[0-2]~83[01]~23[01]~750~22[01]~71[0-2]~70[0-4]~70[0-4]",
+    sub_zipexs: "2800,2826~8600,8611~8500,8513~5600,5616~4500,4517~5700,5717~3800,3806,3808~3200,3207~7300,7306~2100,2114~3900,3905~4200,4234~2600,2615~6543,6550~6300,6337~8700,8723~3000,3024~3500,3528~4600,4612~4400,4436~9100,9104~5800,5816~4800,4810~4100,4126~6000,6053~8800,8810~9400,9417~8100,8120~8000,8010~8015,8013~8200,8210~8426,8412~6800,6822~5044,5046~3600,3610~2900,2922~2700,2733~5000,5043~3300,3336~3807,3809,3814~2500,2520~4000,4033~9200,9223~9300,9321,9700,9716~6500,6542~9600,9619~4900,4905~5400,5421~~5100,5111~5200,5214~7200,7215~9000,9025~2616,2625~6100,6132~6200,6224~6400,6423~3100,3133~3700,3714~5300,5322~2000,2022~2400,2447~4300,4342~3400,3405~1850,1990~5500,5516~6700,6725~8015~6225,6230~4700,4715~9500,9513~6600,6613~9800,9811~7400,7416~8400,8425~8300,8319~2300,2318~7500,7509~2200,2213~7100,7124~7000,7043~7000,7043",
+    sub_isoids: "ABR~AGN~AGS~AKL~ALB~ANT~APA~AUR~BAS~BAN~BTN~BTG~BEN~BIL~BOH~BUK~BUL~CAG~CAN~CAS~CAM~CAP~CAT~CAV~CEB~COM~NCO~DAV~DAS~DVO~DAO~DIN~EAS~GUI~IFU~ILN~ILS~ILI~ISA~KAL~LUN~LAG~LAN~LAS~LEY~MAG~MAD~MAS~00~MDC~MDR~MSC~MSR~MOU~NEC~NER~NSA~NUE~NUV~PLW~PAM~PAN~QUE~QUI~RIZ~ROM~WSA~SAR~SIG~SOR~SCO~SLE~SUK~SLU~SUN~SUR~TAR~TAW~ZMB~ZAN~ZAS~ZSI"
+  },
+  PK: {
+    id: "data/PK",
+    name: "PAKISTAN",
+    fmt: "%N%n%O%n%A%n%D%n%C-%Z",
+    zip: "\\d{5}",
+    zipex: "44000",
+    posturl: "http://www.pakpost.gov.pk/postcode.php"
+  },
+  PL: {
+    id: "data/PL",
+    name: "POLAND",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{2}-\\d{3}",
+    zipex: "00-950,05-470,48-300,32-015,00-940",
+    posturl: "http://kody.poczta-polska.pl/"
+  },
+  PM: {
+    id: "data/PM",
+    name: "ST. PIERRE AND MIQUELON",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78]5\\d{2}",
+    zipex: "97500"
+  },
+  PN: {
+    id: "data/PN",
+    name: "PITCAIRN",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "PCRN 1ZZ",
+    zipex: "PCRN 1ZZ"
+  },
+  PR: {
+    id: "data/PR",
+    name: "PUERTO RICO",
+    fmt: "%N%n%O%n%A%n%C PR %Z",
+    require: "ACZ",
+    upper: "ACNO",
+    zip: "(00[679]\\d{2})(?:[ \\-](\\d{4}))?",
+    zipex: "00930",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    postprefix: "PR "
+  },
+  PS: {
+    id: "data/PS",
+    name: "PALESTINIAN TERRITORY"
+  },
+  PT: {
+    id: "data/PT",
+    name: "PORTUGAL",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}-\\d{3}",
+    zipex: "2725-079,1250-096,1201-950,2860-571,1208-148",
+    posturl: "http://www.ctt.pt/feapl_2/app/open/tools.jspx?tool=1"
+  },
+  PW: {
+    id: "data/PW",
+    name: "PALAU",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOS",
+    zip: "(969(?:39|40))(?:[ \\-](\\d{4}))?",
+    zipex: "96940",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    state_name_type: "state"
+  },
+  PY: {
+    id: "data/PY",
+    name: "PARAGUAY",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1536,1538,1209"
+  },
+  QA: {
+    id: "data/QA",
+    name: "QATAR",
+    upper: "AC"
+  },
+  RE: {
+    id: "data/RE",
+    name: "REUNION",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "9[78]4\\d{2}",
+    zipex: "97400",
+    posturl: "http://www.laposte.fr/Particulier/Utiliser-nos-outils-pratiques/Outils-et-documents/Trouvez-un-code-postal"
+  },
+  RO: {
+    id: "data/RO",
+    name: "ROMANIA",
+    fmt: "%N%n%O%n%A%n%Z %S %C",
+    require: "ACZ",
+    upper: "AC",
+    zip: "\\d{6}",
+    zipex: "060274,061357,200716",
+    posturl: "http://www.posta-romana.ro/zip_codes"
+  },
+  RS: {
+    id: "data/RS",
+    name: "REPUBLIC OF SERBIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5,6}",
+    zipex: "106314",
+    posturl: "http://www.posta.rs/struktura/lat/aplikacije/pronadji/nadji-postu.asp"
+  },
+  RU: {
+    id: "data/RU",
+    name: "RUSSIAN FEDERATION",
+    lang: "ru",
+    languages: "ru",
+    fmt: "%N%n%O%n%A%n%C%n%S%n%Z",
+    lfmt: "%N%n%O%n%A%n%C%n%S%n%Z",
+    require: "ACSZ",
+    upper: "AC",
+    zip: "\\d{6}",
+    zipex: "247112,103375,188300",
+    posturl: "https://www.pochta.ru/post-index",
+    state_name_type: "oblast",
+    sub_keys: "Алтайский край~Амурская область~Архангельская область~Астраханская область~Белгородская область~Брянская область~Владимирская область~Волгоградская область~Вологодская область~Воронежская область~Еврейская автономная область~Забайкальский край~Ивановская область~Иркутская область~Кабардино-Балкарская Республика~Калининградская область~Калужская область~Камчатский край~Карачаево-Черкесская Республика~Кемеровская область~Кировская область~Костромская область~Краснодарский край~Красноярский край~Курганская область~Курская область~Ленинградская область~Липецкая область~Магаданская область~Москва~Московская область~Мурманская область~Ненецкий автономный округ~Нижегородская область~Новгородская область~Новосибирская область~Омская область~Оренбургская область~Орловская область~Пензенская область~Пермский край~Приморский край~Псковская область~Республика Адыгея~Республика Алтай~Республика Башкортостан~Республика Бурятия~Республика Дагестан~Республика Ингушетия~Республика Калмыкия~Республика Карелия~Республика Коми~Автономна Республіка Крим~Республика Марий Эл~Республика Мордовия~Республика Саха (Якутия)~Республика Северная Осетия-Алания~Республика Татарстан~Республика Тыва~Республика Удмуртия~Республика Хакасия~Ростовская область~Рязанская область~Самарская область~Санкт-Петербург~Саратовская область~Сахалинская область~Свердловская область~Севастополь~Смоленская область~Ставропольский край~Тамбовская область~Тверская область~Томская область~Тульская область~Тюменская область~Ульяновская область~Хабаровский край~Ханты-Мансийский автономный округ~Челябинская область~Чеченская Республика~Чувашская Республика~Чукотский автономный округ~Ямало-Ненецкий автономный округ~Ярославская область",
+    sub_names: "Алтайский край~Амурская область~Архангельская область~Астраханская область~Белгородская область~Брянская область~Владимирская область~Волгоградская область~Вологодская область~Воронежская область~Еврейская автономная область~Забайкальский край~Ивановская область~Иркутская область~Кабардино-Балкарская Республика~Калининградская область~Калужская область~Камчатский край~Карачаево-Черкесская Республика~Кемеровская область~Кировская область~Костромская область~Краснодарский край~Красноярский край~Курганская область~Курская область~Ленинградская область~Липецкая область~Магаданская область~Москва~Московская область~Мурманская область~Ненецкий автономный округ~Нижегородская область~Новгородская область~Новосибирская область~Омская область~Оренбургская область~Орловская область~Пензенская область~Пермский край~Приморский край~Псковская область~Республика Адыгея~Республика Алтай~Республика Башкортостан~Республика Бурятия~Республика Дагестан~Республика Ингушетия~Республика Калмыкия~Республика Карелия~Республика Коми~Республика Крым~Республика Марий Эл~Республика Мордовия~Республика Саха (Якутия)~Республика Северная Осетия-Алания~Республика Татарстан~Республика Тыва~Республика Удмуртия~Республика Хакасия~Ростовская область~Рязанская область~Самарская область~Санкт-Петербург~Саратовская область~Сахалинская область~Свердловская область~Севастополь~Смоленская область~Ставропольский край~Тамбовская область~Тверская область~Томская область~Тульская область~Тюменская область~Ульяновская область~Хабаровский край~Ханты-Мансийский автономный округ~Челябинская область~Чеченская Республика~Чувашская Республика~Чукотский автономный округ~Ямало-Ненецкий автономный округ~Ярославская область",
+    sub_lnames: "Altayskiy kray~Amurskaya oblast'~Arkhangelskaya oblast'~Astrakhanskaya oblast'~Belgorodskaya oblast'~Bryanskaya oblast'~Vladimirskaya oblast'~Volgogradskaya oblast'~Vologodskaya oblast'~Voronezhskaya oblast'~Evreyskaya avtonomnaya oblast'~Zabaykalskiy kray~Ivanovskaya oblast'~Irkutskaya oblast'~Kabardino-Balkarskaya Republits~Kaliningradskaya oblast'~Kaluzhskaya oblast'~Kamchatskiy kray~Karachaevo-Cherkesskaya Republits~Kemerovskaya oblast'~Kirovskaya oblast'~Kostromskaya oblast'~Krasnodarskiy kray~Krasnoyarskiy kray~Kurganskaya oblast'~Kurskaya oblast'~Leningradskaya oblast'~Lipetskaya oblast'~Magadanskaya oblast'~Moskva~Moskovskaya oblast'~Murmanskaya oblast'~Nenetskiy~Nizhegorodskaya oblast'~Novgorodskaya oblast'~Novosibirskaya oblast'~Omskaya oblast'~Orenburgskaya oblast'~Orlovskaya oblast'~Penzenskaya oblast'~Permskiy kray~Primorskiy kray~Pskovskaya oblast'~Respublika Adygeya~Altay Republits~Bashkortostan Republits~Buryatiya Republits~Dagestan Republits~Ingushetiya Republits~Respublika Kalmykiya~Kareliya Republits~Komi Republits~Respublika Krym~Respublika Mariy El~Respublika Mordoviya~Sakha (Yakutiya) Republits~Respublika Severnaya Osetiya-Alaniya~Respublika Tatarstan~Tyva Republits~Udmurtskaja Respublika~Khakasiya Republits~Rostovskaya oblast'~Ryazanskaya oblast'~Samarskaya oblast'~Sankt-Peterburg~Saratovskaya oblast'~Sakhalinskaya oblast'~Sverdlovskaya oblast'~Sevastopol'~Smolenskaya oblast'~Stavropolskiy kray~Tambovskaya oblast'~Tverskaya oblast'~Tomskaya oblast'~Tulskaya oblast'~Tyumenskaya oblast'~Ulyanovskaya oblast'~Khabarovskiy kray~Khanty-Mansiyskiy avtonomnyy okrug~Chelyabinskaya oblast'~Chechenskaya Republits~Chuvashia~Chukotskiy~Yamalo-Nenetskiy~Yaroslavskaya oblast'",
+    sub_zips: "65[6-9]~67[56]~16[3-5]~41[4-6]~30[89]~24[1-3]~60[0-2]~40[0-4]~16[0-2]~39[4-7]~679~6(?:7[2-4]|87)~15[3-5]~66[4-9]~36[01]~23[6-8]~24[89]~68[348]~369~65[0-4]~61[0-3]~15[67]~35[0-4]~6(?:6[0-3]|4[78])~64[01]~30[5-7]~18[78]~39[89]~68[56]~1(?:0[1-9]|1|2|3[0-5]|4[0-4])~14[0-4]~18[34]~166~60[3-7]~17[3-5]~63[0-3]~64[4-6]~46[0-2]~30[23]~44[0-2]~61[4-9]~69[0-2]~18[0-2]~385~649~45[0-3]~67[01]~36[78]~386~35[89]~18[56]~16[7-9]~29[5-8]~42[45]~43[01]~67[78]~36[23]~42[0-3]~66[78]~42[67]~655~34[4-7]~39[01]~44[3-6]~19~41[0-3]~69[34]~62[0-4]~299~21[4-6]~35[5-7]~39[23]~17[0-2]~63[4-6]~30[01]~62[5-7]~43[23]~68[0-2]~628~45[4-7]~36[4-6]~42[89]~689~629~15[0-2]",
+    sub_isoids: "ALT~AMU~ARK~AST~BEL~BRY~VLA~VGG~VLG~VOR~YEV~ZAB~IVA~IRK~KB~KGD~KLU~KAM~KC~KEM~KIR~KOS~KDA~KYA~KGN~KRS~LEN~LIP~MAG~MOW~MOS~MUR~NEN~NIZ~NGR~NVS~OMS~ORE~ORL~PNZ~PER~PRI~PSK~AD~AL~BA~BU~DA~IN~KL~KR~KO~~ME~MO~SA~SE~TA~TY~UD~KK~ROS~RYA~SAM~SPE~SAR~SAK~SVE~~SMO~STA~TAM~TVE~TOM~TUL~TYU~ULY~KHA~KHM~CHE~CE~CU~CHU~YAN~YAR"
+  },
+  RW: {
+    id: "data/RW",
+    name: "RWANDA",
+    upper: "AC"
+  },
+  SA: {
+    id: "data/SA",
+    name: "SAUDI ARABIA",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "\\d{5}",
+    zipex: "11564,11187,11142"
+  },
+  SB: {
+    id: "data/SB",
+    name: "SOLOMON ISLANDS"
+  },
+  SC: {
+    id: "data/SC",
+    name: "SEYCHELLES",
+    fmt: "%N%n%O%n%A%n%C%n%S",
+    upper: "S",
+    state_name_type: "island"
+  },
+  SD: {
+    id: "data/SD",
+    name: "SUDAN",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "\\d{5}",
+    zipex: "11042,11113",
+    locality_name_type: "district"
+  },
+  SE: {
+    id: "data/SE",
+    name: "SWEDEN",
+    fmt: "%O%n%N%n%A%nSE-%Z %C",
+    require: "ACZ",
+    zip: "\\d{3} ?\\d{2}",
+    zipex: "11455,12345,10500",
+    posturl: "https://www.postnord.se/online-verktyg/verktyg/sok/sok-postnummer-och-adress",
+    locality_name_type: "post_town",
+    postprefix: "SE-"
+  },
+  SG: {
+    id: "data/SG",
+    name: "REP. OF SINGAPORE",
+    fmt: "%N%n%O%n%A%nSINGAPORE %Z",
+    require: "AZ",
+    zip: "\\d{6}",
+    zipex: "546080,308125,408600",
+    posturl: "https://www.singpost.com/find-postal-code"
+  },
+  SH: {
+    id: "data/SH",
+    name: "SAINT HELENA",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "(?:ASCN|STHL) 1ZZ",
+    zipex: "STHL 1ZZ"
+  },
+  SI: {
+    id: "data/SI",
+    name: "SLOVENIA",
+    fmt: "%N%n%O%n%A%nSI-%Z %C",
+    zip: "\\d{4}",
+    zipex: "4000,1001,2500",
+    postprefix: "SI-"
+  },
+  SJ: {
+    id: "data/SJ",
+    name: "SVALBARD AND JAN MAYEN ISLANDS",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "9170",
+    posturl: "http://epab.posten.no/",
+    locality_name_type: "post_town"
+  },
+  SK: {
+    id: "data/SK",
+    name: "SLOVAKIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "ACZ",
+    zip: "\\d{3} ?\\d{2}",
+    zipex: "010 01,023 14,972 48,921 01,975 99",
+    posturl: "http://psc.posta.sk"
+  },
+  SL: {
+    id: "data/SL",
+    name: "SIERRA LEONE"
+  },
+  SM: {
+    id: "data/SM",
+    name: "SAN MARINO",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    require: "AZ",
+    zip: "4789\\d",
+    zipex: "47890,47891,47895,47899",
+    posturl: "http://www.poste.it/online/cercacap/"
+  },
+  SN: {
+    id: "data/SN",
+    name: "SENEGAL",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "12500,46024,16556,10000"
+  },
+  SO: {
+    id: "data/SO",
+    name: "SOMALIA",
+    lang: "so",
+    languages: "so",
+    fmt: "%N%n%O%n%A%n%C, %S %Z",
+    require: "ACS",
+    upper: "ACS",
+    zip: "[A-Z]{2} ?\\d{5}",
+    zipex: "JH 09010,AD 11010",
+    sub_keys: "AD~BK~BN~BR~BY~GG~GD~HR~JD~JH~MD~NG~SG~SD~SH~SL~TG~WG",
+    sub_names: "Awdal~Bakool~Banaadir~Bari~Bay~Galguduud~Gedo~Hiiraan~Jubbada Dhexe~Jubbada Hoose~Mudug~Nugaal~Sanaag~Shabeellaha Dhexe~Shabeellaha Hoose~Sool~Togdheer~Woqooyi Galbeed",
+    sub_isoids: "AW~BK~BN~BR~BY~GA~GE~HI~JD~JH~MU~NU~SA~SD~SH~SO~TO~WO"
+  },
+  SR: {
+    id: "data/SR",
+    name: "SURINAME",
+    lang: "nl",
+    languages: "nl",
+    fmt: "%N%n%O%n%A%n%C%n%S",
+    upper: "AS",
+    sub_keys: "Brokopondo~Commewijne~Coronie~Marowijne~Nickerie~Para~Paramaribo~Saramacca~Sipaliwini~Wanica",
+    sub_isoids: "BR~CM~CR~MA~NI~PR~PM~SA~SI~WA"
+  },
+  SS: {
+    id: "data/SS",
+    name: "SOUTH SUDAN"
+  },
+  ST: {
+    id: "data/ST",
+    name: "SAO TOME AND PRINCIPE"
+  },
+  SV: {
+    id: "data/SV",
+    name: "EL SALVADOR",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%Z-%C%n%S",
+    require: "ACS",
+    upper: "CSZ",
+    zip: "CP [1-3][1-7][0-2]\\d",
+    zipex: "CP 1101",
+    sub_keys: "Ahuachapan~Cabanas~Calatenango~Cuscatlan~La Libertad~La Paz~La Union~Morazan~San Miguel~San Salvador~San Vicente~Santa Ana~Sonsonate~Usulutan",
+    sub_names: "Ahuachapán~Cabañas~Chalatenango~Cuscatlán~La Libertad~La Paz~La Unión~Morazán~San Miguel~San Salvador~San Vicente~Santa Ana~Sonsonate~Usulután",
+    sub_zips: "CP 21~CP 12~CP 13~CP 14~CP 15~CP 16~CP 31~CP 32~CP 33~CP 11~CP 17~CP 22~CP 23~CP 34",
+    sub_zipexs: "CP 2101~CP 1201~CP 1301~CP 1401~CP 1501~CP 1601~CP 3101~CP 3201~CP 3301~CP 1101~CP 1701~CP 2201~CP 2301~CP 3401",
+    sub_isoids: "AH~CA~CH~CU~LI~PA~UN~MO~SM~SS~SV~SA~SO~US"
+  },
+  SX: {
+    id: "data/SX",
+    name: "SINT MAARTEN"
+  },
+  SY: {
+    id: "data/SY",
+    name: "SYRIA",
+    locality_name_type: "district"
+  },
+  SZ: {
+    id: "data/SZ",
+    name: "SWAZILAND",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    upper: "ACZ",
+    zip: "[HLMS]\\d{3}",
+    zipex: "H100",
+    posturl: "http://www.sptc.co.sz/swazipost/codes/index.php"
+  },
+  TA: {
+    id: "data/TA",
+    name: "TRISTAN DA CUNHA",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    zip: "TDCU 1ZZ",
+    zipex: "TDCU 1ZZ"
+  },
+  TC: {
+    id: "data/TC",
+    name: "TURKS AND CAICOS ISLANDS",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "ACZ",
+    upper: "CZ",
+    zip: "TKCA 1ZZ",
+    zipex: "TKCA 1ZZ"
+  },
+  TD: {
+    id: "data/TD",
+    name: "CHAD"
+  },
+  TF: {
+    id: "data/TF",
+    name: "FRENCH SOUTHERN TERRITORIES"
+  },
+  TG: {
+    id: "data/TG",
+    name: "TOGO"
+  },
+  TH: {
+    id: "data/TH",
+    name: "THAILAND",
+    lang: "th",
+    languages: "th",
+    fmt: "%N%n%O%n%A%n%D %C%n%S %Z",
+    lfmt: "%N%n%O%n%A%n%D, %C%n%S %Z",
+    upper: "S",
+    zip: "\\d{5}",
+    zipex: "10150,10210",
+    sub_keys: "กระบี่~กรุงเทพมหานคร~กาญจนบุรี~กาฬสินธุ์~กำแพงเพชร~ขอนแก่น~จังหวัด บึงกาฬ~จันทบุรี~ฉะเชิงเทรา~ชลบุรี~ชัยนาท~ชัยภูมิ~ชุมพร~เชียงราย~เชียงใหม่~ตรัง~ตราด~ตาก~นครนายก~นครปฐม~นครพนม~นครราชสีมา~นครศรีธรรมราช~นครสวรรค์~นนทบุรี~นราธิวาส~น่าน~บุรีรัมย์~ปทุมธานี~ประจวบคีรีขันธ์~ปราจีนบุรี~ปัตตานี~พระนครศรีอยุธยา~พะเยา~พังงา~พัทลุง~พิจิตร~พิษณุโลก~เพชรบุรี~เพชรบูรณ์~แพร่~ภูเก็ต~มหาสารคาม~มุกดาหาร~แม่ฮ่องสอน~ยโสธร~ยะลา~ร้อยเอ็ด~ระนอง~ระยอง~ราชบุรี~ลพบุรี~ลำปาง~ลำพูน~เลย~ศรีสะเกษ~สกลนคร~สงขลา~สตูล~สมุทรปราการ~สมุทรสงคราม~สมุทรสาคร~สระแก้ว~สระบุรี~สิงห์บุรี~สุโขทัย~สุพรรณบุรี~สุราษฎร์ธานี~สุรินทร์~หนองคาย~หนองบัวลำภู~อ่างทอง~อำนาจเจริญ~อุดรธานี~อุตรดิตถ์~อุทัยธานี~อุบลราชธานี",
+    sub_lnames: "Krabi~Bangkok~Kanchanaburi~Kalasin~Kamphaeng Phet~Khon Kaen~Bueng Kan~Chanthaburi~Chachoengsao~Chon Buri~Chai Nat~Chaiyaphum~Chumpon~Chiang Rai~Chiang Mai~Trang~Trat~Tak~Nakhon Nayok~Nakhon Pathom~Nakhon Phanom~Nakhon Ratchasima~Nakhon Si Thammarat~Nakhon Sawan~Nonthaburi~Narathiwat~Nan~Buri Ram~Pathum Thani~Prachuap Khiri Khan~Prachin Buri~Pattani~Phra Nakhon Si Ayutthaya~Phayao~Phang Nga~Phattalung~Phichit~Phitsanulok~Phetchaburi~Phetchabun~Phrae~Phuket~Maha Sarakham~Mukdahan~Mae Hong Son~Yasothon~Yala~Roi Et~Ranong~Rayong~Ratchaburi~Lop Buri~Lampang~Lamphun~Loei~Si Sa Ket~Sakon Nakhon~Songkhla~Satun~Samut Prakan~Samut Songkhram~Samut Sakhon~Sa Kaeo~Saraburi~Sing Buri~Sukhothai~Suphanburi~Surat Thani~Surin~Nong Khai~Nong Bua Lam Phu~Ang Thong~Amnat Charoen~Udon Thani~Uttaradit~Uthai Thani~Ubon Ratchathani",
+    sub_zips: "81~10~71~46~62~40~~22~24~20~17~36~86~57~50~92~23~63~26~73~48~30~80~60~11~96~55~31~12~77~25~94~13~56~82~93~66~65~76~67~54~83~44~49~58~35~95~45~85~21~70~15~52~51~42~33~47~90~91~10~75~74~27~18~16~64~72~84~32~43~39~14~37~41~53~61~34",
+    sub_isoids: "81~10~71~46~62~40~38~22~24~20~18~36~86~57~50~92~23~63~26~73~48~30~80~60~12~96~55~31~13~77~25~94~14~56~82~93~66~65~76~67~54~83~44~49~58~35~95~45~85~21~70~16~52~51~42~33~47~90~91~11~75~74~27~19~17~64~72~84~32~43~39~15~37~41~53~61~34"
+  },
+  TJ: {
+    id: "data/TJ",
+    name: "TAJIKISTAN",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{6}",
+    zipex: "735450,734025"
+  },
+  TK: {
+    id: "data/TK",
+    name: "TOKELAU"
+  },
+  TL: {
+    id: "data/TL",
+    name: "TIMOR-LESTE"
+  },
+  TM: {
+    id: "data/TM",
+    name: "TURKMENISTAN",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{6}",
+    zipex: "744000"
+  },
+  TN: {
+    id: "data/TN",
+    name: "TUNISIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4}",
+    zipex: "1002,8129,3100,1030",
+    posturl: "http://www.poste.tn/codes.php"
+  },
+  TO: {
+    id: "data/TO",
+    name: "TONGA"
+  },
+  TR: {
+    id: "data/TR",
+    name: "TURKEY",
+    lang: "tr",
+    languages: "tr",
+    fmt: "%N%n%O%n%A%n%Z %C/%S",
+    require: "ACZ",
+    zip: "\\d{5}",
+    zipex: "01960,06101",
+    posturl: "http://postakodu.ptt.gov.tr/",
+    locality_name_type: "district",
+    sub_keys: "Adana~Adıyaman~Afyon~Ağrı~Aksaray~Amasya~Ankara~Antalya~Ardahan~Artvin~Aydın~Balıkesir~Bartın~Batman~Bayburt~Bilecik~Bingöl~Bitlis~Bolu~Burdur~Bursa~Çanakkale~Çankırı~Çorum~Denizli~Diyarbakır~Düzce~Edirne~Elazığ~Erzincan~Erzurum~Eskişehir~Gaziantep~Giresun~Gümüşhane~Hakkari~Hatay~Iğdır~Isparta~İstanbul~İzmir~Kahramanmaraş~Karabük~Karaman~Kars~Kastamonu~Kayseri~Kırıkkale~Kırklareli~Kırşehir~Kilis~Kocaeli~Konya~Kütahya~Malatya~Manisa~Mardin~Mersin~Muğla~Muş~Nevşehir~Niğde~Ordu~Osmaniye~Rize~Sakarya~Samsun~Siirt~Sinop~Sivas~Şanlıurfa~Şırnak~Tekirdağ~Tokat~Trabzon~Tunceli~Uşak~Van~Yalova~Yozgat~Zonguldak",
+    sub_zips: "01~02~03~04~68~05~06~07~75~08~09~10~74~72~69~11~12~13~14~15~16~17~18~19~20~21~81~22~23~24~25~26~27~28~29~30~31~76~32~34~35~46~78~70~36~37~38~71~39~40~79~41~42~43~44~45~47~33~48~49~50~51~52~80~53~54~55~56~57~58~63~73~59~60~61~62~64~65~77~66~67",
+    sub_isoids: "01~02~03~04~68~05~06~07~75~08~09~10~74~72~69~11~12~13~14~15~16~17~18~19~20~21~81~22~23~24~25~26~27~28~29~30~31~76~32~34~35~46~78~70~36~37~38~71~39~40~79~41~42~43~44~45~47~33~48~49~50~51~52~80~53~54~55~56~57~58~63~73~59~60~61~62~64~65~77~66~67"
+  },
+  TT: {
+    id: "data/TT",
+    name: "TRINIDAD AND TOBAGO"
+  },
+  TV: {
+    id: "data/TV",
+    name: "TUVALU",
+    lang: "tyv",
+    languages: "tyv",
+    fmt: "%N%n%O%n%A%n%C%n%S",
+    upper: "ACS",
+    state_name_type: "island",
+    sub_keys: "Funafuti~Nanumanga~Nanumea~Niulakita~Niutao~Nui~Nukufetau~Nukulaelae~Vaitupu",
+    sub_isoids: "FUN~NMG~NMA~~NIT~NUI~NKF~NKL~VAI"
+  },
+  TW: {
+    id: "data/TW",
+    name: "TAIWAN",
+    lang: "zh-Hant",
+    languages: "zh-Hant",
+    fmt: "%Z%n%S%C%n%A%n%O%n%N",
+    lfmt: "%N%n%O%n%A%n%C, %S %Z",
+    require: "ACSZ",
+    zip: "\\d{3}(?:\\d{2,3})?",
+    zipex: "104,106,10603,40867",
+    posturl: "http://www.post.gov.tw/post/internet/f_searchzone/index.jsp?ID=190102",
+    state_name_type: "county",
+    locality_name_type: "district",
+    sub_keys: "台中市~台北市~台東縣~台南市~宜蘭縣~花蓮縣~金門縣~南投縣~屏東縣~苗栗縣~桃園市~高雄市~基隆市~連江縣~雲林縣~新北市~新竹市~新竹縣~嘉義市~嘉義縣~彰化縣~澎湖縣",
+    sub_lnames: "Taichung City~Taipei City~Taitung County~Tainan City~Yilan County~Hualien County~Kinmen County~Nantou County~Pingtung County~Miaoli County~Taoyuan City~Kaohsiung City~Keelung City~Lienchiang County~Yunlin County~New Taipei City~Hsinchu City~Hsinchu County~Chiayi City~Chiayi County~Changhua County~Penghu County",
+    sub_zips: "4[0-3]~1[01]~9[56]~7[0-4]~2[67]~9[78]~89~5[45]~9[0-4]~3[56]~3[23]~8[02-5]|81[1-579]~20[0-6]~209|21[012]~6[3-5]~20[78]|2[2345]~300~30[2-8]|31~600~60[1-9]|6[12]~5[0123]~88",
+    sub_zipexs: "400,408,411,439~100,119~950,966~700,745~260,272~970,983~890,896~540,558~900,947~350,369~320,338~800,815,817,852~200,206~209,212~630,655~207,208,220,253~~302,315~~602,625~500,530~880,885",
+    sub_isoids: "TXG~TPE~TTT~TNN~ILA~HUA~~NAN~PIF~MIA~TAO~KHH~KEE~~YUN~NWT~HSZ~HSQ~CYI~CYQ~CHA~PEN",
+    sub_mores: "true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true~true"
+  },
+  TZ: {
+    id: "data/TZ",
+    name: "TANZANIA (UNITED REP.)",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{4,5}",
+    zipex: "6090,34413"
+  },
+  UA: {
+    id: "data/UA",
+    name: "UKRAINE",
+    lang: "uk",
+    languages: "uk",
+    fmt: "%N%n%O%n%A%n%C%n%S%n%Z",
+    lfmt: "%N%n%O%n%A%n%C%n%S%n%Z",
+    require: "ACZ",
+    zip: "\\d{5}",
+    zipex: "15432,01055,01001",
+    posturl: "http://services.ukrposhta.com/postindex_new/",
+    state_name_type: "oblast",
+    sub_keys: "Автономна Республіка Крим~Вінницька область~Волинська область~Дніпропетровська область~Донецька область~Житомирська область~Закарпатська область~Запорізька область~Івано-Франківська область~місто Київ~Київська область~Кіровоградська область~Луганська область~Львівська область~Миколаївська область~Одеська область~Полтавська область~Рівненська область~місто Севастополь~Сумська область~Тернопільська область~Харківська область~Херсонська область~Хмельницька область~Черкаська область~Чернівецька область~Чернігівська область",
+    sub_names: "Автономна Республіка Крим~Вінницька область~Волинська область~Дніпропетровська область~Донецька область~Житомирська область~Закарпатська область~Запорізька область~Івано-Франківська область~Київ~Київська область~Кіровоградська область~Луганська область~Львівська область~Миколаївська область~Одеська область~Полтавська область~Рівненська область~Севастополь~Сумська область~Тернопільська область~Харківська область~Херсонська область~Хмельницька область~Черкаська область~Чернівецька область~Чернігівська область",
+    sub_lnames: "Crimea~Vinnyts'ka oblast~Volyns'ka oblast~Dnipropetrovsk oblast~Donetsk oblast~Zhytomyrs'ka oblast~Zakarpats'ka oblast~Zaporiz'ka oblast~Ivano-Frankivs'ka oblast~Kyiv city~Kiev oblast~Kirovohrads'ka oblast~Luhans'ka oblast~Lviv oblast~Mykolaivs'ka oblast~Odessa oblast~Poltavs'ka oblast~Rivnens'ka oblast~Sevastopol' city~Sums'ka oblast~Ternopil's'ka oblast~Kharkiv oblast~Khersons'ka oblast~Khmel'nyts'ka oblast~Cherkas'ka oblast~Chernivets'ka oblast~Chernihivs'ka oblast",
+    sub_zips: "9[5-8]~2[1-4]~4[3-5]~49|5[0-3]~8[3-7]~1[0-3]~8[89]|90~69|7[0-2]~7[6-8]~0[1-6]~0[7-9]~2[5-8]~9[1-4]~79|8[0-2]~5[4-7]~6[5-8]~3[6-9]~3[3-5]~99~4[0-2]~4[6-8]~6[1-4]~7[3-5]~29|3[0-2]~1[89]|20~5[89]|60~1[4-7]",
+    sub_isoids: "43~05~07~12~14~18~21~23~26~30~32~35~09~46~48~51~53~56~40~59~61~63~65~68~71~77~74"
+  },
+  UG: {
+    id: "data/UG",
+    name: "UGANDA"
+  },
+  US: {
+    id: "data/US",
+    name: "UNITED STATES",
+    lang: "en",
+    languages: "en",
+    fmt: "%N%n%O%n%A%n%C, %S %Z",
+    require: "ACSZ",
+    upper: "CS",
+    zip: "(\\d{5})(?:[ \\-](\\d{4}))?",
+    zipex: "95014,22162-1010",
+    posturl: "https://tools.usps.com/go/ZipLookupAction!input.action",
+    zip_name_type: "zip",
+    state_name_type: "state",
+    sub_keys: "AL~AK~AS~AZ~AR~AA~AE~AP~CA~CO~CT~DE~DC~FL~GA~GU~HI~ID~IL~IN~IA~KS~KY~LA~ME~MH~MD~MA~MI~FM~MN~MS~MO~MT~NE~NV~NH~NJ~NM~NY~NC~ND~MP~OH~OK~OR~PW~PA~PR~RI~SC~SD~TN~TX~UT~VT~VI~VA~WA~WV~WI~WY",
+    sub_names: "Alabama~Alaska~American Samoa~Arizona~Arkansas~Armed Forces (AA)~Armed Forces (AE)~Armed Forces (AP)~California~Colorado~Connecticut~Delaware~District of Columbia~Florida~Georgia~Guam~Hawaii~Idaho~Illinois~Indiana~Iowa~Kansas~Kentucky~Louisiana~Maine~Marshall Islands~Maryland~Massachusetts~Michigan~Micronesia~Minnesota~Mississippi~Missouri~Montana~Nebraska~Nevada~New Hampshire~New Jersey~New Mexico~New York~North Carolina~North Dakota~Northern Mariana Islands~Ohio~Oklahoma~Oregon~Palau~Pennsylvania~Puerto Rico~Rhode Island~South Carolina~South Dakota~Tennessee~Texas~Utah~Vermont~Virgin Islands~Virginia~Washington~West Virginia~Wisconsin~Wyoming",
+    sub_zips: "3[56]~99[5-9]~96799~8[56]~71[6-9]|72~340~09~96[2-6]~9[0-5]|96[01]~8[01]~06~19[7-9]~20[02-5]|569~3[23]|34[1-9]~3[01]|398|39901~969([1-2]\\d|3[12])~967[0-8]|9679[0-8]|968~83[2-9]~6[0-2]~4[67]~5[0-2]~6[67]~4[01]|42[0-7]~70|71[0-5]~039|04~969[67]~20[6-9]|21~01|02[0-7]|05501|05544~4[89]~9694[1-4]~55|56[0-7]~38[6-9]|39[0-7]~6[3-5]~59~6[89]~889|89~03[0-8]~0[78]~87|88[0-4]~1[0-4]|06390|00501|00544~2[78]~58~9695[0-2]~4[3-5]~7[34]~97~969(39|40)~1[5-8]|19[0-6]~00[679]~02[89]~29~57~37|38[0-5]~7[5-9]|885|73301|73344~84~05~008~201|2[23]|24[0-6]~98|99[0-4]~24[7-9]|2[56]~5[34]~82|83[01]|83414",
+    sub_zipexs: "35000,36999~99500,99999~96799~85000,86999~71600,72999~34000,34099~09000,09999~96200,96699~90000,96199~80000,81999~06000,06999~19700,19999~20000,56999~32000,34999~30000,39901~96910,96932~96700,96899~83200,83999~60000,62999~46000,47999~50000,52999~66000,67999~40000,42799~70000,71599~03900,04999~96960,96979~20600,21999~01000,05544~48000,49999~96941,96944~55000,56799~38600,39799~63000,65999~59000,59999~68000,69999~88900,89999~03000,03899~07000,08999~87000,88499~10000,00544~27000,28999~58000,58999~96950,96952~43000,45999~73000,74999~97000,97999~96940~15000,19699~00600,00999~02800,02999~29000,29999~57000,57999~37000,38599~75000,73344~84000,84999~05000,05999~00800,00899~20100,24699~98000,99499~24700,26999~53000,54999~82000,83414",
+    sub_isoids: "AL~AK~~AZ~AR~~~~CA~CO~CT~DE~DC~FL~GA~~HI~ID~IL~IN~IA~KS~KY~LA~ME~~MD~MA~MI~~MN~MS~MO~MT~NE~NV~NH~NJ~NM~NY~NC~ND~~OH~OK~OR~~PA~~RI~SC~SD~TN~TX~UT~VT~~VA~WA~WV~WI~WY"
+  },
+  UY: {
+    id: "data/UY",
+    name: "URUGUAY",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%Z %C %S",
+    upper: "CS",
+    zip: "\\d{5}",
+    zipex: "11600",
+    posturl: "http://www.correo.com.uy/index.asp?codPag=codPost&switchMapa=codPost",
+    sub_keys: "Artigas~Canelones~Cerro Largo~Colonia~Durazno~Flores~Florida~Lavalleja~Maldonado~Montevideo~Paysandú~Río Negro~Rivera~Rocha~Salto~San José~Soriano~Tacuarembó~Treinta y Tres",
+    sub_zips: "55~9[01]|1[456]~37~70|75204~97~85~94|9060|97005~30~20~1|91600~60~65|60002~40~27~50~80~75|70003~45~33|30203|30204|30302|37007",
+    sub_isoids: "AR~CA~CL~CO~DU~FS~FD~LA~MA~MO~PA~RN~RV~RO~SA~SJ~SO~TA~TT"
+  },
+  UZ: {
+    id: "data/UZ",
+    name: "UZBEKISTAN",
+    fmt: "%N%n%O%n%A%n%Z %C%n%S",
+    upper: "CS",
+    zip: "\\d{6}",
+    zipex: "702100,700000",
+    posturl: "http://www.pochta.uz/ru/uslugi/indexsearch.html"
+  },
+  VA: {
+    id: "data/VA",
+    name: "VATICAN",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "00120",
+    zipex: "00120"
+  },
+  VC: {
+    id: "data/VC",
+    name: "SAINT VINCENT AND THE GRENADINES (ANTILLES)",
+    fmt: "%N%n%O%n%A%n%C %Z",
+    zip: "VC\\d{4}",
+    zipex: "VC0100,VC0110,VC0400",
+    posturl: "http://www.svgpost.gov.vc/?option=com_content&view=article&id=3&Itemid=16"
+  },
+  VE: {
+    id: "data/VE",
+    name: "VENEZUELA",
+    lang: "es",
+    languages: "es",
+    fmt: "%N%n%O%n%A%n%C %Z, %S",
+    require: "ACS",
+    upper: "CS",
+    zip: "\\d{4}",
+    zipex: "1010,3001,8011,1020",
+    posturl: "http://postcode.vnpost.vn/services/search.aspx",
+    state_name_type: "state",
+    sub_keys: "Amazonas~Anzoátegui~Apure~Aragua~Barinas~Bolívar~Carabobo~Cojedes~Delta Amacuro~Dependencias Federales~Distrito Federal~Falcón~Guárico~Lara~Mérida~Miranda~Monagas~Nueva Esparta~Portuguesa~Sucre~Táchira~Trujillo~Vargas~Yaracuy~Zulia",
+    sub_isoids: "Z~B~C~D~E~F~G~H~Y~W~A~I~J~K~L~M~N~O~P~R~S~T~X~U~V"
+  },
+  VG: {
+    id: "data/VG",
+    name: "VIRGIN ISLANDS (BRITISH)",
+    fmt: "%N%n%O%n%A%n%C%n%Z",
+    require: "A",
+    zip: "VG\\d{4}",
+    zipex: "VG1110,VG1150,VG1160"
+  },
+  VI: {
+    id: "data/VI",
+    name: "VIRGIN ISLANDS (U.S.)",
+    fmt: "%N%n%O%n%A%n%C %S %Z",
+    require: "ACSZ",
+    upper: "ACNOS",
+    zip: "(008(?:(?:[0-4]\\d)|(?:5[01])))(?:[ \\-](\\d{4}))?",
+    zipex: "00802-1222,00850-9802",
+    posturl: "http://zip4.usps.com/zip4/welcome.jsp",
+    zip_name_type: "zip",
+    state_name_type: "state"
+  },
+  VN: {
+    id: "data/VN",
+    name: "VIET NAM",
+    lang: "vi",
+    languages: "vi",
+    fmt: "%N%n%O%n%A%n%C%n%S %Z",
+    lfmt: "%N%n%O%n%A%n%C%n%S %Z",
+    zip: "\\d{5}\\d?",
+    zipex: "70010,55999",
+    posturl: "http://postcode.vnpost.vn/services/search.aspx",
+    sub_keys: "An Giang~Bà Rịa–Vũng Tàu~Bạc Liêu~Bắc Giang~Bắc Kạn~Bắc Ninh~Bến Tre~Bình Dương~Bình Định~Bình Phước~Bình Thuận~Cà Mau~Cao Bằng~Cần Thơ~Đà Nẵng~Đắk Lắk~Đăk Nông~Điện Biên~Đồng Nai~Đồng Tháp~Gia Lai~Hà Giang~Hà Nam~Hà Nội~Hà Tĩnh~Hải Dương~Hải Phòng~Hậu Giang~Hòa Bình~Hưng Yên~Khánh Hòa~Kiên Giang~Kon Tum~Lai Châu~Lạng Sơn~Lào Cai~Lâm Đồng~Long An~Nam Định~Nghệ An~Ninh Bình~Ninh Thuận~Phú Thọ~Phú Yên~Quảng Bình~Quảng Nam~Quảng Ngãi~Quảng Ninh~Quảng Trị~Sóc Trăng~Sơn La~Tây Ninh~Thái Bình~Thái Nguyên~Thanh Hóa~Thành phố Hồ Chí Minh~Thừa Thiên–Huế~Tiền Giang~Trà Vinh~Tuyên Quang~Vĩnh Long~Vĩnh Phúc~Yên Bái",
+    sub_lnames: "An Giang Province~Ba Ria-Vung Tau Province~Bac Lieu Province~Bac Giang Province~Bac Kan Province~Bac Ninh Province~Ben Tre Province~Binh Duong Province~Binh Dinh Province~Binh Phuoc Province~Binh Thuan Province~Ca Mau Province~Cao Bang Province~Can Tho City~Da Nang City~Dak Lak Province~Dak Nong Province~Dien Bien Province~Dong Nai Province~Dong Thap Province~Gia Lai Province~Ha Giang Province~Ha Nam Province~Hanoi City~Ha Tinh Province~Hai Duong Province~Haiphong City~Hau Giang Province~Hoa Binh Province~Hung Yen Province~Khanh Hoa Province~Kien Giang Province~Kon Tum Province~Lai Chau Province~Lang Song Province~Lao Cai Province~Lam Dong Province~Long An Province~Nam Dinh Province~Nghe An Province~Ninh Binh Province~Ninh Thuan Province~Phu Tho Province~Phu Yen Province~Quang Binh Province~Quang Nam Province~Quang Ngai Province~Quang Ninh Province~Quang Tri Province~Soc Trang Province~Son La Province~Tay Ninh Province~Thai Binh Province~Thai Nguyen Province~Thanh Hoa Province~Ho Chi Minh City~Thua Thien-Hue Province~Tien Giang Province~Tra Vinh Province~Tuyen Quang Province~Vinh Long Province~Vinh Phuc Province~Yen Bai Province",
+    sub_isoids: "44~43~55~54~53~56~50~57~31~58~40~59~04~CT~DN~33~72~71~39~45~30~03~63~HN~23~61~HP~73~14~66~34~47~28~01~09~02~35~41~67~22~18~36~68~32~24~27~29~13~25~52~05~37~20~69~21~SG~26~46~51~07~49~70~06"
+  },
+  VU: {
+    id: "data/VU",
+    name: "VANUATU"
+  },
+  WF: {
+    id: "data/WF",
+    name: "WALLIS AND FUTUNA ISLANDS",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "986\\d{2}",
+    zipex: "98600"
+  },
+  WS: {
+    id: "data/WS",
+    name: "SAMOA"
+  },
+  XK: {
+    id: "data/XK",
+    name: "KOSOVO",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "[1-7]\\d{4}",
+    zipex: "10000"
+  },
+  YE: {
+    id: "data/YE",
+    name: "YEMEN"
+  },
+  YT: {
+    id: "data/YT",
+    name: "MAYOTTE",
+    fmt: "%O%n%N%n%A%n%Z %C %X",
+    require: "ACZ",
+    upper: "ACX",
+    zip: "976\\d{2}",
+    zipex: "97600"
+  },
+  ZA: {
+    id: "data/ZA",
+    name: "SOUTH AFRICA",
+    fmt: "%N%n%O%n%A%n%D%n%C%n%Z",
+    require: "ACZ",
+    zip: "\\d{4}",
+    zipex: "0083,1451,0001",
+    posturl: "https://www.postoffice.co.za/Questions/postalcode.html"
+  },
+  ZM: {
+    id: "data/ZM",
+    name: "ZAMBIA",
+    fmt: "%N%n%O%n%A%n%Z %C",
+    zip: "\\d{5}",
+    zipex: "50100,50101"
+  },
+  ZW: {
+    id: "data/ZW",
+    name: "ZIMBABWE"
+  }
+}, Ya = Object.keys(x);
+function ia(t) {
+  return x[t] || x.ZZ || {};
+}
+var Wa = Object.defineProperty, Ja = Object.getOwnPropertyDescriptor, g = (t, a, e, n) => {
+  for (var i = n > 1 ? void 0 : n ? Ja(a, e) : a, s = t.length - 1, r; s >= 0; s--)
+    (r = t[s]) && (i = (n ? r(a, e, i) : r(i)) || i);
+  return n && i && Wa(a, e, i), i;
+};
+let S = class extends E {
+  constructor() {
+    super(...arguments), this.country = "US", this.value = {}, this.required = !0, this.showOrganization = !1, this.showName = !1, this._fieldErrors = {}, this._touchedFields = /* @__PURE__ */ new Set(), this._fieldConfigs = [];
+  }
+  connectedCallback() {
+    super.connectedCallback(), this._updateFieldConfigs();
+  }
+  willUpdate(t) {
+    t.has("country") && (this._updateFieldConfigs(), this._resetInapplicableFields());
+  }
+  _updateFieldConfigs() {
+    const t = ia(this.country);
+    this._fieldConfigs = $a(t, {
+      showName: this.showName,
+      showOrganization: this.showOrganization
+    });
+  }
+  _resetInapplicableFields() {
+    const t = new Set(this._fieldConfigs.map((e) => e.key)), a = { country: this.country };
+    for (const [e, n] of Object.entries(this.value))
+      (e === "country" || t.has(e)) && (a[e] = n);
+    this.value = a;
+  }
+  _handleCountryChange(t) {
+    const a = t.target;
+    this.country = a.value, this._emitChange();
+  }
+  _handleFieldChange(t, a) {
+    const e = a.target;
+    this.value = { ...this.value, [t]: e.value }, this._touchedFields.add(t), this._validateField(t), this._emitChange();
+  }
+  _validateField(t) {
+    const a = this._fieldConfigs.find((i) => i.key === t);
+    if (!a) return;
+    const e = this.value[t], n = [];
+    a.required && (!e || typeof e == "string" && e.trim() === "") && n.push(`${a.label} is required`), a.pattern && e && typeof e == "string" && (new RegExp(`^${a.pattern}$`, "i").test(e) || n.push(`Invalid ${a.label.toLowerCase()} format`)), n.length > 0 ? this._fieldErrors[t] = n[0] : delete this._fieldErrors[t], this.requestUpdate();
+  }
+  _validateAll() {
+    const t = qa(this.value, this._fieldConfigs);
+    this._fieldErrors = {};
+    for (const a of t.errors) {
+      const e = this._fieldConfigs.find((n) => a.includes(n.label));
+      e && (this._fieldErrors[e.key] = a);
+    }
+    return this.requestUpdate(), t.valid;
+  }
+  _emitChange() {
+    const t = {
+      ...this.value,
+      country: this.country,
+      addressLine1: this.value.addressLine1 || "",
+      city: this.value.city || ""
+    };
+    this.dispatchEvent(new CustomEvent("change", {
+      detail: t,
+      bubbles: !0,
+      composed: !0
+    }));
+    const a = this._validateAll();
+    this.dispatchEvent(new CustomEvent("valid", {
+      detail: { valid: a, errors: Object.values(this._fieldErrors) },
+      bubbles: !0,
+      composed: !0
+    }));
+  }
+  _getCountryOption(t) {
+    const a = ia(t);
+    return { code: t, name: a.name || t };
+  }
+  _getGroupedCountries() {
+    const t = {
+      "Frequently Used": [],
+      "A-M": [],
+      "N-Z": []
+    }, a = ["US", "CA", "GB", "AU", "DE", "FR", "JP", "CN", "IN", "BR", "MX"];
+    for (const e of Ya) {
+      if (e === "ZZ") continue;
+      const n = this._getCountryOption(e);
+      a.includes(e) ? t["Frequently Used"].push(n) : n.name.charAt(0).toUpperCase() <= "M" ? t["A-M"].push(n) : t["N-Z"].push(n);
+    }
+    for (const e of Object.values(t))
+      e.sort((n, i) => n.name.localeCompare(i.name));
+    return t;
+  }
+  _renderCountrySelect() {
+    const t = this._getGroupedCountries();
+    return C`
+      <div class="field country-select field-width-full">
+        <label class="required">Country</label>
+        <select 
+          .value="${this.country}"
+          @change="${this._handleCountryChange}"
+        >
+          ${Object.entries(t).map(([a, e]) => C`
+            <optgroup label="${a}">
+              ${e.map((n) => C`
+                <option value="${n.code}" ?selected="${n.code === this.country}">
+                  ${n.name}
+                </option>
+              `)}
+            </optgroup>
+          `)}
+        </select>
+      </div>
+    `;
+  }
+  _renderField(t) {
+    if (!t.visible) return null;
+    const a = this.value[t.key] || "", e = this._fieldErrors[t.key], n = this._touchedFields.has(t.key), i = e && (n || this._touchedFields.size > 0), s = {
+      full: "field-width-full",
+      half: "field-width-half",
+      third: "field-width-third",
+      quarter: "field-width-quarter"
+    }[t.width];
+    return C`
+      <div class="field ${s}">
+        <label class="${t.required ? "required" : ""}">${t.label}</label>
+        ${t.type === "select" && t.options ? C`
+              <select
+                class="${i ? "error" : ""}"
+                .value="${a}"
+                @change="${(r) => this._handleFieldChange(t.key, r)}"
+                ?required="${t.required}"
+              >
+                <option value="">Select ${t.label}</option>
+                ${t.options.map((r) => C`
+                  <option value="${r.value}">${r.label}</option>
+                `)}
+              </select>
+            ` : C`
+              <input
+                type="text"
+                class="${i ? "error" : ""}"
+                .value="${a}"
+                .placeholder="${t.placeholder || ""}"
+                @input="${(r) => this._handleFieldChange(t.key, r)}"
+                @blur="${() => this._touchedFields.add(t.key)}"
+                ?required="${t.required}"
+                pattern="${t.pattern || ""}"
+              />
+            `}
+        ${i ? C`<span class="error-message">${e}</span>` : null}
+      </div>
+    `;
+  }
+  _renderFieldsByRow() {
+    const t = [];
+    let a = [], e = 0;
+    for (const n of this._fieldConfigs) {
+      const i = {
+        full: 100,
+        half: 50,
+        third: 33.33,
+        quarter: 25
+      }[n.width];
+      e + i > 100 && a.length > 0 && (t.push([...a]), a = [], e = 0), a.push(n), e += i, i === 100 && (t.push([...a]), a = [], e = 0);
+    }
+    return a.length > 0 && t.push(a), t.map((n) => C`
+      <div class="field-row">
+        ${n.map((i) => this._renderField(i))}
+      </div>
+    `);
+  }
+  render() {
+    return C`
+      <div class="address-form">
+        ${this._renderCountrySelect()}
+        ${this._renderFieldsByRow()}
+      </div>
+    `;
+  }
+  /**
+   * Public API: Validate the current address
+   */
+  validate() {
+    return this._validateAll();
+  }
+  /**
+   * Public API: Get current address value
+   */
+  getValue() {
+    return {
+      country: this.country,
+      addressLine1: this.value.addressLine1 || "",
+      city: this.value.city || "",
+      ...this.value
+    };
+  }
+  /**
+   * Public API: Set address value
+   */
+  setValue(t) {
+    t.country && t.country !== this.country && (this.country = t.country), this.value = { ...this.value, ...t }, this.requestUpdate();
+  }
+};
+S.styles = Aa`
+    :host {
+      display: block;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+    
+    .address-form {
+      display: flex;
+      flex-direction: column;
+      gap: var(--address-gap, 1rem);
+    }
+    
+    .field-row {
+      display: flex;
+      gap: var(--address-gap, 1rem);
+      flex-wrap: wrap;
+    }
+    
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .field-width-full { flex: 1 1 100%; }
+    .field-width-half { flex: 1 1 calc(50% - 0.5rem); min-width: 200px; }
+    .field-width-third { flex: 1 1 calc(33.333% - 0.667rem); min-width: 150px; }
+    .field-width-quarter { flex: 1 1 calc(25% - 0.75rem); min-width: 120px; }
+    
+    label {
+      font-size: var(--address-label-size, 0.875rem);
+      font-weight: 500;
+      color: #374151;
+    }
+    
+    label.required::after {
+      content: ' *';
+      color: #EF4444;
+    }
+    
+    input, select {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--address-border-color, #D1D5DB);
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      height: var(--address-input-height, 2.5rem);
+      background: white;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--address-focus-ring, #3B82F6);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    input.error, select.error {
+      border-color: var(--address-error-color, #EF4444);
+    }
+    
+    input::placeholder {
+      color: #9CA3AF;
+    }
+    
+    .error-message {
+      font-size: 0.75rem;
+      color: var(--address-error-color, #EF4444);
+      margin-top: 0.25rem;
+    }
+    
+    .country-select {
+      margin-bottom: 1rem;
+    }
+    
+    .country-select label {
+      font-weight: 600;
+    }
+    
+    select optgroup {
+      font-weight: 600;
+    }
+  `;
+g([
+  P({ type: String })
+], S.prototype, "country", 2);
+g([
+  P({ type: Object })
+], S.prototype, "value", 2);
+g([
+  P({ type: Boolean })
+], S.prototype, "required", 2);
+g([
+  P({ type: Boolean, attribute: "show-organization" })
+], S.prototype, "showOrganization", 2);
+g([
+  P({ type: Boolean, attribute: "show-name" })
+], S.prototype, "showName", 2);
+g([
+  pa()
+], S.prototype, "_fieldErrors", 2);
+g([
+  pa()
+], S.prototype, "_touchedFields", 2);
+S = g([
+  Za("address-input")
+], S);
+export {
+  S as AddressInput
+};
