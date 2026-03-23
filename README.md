@@ -7,6 +7,7 @@ A modern, internationalized address input web component built with Lit and based
 - ✅ **250+ countries supported** - Complete international address coverage
 - ✅ **Dynamic field visibility** - Only shows fields required for each country
 - ✅ **State/Province dropdowns** - For countries with subdivisions (US, CA, AU, JP, etc.)
+- ✅ **Searchable large dropdowns** - Type to filter countries, states, provinces, and other long option lists
 - ✅ **Postal code validation** - Pattern matching per country
 - ✅ **Manual validation trigger** - Reveal current errors on demand
 - ✅ **No postal code countries** - Properly handles Hong Kong, Ireland, Jamaica, etc.

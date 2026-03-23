@@ -2,8 +2,12 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import type { AddressValue, FieldConfig } from './types/address.js';
+import './searchable-select.js';
+import type { SearchableSelectOption } from './searchable-select.js';
 import { buildFieldConfig, validateAddress, validateFieldValue } from './lib/libaddressinput.js';
 import { getCountryData, countryCodes } from './data/address-data.js';
+
+type CountryOption = SearchableSelectOption & { group: string };
 
 @customElement('address-input')
 export class AddressInput extends LitElement {
@@ -48,10 +52,14 @@ export class AddressInput extends LitElement {
     }
     
     input, select {
+      box-sizing: border-box;
+      width: 100%;
       padding: 0.5rem 0.75rem;
       border: 1px solid var(--address-border-color, #D1D5DB);
       border-radius: 0.375rem;
+      font-family: inherit;
       font-size: 0.875rem;
+      line-height: 1.25;
       height: var(--address-input-height, 2.5rem);
       background: white;
       transition: border-color 0.15s, box-shadow 0.15s;
@@ -149,8 +157,8 @@ export class AddressInput extends LitElement {
   }
 
   private _handleCountryChange(e: Event) {
-    const select = e.target as HTMLSelectElement;
-    this.country = select.value;
+    const value = (e as CustomEvent<{ value: string }>).detail.value;
+    this.country = value;
     this._emitChange();
   }
 
@@ -160,6 +168,13 @@ export class AddressInput extends LitElement {
     this._touchedFields.add(field as string);
     
     // Validate this field
+    this._validateField(field);
+    this._emitChange();
+  }
+
+  private _handleFieldSelectChange(field: keyof AddressValue, value: string) {
+    this.value = { ...this.value, [field]: value };
+    this._touchedFields.add(field as string);
     this._validateField(field);
     this._emitChange();
   }
@@ -191,30 +206,29 @@ export class AddressInput extends LitElement {
     ]);
   }
 
-  private _validateAll(options: { markVisibleFieldsTouched?: boolean } = {}): boolean {
+  private _applyValidation(validation: ReturnType<typeof validateAddress>) {
+    this._fieldErrors = Object.fromEntries(
+      Object.entries(validation.fieldErrors)
+        .map(([field, errors]) => [field, errors?.[0]])
+        .filter((entry): entry is [string, string] => typeof entry[1] === 'string')
+    );
+
+    this.requestUpdate();
+    return validation;
+  }
+
+  private _validateAll(options: { markVisibleFieldsTouched?: boolean } = {}) {
     if (options.markVisibleFieldsTouched) {
       this._markVisibleFieldsTouched();
     }
 
     const validation = validateAddress(this.value, this._fieldConfigs);
-    
-    // Update error display
-    this._fieldErrors = {};
-    for (const error of validation.errors) {
-      // Parse error to find field
-      const field = this._fieldConfigs.find(f => error.includes(f.label));
-      if (field) {
-        this._fieldErrors[field.key as string] = error;
-      }
-    }
-
-    this.requestUpdate();
-    return validation.valid;
+    return this._applyValidation(validation);
   }
 
-  private _emitValidation(valid: boolean) {
+  private _emitValidation(validation: ReturnType<typeof validateAddress>) {
     this.dispatchEvent(new CustomEvent('valid', {
-      detail: { valid, errors: Object.values(this._fieldErrors) },
+      detail: { valid: validation.valid, errors: validation.errors },
       bubbles: true,
       composed: true
     }));
@@ -235,17 +249,17 @@ export class AddressInput extends LitElement {
     }));
 
     // Also emit validation status
-    const isValid = this._validateAll();
-    this._emitValidation(isValid);
+    const validation = this._validateAll();
+    this._emitValidation(validation);
   }
 
   private _getCountryOption(code: string) {
     const data = getCountryData(code);
-    return { code, name: data.name || code };
+    return { value: code, label: data.name || code, group: '' };
   }
 
-  private _getGroupedCountries() {
-    const groups: Record<string, Array<{ code: string; name: string }>> = {
+  private _getCountryOptions() {
+    const groups: Record<string, CountryOption[]> = {
       'Frequently Used': [],
       'A-M': [],
       'N-Z': []
@@ -257,44 +271,51 @@ export class AddressInput extends LitElement {
       if (code === 'ZZ') continue;
       
       const option = this._getCountryOption(code);
+      let group = 'N-Z';
       
       if (frequent.includes(code)) {
-        groups['Frequently Used'].push(option);
-      } else if (option.name.charAt(0).toUpperCase() <= 'M') {
-        groups['A-M'].push(option);
-      } else {
-        groups['N-Z'].push(option);
+        group = 'Frequently Used';
+      } else if (option.label.charAt(0).toUpperCase() <= 'M') {
+        group = 'A-M';
       }
+
+      groups[group].push({ ...option, group });
     }
 
-    // Sort each group alphabetically
-    for (const group of Object.values(groups)) {
-      group.sort((a, b) => a.name.localeCompare(b.name));
-    }
+    return Object.values(groups).flatMap((options) => options.sort((a, b) => a.label.localeCompare(b.label)));
+  }
 
-    return groups;
+  private _renderSelectOptions(field: FieldConfig, value: string, showError: boolean) {
+    const options = field.options || [];
+
+    return html`
+      <searchable-select
+        .options="${options}"
+        .value="${value}"
+        .placeholder="${`Select ${field.label}`}"
+        .required="${field.required}"
+        .error="${showError}"
+        @change="${(e: Event) => {
+          const nextValue = (e as CustomEvent<{ value: string }>).detail.value;
+          this._handleFieldSelectChange(field.key, nextValue);
+        }}"
+      ></searchable-select>
+    `;
   }
 
   private _renderCountrySelect() {
-    const groups = this._getGroupedCountries();
+    const options = this._getCountryOptions();
 
     return html`
       <div class="field country-select field-width-full">
         <label class="required">Country</label>
-        <select 
+        <searchable-select
+          .options="${options}"
           .value="${this.country}"
+          .placeholder="Select Country"
+          .required="${true}"
           @change="${this._handleCountryChange}"
-        >
-          ${Object.entries(groups).map(([groupName, countries]) => html`
-            <optgroup label="${groupName}">
-              ${countries.map(c => html`
-                <option value="${c.code}" ?selected="${c.code === this.country}">
-                  ${c.name}
-                </option>
-              `)}
-            </optgroup>
-          `)}
-        </select>
+        ></searchable-select>
       </div>
     `;
   }
@@ -305,7 +326,7 @@ export class AddressInput extends LitElement {
     const value = this.value[field.key] || '';
     const error = this._fieldErrors[field.key as string];
     const isTouched = this._touchedFields.has(field.key as string);
-    const showError = error && (isTouched || this._touchedFields.size > 0);
+    const showError = Boolean(error && (isTouched || this._touchedFields.size > 0));
 
     const widthClass = {
       full: 'field-width-full',
@@ -318,19 +339,7 @@ export class AddressInput extends LitElement {
       <div class="field ${widthClass}">
         <label class="${field.required ? 'required' : ''}">${field.label}</label>
         ${field.type === 'select' && field.options
-          ? html`
-              <select
-                class="${showError ? 'error' : ''}"
-                .value="${value}"
-                @change="${(e: Event) => this._handleFieldChange(field.key, e)}"
-                ?required="${field.required}"
-              >
-                <option value="">Select ${field.label}</option>
-                ${field.options.map(opt => html`
-                  <option value="${opt.value}">${opt.label}</option>
-                `)}
-              </select>
-            `
+          ? this._renderSelectOptions(field, value, showError)
           : html`
               <input
                 type="text"
@@ -408,9 +417,9 @@ export class AddressInput extends LitElement {
    * Public API: Validate the current address
    */
   validate(): boolean {
-    const isValid = this._validateAll({ markVisibleFieldsTouched: true });
-    this._emitValidation(isValid);
-    return isValid;
+    const validation = this._validateAll({ markVisibleFieldsTouched: true });
+    this._emitValidation(validation);
+    return validation.valid;
   }
 
   /**

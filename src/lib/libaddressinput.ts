@@ -366,17 +366,28 @@ export function validatePostalCode(postalCode: string, pattern?: string): boolea
 export function validateAddress(
   value: Partial<AddressValue>,
   fields: FieldConfig[]
-): { valid: boolean; errors: string[] } {
+): {
+  valid: boolean;
+  errors: string[];
+  fieldErrors: Partial<Record<keyof AddressValue, string[]>>;
+} {
   const errors: string[] = [];
+  const fieldErrors: Partial<Record<keyof AddressValue, string[]>> = {};
   
   for (const field of fields) {
     if (!field.visible) continue;
 
-    errors.push(...validateFieldValue(field, value[field.key]));
+    const fieldValidationErrors = validateFieldValue(field, value[field.key]);
+
+    if (fieldValidationErrors.length > 0) {
+      fieldErrors[field.key] = fieldValidationErrors;
+      errors.push(...fieldValidationErrors);
+    }
   }
   
   return {
     valid: errors.length === 0,
-    errors
+    errors,
+    fieldErrors
   };
 }
