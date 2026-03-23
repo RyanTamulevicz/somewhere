@@ -27,5 +27,6 @@
     "lit",
     "input"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "packageManager": "pnpm@10.29.2"
 }
