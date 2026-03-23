@@ -149,6 +149,70 @@ function getPostalLabel(metadata: GoogleAddressMetadata): string {
   return 'Postal Code';
 }
 
+function getPostalExamples(metadata: GoogleAddressMetadata): string[] {
+  if (!metadata.zipex) return [];
+
+  return metadata.zipex
+    .split(',')
+    .map((example) => example.trim())
+    .filter(Boolean);
+}
+
+function getPostalInputMode(examples: string[]): string | undefined {
+  if (examples.length === 0) return undefined;
+
+  return examples.every((example) => /^[\d\s-]+$/.test(example))
+    ? 'numeric'
+    : undefined;
+}
+
+function getPostalMaxLength(examples: string[]): number | undefined {
+  if (examples.length === 0) return undefined;
+
+  return Math.max(...examples.map((example) => example.length));
+}
+
+function getPostalMinLength(countryCode?: string): number | undefined {
+  if (countryCode === 'US') return 5;
+
+  return undefined;
+}
+
+function validatePostalCodeForCountry(
+  postalCode: string,
+  field: Pick<FieldConfig, 'countryCode' | 'pattern'>
+): boolean {
+  if (field.countryCode === 'US') {
+    return /^\d{5}(?:[ -]\d{4})?$/.test(postalCode);
+  }
+
+  return validatePostalCode(postalCode, field.pattern);
+}
+
+export function validateFieldValue(
+  field: Pick<FieldConfig, 'key' | 'label' | 'required' | 'countryCode' | 'pattern'>,
+  fieldValue: unknown
+): string[] {
+  const errors: string[] = [];
+
+  if (field.required) {
+    if (!fieldValue || (typeof fieldValue === 'string' && fieldValue.trim() === '')) {
+      errors.push(`${field.label} is required`);
+      return errors;
+    }
+  }
+
+  if (typeof fieldValue !== 'string' || fieldValue.length === 0) {
+    return errors;
+  }
+
+  if (field.key === 'postalCode' && !validatePostalCodeForCountry(fieldValue, field)) {
+    errors.push(`Invalid ${field.label.toLowerCase()} format`);
+  }
+
+  return errors;
+}
+
 /**
  * Parse subdivisions from metadata
  * Uses Latin names (sub_lnames) when available for non-Latin scripts
@@ -231,18 +295,25 @@ export function buildFieldConfig(
     // Map field to config
     const fieldKey = mapFieldToKey(field);
     if (!fieldKey) continue;
-    
+
     const isRequired = requiredFields.includes(field);
     const subdivisions = field === 'S' ? parseSubdivisions(metadata) : undefined;
-    
+    const postalExamples = field === 'Z' ? getPostalExamples(metadata) : undefined;
+
     fields.push({
       key: fieldKey,
       label: getFieldLabel(field, metadata, options.showName),
       required: isRequired,
       visible: true,
+      countryCode,
       type: subdivisions ? 'select' : 'text',
       options: subdivisions,
       pattern: field === 'Z' ? metadata.zip : undefined,
+      placeholder: field === 'Z' ? postalExamples?.[0] : undefined,
+      examples: postalExamples,
+      inputMode: field === 'Z' ? getPostalInputMode(postalExamples || []) : undefined,
+      minLength: field === 'Z' ? getPostalMinLength(countryCode) : undefined,
+      maxLength: field === 'Z' ? getPostalMaxLength(postalExamples || []) : undefined,
       width: getFieldWidth(field)
     });
   }
@@ -300,23 +371,8 @@ export function validateAddress(
   
   for (const field of fields) {
     if (!field.visible) continue;
-    
-    const fieldValue = value[field.key];
-    
-    // Check required fields
-    if (field.required) {
-      if (!fieldValue || (typeof fieldValue === 'string' && fieldValue.trim() === '')) {
-        errors.push(`${field.label} is required`);
-        continue;
-      }
-    }
-    
-    // Validate postal code pattern
-    if (field.key === 'postalCode' && field.pattern && fieldValue) {
-      if (!validatePostalCode(String(fieldValue), field.pattern)) {
-        errors.push(`Invalid ${field.label.toLowerCase()} format`);
-      }
-    }
+
+    errors.push(...validateFieldValue(field, value[field.key]));
   }
   
   return {

@@ -85,10 +85,15 @@ export interface FieldConfig {
   label: string;
   required: boolean;
   visible: boolean;
+  countryCode?: string;
   type: 'text' | 'select' | 'textarea';
   options?: Array<{ value: string; label: string }>;
   pattern?: string;
   placeholder?: string;
+  examples?: string[];
+  inputMode?: string;
+  minLength?: number;
+  maxLength?: number;
   width: 'full' | 'half' | 'third' | 'quarter';
 }
 

@@ -1,7 +1,8 @@
 import { LitElement, html, css } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { ifDefined } from 'lit/directives/if-defined.js';
 import type { AddressValue, FieldConfig } from './types/address.js';
-import { buildFieldConfig, validateAddress } from './lib/libaddressinput.js';
+import { buildFieldConfig, validateAddress, validateFieldValue } from './lib/libaddressinput.js';
 import { getCountryData, countryCodes } from './data/address-data.js';
 
 @customElement('address-input')
@@ -163,25 +164,16 @@ export class AddressInput extends LitElement {
     this._emitChange();
   }
 
+  private _handleFieldBlur(field: keyof AddressValue) {
+    this._touchedFields = new Set([...this._touchedFields, field as string]);
+    this._validateField(field);
+  }
+
   private _validateField(field: keyof AddressValue) {
     const fieldConfig = this._fieldConfigs.find(f => f.key === field);
     if (!fieldConfig) return;
 
-    const value = this.value[field];
-    const errors: string[] = [];
-
-    // Check required
-    if (fieldConfig.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
-      errors.push(`${fieldConfig.label} is required`);
-    }
-
-    // Check pattern (for postal codes)
-    if (fieldConfig.pattern && value && typeof value === 'string') {
-      const regex = new RegExp(`^${fieldConfig.pattern}$`, 'i');
-      if (!regex.test(value)) {
-        errors.push(`Invalid ${fieldConfig.label.toLowerCase()} format`);
-      }
-    }
+    const errors = validateFieldValue(fieldConfig, this.value[field]);
 
     if (errors.length > 0) {
       this._fieldErrors[field as string] = errors[0];
@@ -192,7 +184,18 @@ export class AddressInput extends LitElement {
     this.requestUpdate();
   }
 
-  private _validateAll(): boolean {
+  private _markVisibleFieldsTouched() {
+    this._touchedFields = new Set([
+      ...this._touchedFields,
+      ...this._fieldConfigs.filter((field) => field.visible).map((field) => field.key as string)
+    ]);
+  }
+
+  private _validateAll(options: { markVisibleFieldsTouched?: boolean } = {}): boolean {
+    if (options.markVisibleFieldsTouched) {
+      this._markVisibleFieldsTouched();
+    }
+
     const validation = validateAddress(this.value, this._fieldConfigs);
     
     // Update error display
@@ -207,6 +210,14 @@ export class AddressInput extends LitElement {
 
     this.requestUpdate();
     return validation.valid;
+  }
+
+  private _emitValidation(valid: boolean) {
+    this.dispatchEvent(new CustomEvent('valid', {
+      detail: { valid, errors: Object.values(this._fieldErrors) },
+      bubbles: true,
+      composed: true
+    }));
   }
 
   private _emitChange() {
@@ -225,11 +236,7 @@ export class AddressInput extends LitElement {
 
     // Also emit validation status
     const isValid = this._validateAll();
-    this.dispatchEvent(new CustomEvent('valid', {
-      detail: { valid: isValid, errors: Object.values(this._fieldErrors) },
-      bubbles: true,
-      composed: true
-    }));
+    this._emitValidation(isValid);
   }
 
   private _getCountryOption(code: string) {
@@ -331,9 +338,12 @@ export class AddressInput extends LitElement {
                 .value="${value}"
                 .placeholder="${field.placeholder || ''}"
                 @input="${(e: Event) => this._handleFieldChange(field.key, e)}"
-                @blur="${() => this._touchedFields.add(field.key as string)}"
+                @blur="${() => this._handleFieldBlur(field.key)}"
                 ?required="${field.required}"
                 pattern="${field.pattern || ''}"
+                inputmode="${ifDefined(field.inputMode)}"
+                minlength="${ifDefined(field.minLength?.toString())}"
+                maxlength="${ifDefined(field.maxLength?.toString())}"
               />
             `
         }
@@ -398,7 +408,9 @@ export class AddressInput extends LitElement {
    * Public API: Validate the current address
    */
   validate(): boolean {
-    return this._validateAll();
+    const isValid = this._validateAll({ markVisibleFieldsTouched: true });
+    this._emitValidation(isValid);
+    return isValid;
   }
 
   /**

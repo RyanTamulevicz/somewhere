@@ -8,6 +8,7 @@ A modern, internationalized address input web component built with Lit and based
 - ✅ **Dynamic field visibility** - Only shows fields required for each country
 - ✅ **State/Province dropdowns** - For countries with subdivisions (US, CA, AU, JP, etc.)
 - ✅ **Postal code validation** - Pattern matching per country
+- ✅ **Manual validation trigger** - Reveal current errors on demand
 - ✅ **No postal code countries** - Properly handles Hong Kong, Ireland, Jamaica, etc.
 - ✅ **Localized terminology** - State/Province/Prefecture/County based on country
 - ✅ **Real-time validation** - Emits validation status on every change
@@ -87,6 +88,11 @@ addressInput.addEventListener('valid', (e) => {
   console.log('Valid:', e.detail.valid);
   console.log('Errors:', e.detail.errors);
 });
+
+// Trigger validation manually whenever you need it
+document.querySelector('#validate').addEventListener('click', () => {
+  addressInput.validate();
+});
 ```
 
 ### Programmatic API
@@ -103,12 +109,36 @@ addressInput.setValue({
   addressLine1: '1600 Pennsylvania Avenue',
   city: 'Washington',
   administrativeArea: 'DC',
-  postalCode: '20500'
+  postalCode: '20500' // US 5-digit ZIP example
 });
 
-// Validate manually
+// Validate manually (also reveals current field errors)
 const isValid = addressInput.validate();
+
+// ZIP+4 also works for US addresses
+addressInput.setValue({ postalCode: '22162-1010' });
 ```
+
+### Trigger Validation On Demand
+
+Use the public `validate()` method when you want to validate the current address from a button click or before submit. It returns a boolean, updates the field-level error UI, and emits the same `valid` event payload used during live validation.
+
+```javascript
+const addressInput = document.querySelector('address-input');
+const submitButton = document.querySelector('#submit-address');
+
+submitButton.addEventListener('click', () => {
+  if (!addressInput.validate()) {
+    return;
+  }
+
+  console.log('Ready to submit', addressInput.getValue());
+});
+```
+
+### US ZIP Example
+
+For `country="US"`, the postal field uses the USPS-style ZIP pattern from libaddressinput. A 5-digit ZIP like `20500` is valid, ZIP+4 values like `22162-1010` are also accepted, and short values like `234` are rejected.
 
 ## Country Examples
 
@@ -159,7 +189,7 @@ const isValid = addressInput.validate();
 | Event | Detail | Description |
 |-------|--------|-------------|
 | `change` | `AddressValue` | Fired when any field changes |
-| `valid` | `{ valid: boolean, errors: string[] }` | Fired with validation status |
+| `valid` | `{ valid: boolean, errors: string[] }` | Fired with validation status from live changes and manual `validate()` calls |
 
 ### AddressValue Interface
 

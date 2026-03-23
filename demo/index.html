@@ -67,7 +67,31 @@
       background: #fee2e2;
       color: #991b1b;
     }
-    
+
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #111827;
+      color: white;
+    }
+
+    .hint {
+      color: #4b5563;
+      font-size: 0.875rem;
+    }
+     
   </style>
 </head>
 <body>
@@ -78,6 +102,10 @@
     <h2>Live Demo</h2>
 
     <address-input id="address-input" country="US"></address-input>
+
+    <div class="actions">
+      <button id="validate-button" type="button">Validate address</button>
+    </div>
     
     <div id="validation-status" class="validation-status" style="display: none;"></div>
     <pre id="output" class="output">// Address data will appear here...</pre>
@@ -100,7 +128,14 @@
 &lt;/address-input&gt;
 
 &lt;!-- Show organization field --&gt;
-&lt;address-input country="US" show-organization&gt;&lt;/address-input&gt;</pre>
+&lt;address-input country="US" show-organization&gt;&lt;/address-input&gt;
+
+&lt;script&gt;
+  const addressInput = document.querySelector('address-input');
+  const isValid = addressInput.validate();
+
+  console.log('Manual validation result:', isValid);
+&lt;/script&gt;</pre>
   </div>
 
   <div class="demo-section">
@@ -110,6 +145,7 @@
       <li>✅ <strong>Dynamic field visibility</strong> - Only shows fields required for each country</li>
       <li>✅ <strong>State/Province dropdowns</strong> - Where applicable (US, CA, AU, JP, etc.)</li>
       <li>✅ <strong>Postal code validation</strong> - Pattern matching per country</li>
+      <li>✅ <strong>Manual validation trigger</strong> - Call <code>validate()</code> when you need it</li>
       <li>✅ <strong>No postal code countries</strong> - Hong Kong, Ireland, Jamaica, etc.</li>
       <li>✅ <strong>Proper terminology</strong> - State/Province/Prefecture/County based on country</li>
       <li>✅ <strong>Real-time validation</strong> - Events on change with validation status</li>
@@ -120,10 +156,19 @@
     const addressInput = document.getElementById('address-input');
     const output = document.getElementById('output');
     const validationStatus = document.getElementById('validation-status');
+    const validateButton = document.getElementById('validate-button');
 
     // Listen for changes
     addressInput.addEventListener('change', (e) => {
       output.textContent = JSON.stringify(e.detail, null, 2);
+    });
+
+    validateButton.addEventListener('click', () => {
+      const isValid = addressInput.validate();
+      output.textContent = JSON.stringify({
+        ...addressInput.getValue(),
+        manualValidation: isValid
+      }, null, 2);
     });
 
     // Listen for validation
