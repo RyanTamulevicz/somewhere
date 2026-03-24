@@ -9,6 +9,12 @@ export type SearchableSelectOption = {
 
 @customElement('searchable-select')
 export class SearchableSelect extends LitElement {
+  private static readonly PANEL_GAP = 6;
+
+  private static readonly VIEWPORT_MARGIN = 12;
+
+  private static readonly MIN_PANEL_HEIGHT = 180;
+
   static styles = css`
     :host {
       display: block;
@@ -65,9 +71,15 @@ export class SearchableSelect extends LitElement {
       box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
     }
 
+    .panel.upward {
+      top: auto;
+      bottom: calc(100% + 0.375rem);
+    }
+
     .options {
+      flex: 1;
       overflow: auto;
-      max-height: 16rem;
+      min-height: 0;
     }
 
     .group {
@@ -152,13 +164,23 @@ export class SearchableSelect extends LitElement {
   @state()
   private _query = '';
 
+  @state()
+  private _panelDirection: 'up' | 'down' = 'down';
+
+  @state()
+  private _panelMaxHeight = 256;
+
   connectedCallback() {
     super.connectedCallback();
     document.addEventListener('pointerdown', this._handleDocumentPointerDown);
+    window.addEventListener('resize', this._handleViewportChange);
+    document.addEventListener('scroll', this._handleViewportChange, true);
   }
 
   disconnectedCallback() {
     document.removeEventListener('pointerdown', this._handleDocumentPointerDown);
+    window.removeEventListener('resize', this._handleViewportChange);
+    document.removeEventListener('scroll', this._handleViewportChange, true);
     super.disconnectedCallback();
   }
 
@@ -207,6 +229,7 @@ export class SearchableSelect extends LitElement {
     if (this.disabled || this._open) return;
     this._open = true;
     this.updateComplete.then(() => {
+      this._updatePanelPlacement();
       const input = this.shadowRoot?.querySelector<HTMLInputElement>('.search');
       input?.focus();
       input?.select();
@@ -224,6 +247,29 @@ export class SearchableSelect extends LitElement {
       this._closePanel();
     }
   };
+
+  private _handleViewportChange = () => {
+    if (!this._open) return;
+    this._updatePanelPlacement();
+  };
+
+  private _updatePanelPlacement() {
+    const rect = this.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const spaceAbove = rect.top - SearchableSelect.VIEWPORT_MARGIN;
+    const spaceBelow = viewportHeight - rect.bottom - SearchableSelect.VIEWPORT_MARGIN;
+    const prefersDown = spaceBelow >= SearchableSelect.MIN_PANEL_HEIGHT || spaceBelow >= spaceAbove;
+    const availableSpace = Math.max(
+      prefersDown ? spaceBelow : spaceAbove,
+      SearchableSelect.MIN_PANEL_HEIGHT
+    );
+
+    this._panelDirection = prefersDown ? 'down' : 'up';
+    this._panelMaxHeight = Math.max(
+      120,
+      availableSpace - SearchableSelect.PANEL_GAP
+    );
+  }
 
   private _handleTriggerKeyDown(event: KeyboardEvent) {
     if (event.key === 'ArrowDown' || event.key === 'Enter' || event.key === ' ') {
@@ -274,7 +320,11 @@ export class SearchableSelect extends LitElement {
       </button>
 
       ${this._open ? html`
-        <div class="panel" @keydown="${this._handlePanelKeyDown}">
+        <div
+          class="panel ${this._panelDirection === 'up' ? 'upward' : ''}"
+          style="max-height: ${this._panelMaxHeight}px;"
+          @keydown="${this._handlePanelKeyDown}"
+        >
           ${this._showSearch ? html`
             <input
               class="search"
