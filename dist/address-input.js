@@ -573,7 +573,13 @@ let p = class extends T {
     return [...a.entries()];
   }
   _toggleOpen() {
-    this.disabled || (this._open = !this._open, this._open || (this._query = ""));
+    if (!this.disabled) {
+      if (this._open) {
+        this._closePanel();
+        return;
+      }
+      this._openPanel();
+    }
   }
   _openPanel() {
     this.disabled || this._open || (this._open = !0, this.updateComplete.then(() => {
@@ -586,13 +592,13 @@ let p = class extends T {
     this._open = !1, this._query = "";
   }
   _updatePanelPlacement() {
-    const a = this.getBoundingClientRect(), e = window.innerHeight, t = a.top - p.VIEWPORT_MARGIN, n = e - a.bottom - p.VIEWPORT_MARGIN, i = n >= p.MIN_PANEL_HEIGHT || n >= t, s = Math.max(
-      i ? n : t,
-      p.MIN_PANEL_HEIGHT
-    );
-    this._panelDirection = i ? "down" : "up", this._panelMaxHeight = Math.max(
-      120,
-      s - p.PANEL_GAP
+    const a = this.getBoundingClientRect(), e = window.innerHeight, t = a.top - p.VIEWPORT_MARGIN, n = e - a.bottom - p.VIEWPORT_MARGIN, i = n >= p.IDEAL_PANEL_HEIGHT, s = t >= p.IDEAL_PANEL_HEIGHT, r = i || !s && n >= t, u = r ? n : t;
+    this._panelDirection = r ? "down" : "up", this._panelMaxHeight = Math.max(
+      140,
+      Math.min(
+        p.IDEAL_PANEL_HEIGHT,
+        u - p.PANEL_GAP
+      )
     );
   }
   _handleTriggerKeyDown(a) {
@@ -669,7 +675,7 @@ let p = class extends T {
 };
 p.PANEL_GAP = 6;
 p.VIEWPORT_MARGIN = 12;
-p.MIN_PANEL_HEIGHT = 180;
+p.IDEAL_PANEL_HEIGHT = 320;
 p.styles = pe`
     :host {
       display: block;

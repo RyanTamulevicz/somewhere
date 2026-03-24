@@ -13,7 +13,7 @@ export class SearchableSelect extends LitElement {
 
   private static readonly VIEWPORT_MARGIN = 12;
 
-  private static readonly MIN_PANEL_HEIGHT = 180;
+  private static readonly IDEAL_PANEL_HEIGHT = 320;
 
   static styles = css`
     :host {
@@ -219,10 +219,12 @@ export class SearchableSelect extends LitElement {
 
   private _toggleOpen() {
     if (this.disabled) return;
-    this._open = !this._open;
-    if (!this._open) {
-      this._query = '';
+    if (this._open) {
+      this._closePanel();
+      return;
     }
+
+    this._openPanel();
   }
 
   private _openPanel() {
@@ -258,16 +260,18 @@ export class SearchableSelect extends LitElement {
     const viewportHeight = window.innerHeight;
     const spaceAbove = rect.top - SearchableSelect.VIEWPORT_MARGIN;
     const spaceBelow = viewportHeight - rect.bottom - SearchableSelect.VIEWPORT_MARGIN;
-    const prefersDown = spaceBelow >= SearchableSelect.MIN_PANEL_HEIGHT || spaceBelow >= spaceAbove;
-    const availableSpace = Math.max(
-      prefersDown ? spaceBelow : spaceAbove,
-      SearchableSelect.MIN_PANEL_HEIGHT
-    );
+    const downFitsIdeal = spaceBelow >= SearchableSelect.IDEAL_PANEL_HEIGHT;
+    const upFitsIdeal = spaceAbove >= SearchableSelect.IDEAL_PANEL_HEIGHT;
+    const prefersDown = downFitsIdeal || (!upFitsIdeal && spaceBelow >= spaceAbove);
+    const availableSpace = prefersDown ? spaceBelow : spaceAbove;
 
     this._panelDirection = prefersDown ? 'down' : 'up';
     this._panelMaxHeight = Math.max(
-      120,
-      availableSpace - SearchableSelect.PANEL_GAP
+      140,
+      Math.min(
+        SearchableSelect.IDEAL_PANEL_HEIGHT,
+        availableSpace - SearchableSelect.PANEL_GAP
+      )
     );
   }
 
